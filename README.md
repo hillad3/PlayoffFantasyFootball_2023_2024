@@ -2,15 +2,15 @@
 A collection of R-language scripts for setting up and managing an NFL Playoff Fantasy contest. 
 
 ## About
-- Playoff Fantasy Football is an elimination based version of Fantasy Football. Each contestant will create a diversified roster prior to the start of playoffs (Note: Multiple rosters are allowed per "owner", as long as each are paid for in full). All playoff games, including wildcards and the Super Bowl, will be considered in the scoring.
-- The roster will be locked from changes after submission to the Commissioner.
-- The Commissioner will provide weekly updates on Fantasy Team standings throughout the contest.  
-- Scoring will follow typical Fantasy Football rules (detailed below).
+- Playoff Fantasy Football is an elimination based version of Fantasy Football. Each contestant will create a diversified roster prior to the start of playoffs (Note: Multiple rosters are allowed per "owner", as long as each are paid for in full). All playoff games, including wildcards and the Super Bowl, will be considered in the scoring. Since teams are eliminated each week, the potential for earning points decreases unless your players/teams move onto the next round of the playoffs.
+- The roster will be locked from changes after submission to the Commissioner. 
+- Scoring will follow typical Fantasy Football rules (detailed below), with the exception that rosters will not be updated after submission.
 - Rosters must be submitted, valid, and paid for by the start of the first wildcard game.
 - Prizes will be awarded to the top 5 scoring entries.
-  - Prize purses will be announced after wildcard playoff weekend, since prizes are dependent on number of paid entries.
+  - Prize purses will be announced after wildcard playoff weekend, since prize purses are dependent on the number of paid entries.
 - If you think you're going to win, spread the word: The more participants, the larger the prizes.
 - If you think you're going to lose, spread the word: Imagine the commaraderie of shared experience!
+- The Commissioner will provide weekly updates on Fantasy Team standings throughout the contest. 
 
 ## Team Selection
 - Pick your own team using the 'Signup Roster.xlsx' in the Forms folder.
@@ -24,7 +24,7 @@ A collection of R-language scripts for setting up and managing an NFL Playoff Fa
     - Kicker, K: 1
     - Defense / Special Teams, D/ST: 1 
   - The 'Signup Roster.xlsx' is prepopulated with valid playoff players and team, and includes data validation and checks to help ensure your picks are valid.
-- Points are accumulative throughout the playoffs, including the Super Bowl.
+- Points are cumulative throughout the playoffs, including the Super Bowl.
 - Further point scoring is detailed below.
 
 ## Scoring
