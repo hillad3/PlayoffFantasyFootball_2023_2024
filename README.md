@@ -15,9 +15,9 @@ A collection of R-language scripts for setting up and managing an NFL Playoff Fa
     - Tightend, TE: 2
     - FLEX: 1 (either a RB, WR, or TE)
     - Kicker, K: 1
-    - Defense / Special Teams: 1 
+    - Defense / Special Teams, D/ST: 1 
   - The 'Signup Roster.xlsx' is prepopulated with valid playoff players and team, and includes data validation and checks to help ensure your picks are valid.
-- Points are accumulative throughout the playoffs including Super Bowl and the person with the most points at the end of the playoffs wins.
+- Points are accumulative throughout the playoffs, including the Super Bowl.
 - Further point scoring is detailed in an Excel file 'Scoring - 2022-2023 Season.xlsx'
 
 
