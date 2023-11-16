@@ -7,6 +7,7 @@ gc()
 
 library(tidyverse)
 library(nflreadr)
+library(openxlsx)
 
 # update inputs as required
 ff_season <- 2022L
@@ -449,7 +450,7 @@ if(is.null(ff_week)){
   output_file <- paste0(
     "Output/Scored Rosters/NFL Playoff Scoring for ",
     ff_season,"-",ff_season+1," ",ff_season_type," Season Week ",
-    ff_week,"as of ", str_remove_all(Sys.time(),":"),".xlsx")
+    ff_week," as of ", str_remove_all(Sys.time(),":"),".xlsx")
 }
 
 write.xlsx(
