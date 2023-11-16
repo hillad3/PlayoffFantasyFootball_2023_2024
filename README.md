@@ -1,12 +1,14 @@
 # R_NFL_Playoff_Fantasy_HelpeR
 A collection of R-language scripts for setting up and managing an NFL Playoff Fantasy contest. 
 
-# Rules
-- The buy in is $25.
-- Prizes will be awarded to the top 5 scoring entries.
+# About
+- Playoff Fantasy Football is an elimination based version of Fantasy Football. Each contestant will create a roster (or multiple rosters) that will be locked and scored each week through the playoffs (including the Super Bowl). No changes are made once the roster is submitted. Scoring is similar to standard Fantasy Football types of rules.
 - Spread the word: The more participants, the larger the prizes.
+
+# Rules
+- Prizes will be awarded to the top 5 scoring entries.
   - Actual prize amount will be announced wildcard weekend as prizes are dependent on number of paid participants.
-- You pick your own team using the designated 'Signup Roster.xlsx'.
+- Pick your own team using the 'Signup Roster.xlsx' in the Forms folder.
   - Rosters may only consist of 1 PLAYER from each team that is in the playoffs for a total of 14 players (including a Defensive / Special Teams).
   - You must pick players from the following positions:
     - Quarterback, QB: 3
