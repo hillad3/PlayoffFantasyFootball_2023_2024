@@ -4,10 +4,10 @@ A collection of R-language scripts for setting up and managing an NFL Playoff Fa
 # Rules
 - The buy in is $25.
 - Prizes will be awarded to the top 5 scoring entries.
-- Spread the word: The more participants the larger the prizes.
+- Spread the word: The more participants, the larger the prizes.
   - Actual prize amount will be announced wildcard weekend as prizes are dependent on number of paid participants.
 - You pick your own team using the designated 'Signup Roster.xlsx'.
-  - Rosters may only consist of 1 PLAYER from each team that is in the playoffs a total of 14 players (including a Defensive / Special Teams).
+  - Rosters may only consist of 1 PLAYER from each team that is in the playoffs for a total of 14 players (including a Defensive / Special Teams).
   - You must pick players from the following positions:
     - Quarterback, QB: 3
     - Runningback, RB: 3
