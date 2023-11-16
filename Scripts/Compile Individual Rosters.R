@@ -70,7 +70,7 @@ if (!exists("issues_to_fix")) {
   write.xlsx(
     rosters,
     file = paste0("Output/Compiled Rosters/Full Fantasy Roster, Compiled ", str_remove_all(Sys.time(), ":"), ".xlsx"),
-    sheets = list("Compiled Roster")
+    sheetName = list("Compiled Roster")
   )
 } else {
   log_error("Address issues_to_fix and re-run script to write output to file. Or execute write.xlsx() manually.")

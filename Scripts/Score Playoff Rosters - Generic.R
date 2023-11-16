@@ -6,43 +6,40 @@ gc()
 # nflreadr::clear_cache()
 
 library(tidyverse)
-library(here)
 library(nflreadr)
 
 # update inputs as required
 ff_season <- 2022L
 ff_season_type <- "POST"
-ff_week = NULL # if NULL then it will do all available data
-roster_file <- "Playoff Fantasy Football - 2022-2023 Full Roster.xlsx"
-sheet_name <- "Team Rosters"
+# if ff_week is NULL then it will do all available data. 
+# Note that playoff weeks are a continuation of regular season weeks
+ff_week = 21L 
+data_dir <- "Output/Compiled Rosters/"
+roster_file <- "Full Fantasy Roster, Compiled 2023-11-16 174146.xlsx"
+sheet_name <- "Compiled Roster"
 
 team_mapping <- readxl::read_excel(
-  path = paste0(here(),"/",roster_file),
-  sheet = sheet_name,
-  skip = 3
+  path = paste0(data_dir,roster_file),
+  sheet = sheet_name
 ) %>%
-  rename(
-    roster_order = `Roster Order`,
-		position_type = `Position Type`,
+  select(
+		fantasy_owner = `Fantasy Owner`,
 		fantasy_team_name = `Fantasy Team Name`,
-		position = `Position`,
-		unique_id = `Unique ID`,
+		player_id = `Automation Mapping`,
 		team_abbr = `Team Abbr.`,
-		player_or_team_name = `Player Name / Team Name`,
-		player_id = `GSIS ID`,
-		player_type = `Player Type`,
-		lookup_check = `Lookup Check`,
+		position_type = `Position Type`,
+		position_group = `Position Group`
   )
 
 def_mapping <- team_mapping %>%
-  filter(position == "D") %>%
+  filter(position_type == "Player") %>%
   select(
     team = team_abbr,
     fantasy_team_name
   )
 
 off_mapping <- team_mapping %>%
-  filter(position != "D") %>%
+  filter(position_type != "Defense / Special teams") %>%
   select(
     player_id,
     fantasy_team_name
@@ -314,9 +311,9 @@ if(TRUE){
 }
 
 player <- bind_rows(player, .id = "value_label")%>%
-  select(team, player, player_id, value_label, value, ff_points) %>%
-  mutate(point_type = "player") %>%
-  bind_rows(ps %>% mutate(point_type = "player"))
+  select(week, team, player, player_id, value_label, value, ff_points) %>%
+  mutate(position_type = "player") %>%
+  bind_rows(ps %>% mutate(position_type = "player"))
 
 player_ff_teams <- player %>%
   right_join(off_mapping, by = c("player_id"), relationship = "many-to-many") %>%
@@ -424,7 +421,7 @@ if(TRUE){
 
 def <- bind_rows(def, .id = "value_label") %>%
   select(week, team, value_label, value, ff_points) %>%
-  mutate(point_type = "defense / special teams")
+  mutate(position_type = "Defense / Special teams")
 
 def_ff_teams <- def %>%
   right_join(def_mapping, by = c("team"), relationship = "many-to-many") %>%
@@ -441,6 +438,24 @@ all <- bind_rows(
 all_ff_teams <- bind_rows(
   player_ff_teams,
   def_ff_teams
+)
+
+if(is.null(ff_week)){
+  output_file <- paste0(
+    "Output/Scored Rosters/NFL Playoff Scoring for ",
+    ff_season,"-",ff_season+1," ",ff_season_type," Season as of ",
+    str_remove_all(Sys.time(),":"),".xlsx")
+} else {
+  output_file <- paste0(
+    "Output/Scored Rosters/NFL Playoff Scoring for ",
+    ff_season,"-",ff_season+1," ",ff_season_type," Season Week ",
+    ff_week,"as of ", str_remove_all(Sys.time(),":"),".xlsx")
+}
+
+write.xlsx(
+  x = list(all, all_ff_teams),
+  sheetName = list("Player Data", "Fantasy Team Detailed Scores"),
+  file = output_file
 )
 
 # clipr::write_clip(all)
