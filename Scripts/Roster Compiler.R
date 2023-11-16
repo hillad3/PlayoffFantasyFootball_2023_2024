@@ -7,17 +7,19 @@ gc()
 
 library(tidyverse)
 library(openxlsx)
-library(here)
 library(logger)
 logger::log_layout(layout_glue_colors)
 
-# get a list of xlsx files in the same directory as the current .R script
-roster_files <- dir(here())[str_detect(dir(here()), "xlsx$")]
+# get a list of files
+directory_files <- dir("Data/Individual Rosters")
 
-# remove compiled files
+# get a list of excel files
+roster_files <- directory_files[str_detect(directory_files, "xlsx$")]
+
+# remove compiled files, although these should not be present
 roster_files <- roster_files[!str_detect(roster_files, "^Compiled Roster, Gen")]
 
-rosters <- lapply(roster_files, readxl::read_excel, sheet = "Team Roster", skip = 5)
+rosters <- lapply(paste0("Data/Individual Rosters/",roster_files), readxl::read_excel, sheet = "Team Roster", skip = 5)
 
 rosters <- bind_rows(rosters)
 
@@ -67,7 +69,7 @@ if(length(issues_to_fix)==0L){
 if (!exists("issues_to_fix")) {
   write.xlsx(
     rosters,
-    file = paste0(here(), "/Compiled Roster, Generated ", str_remove_all(Sys.time(), ":"), ".xlsx"),
+    file = paste0("Output/Compiled Rosters/Full Fantasy Roster, Compiled ", str_remove_all(Sys.time(), ":"), ".xlsx"),
     sheets = list("Compiled Roster")
   )
 } else {
