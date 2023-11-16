@@ -60,7 +60,7 @@ players <- nflreadr::load_players() %>%
   filter(status == "ACT") %>%
   filter(team_abbr %in% playoff_teams) %>%
   filter(position_group %in% c("QB", "RB", "WR", "TE", "SPEC")) %>%
-  filter(position %in% c("QB", "RB", "FB", "WR", "TE", "K", "P")) %>%
+  filter(position %in% c("QB", "RB", "FB", "WR", "TE", "K")) %>%
   select(
     position_group,
     position,
@@ -128,7 +128,10 @@ players_wide <- lapply(players_wide, same_length)
 players_wide <- bind_cols(players_wide)
 
 
-## paste the dataframe into memory so it can be pasted into the excel file "Playoff Fantasy Football - Signup Roster 2023.xlsx"
+## paste the dataframe into memory so it can be pasted into the excel file Form
+# "Playoff Fantasy Football - 2023-2024 Signup Roster.xlsx"
+# Note: excel password is abc123. it isn't intended to keep the KGB out, just the average idiot
+
 # clipr::write_clip(players_wide)
 
 teams <- nflreadr::load_teams() %>%
@@ -136,7 +139,10 @@ teams <- nflreadr::load_teams() %>%
   filter(team_abbr %in% playoff_teams) %>%
   select(team_abbr, team_name) %>%
   mutate(selector_id = paste0(team_abbr,"_",team_name))
+
 names(teams) <- paste0(names(teams),"_D")
 
-## paste the dataframe into memory so it can be pasted into the excel file
+## paste the dataframe into memory so it can be pasted into the Form 
+# "Playoff Fantasy Football - 2023-2024 Signup Roster.xlsx"
+
 # clipr::write_clip(teams)
