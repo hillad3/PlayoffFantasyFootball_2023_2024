@@ -1,13 +1,18 @@
 # R_NFL_Playoff_Fantasy_HelpeR
 A collection of R-language scripts for setting up and managing an NFL Playoff Fantasy contest. 
 
-# About
-- Playoff Fantasy Football is an elimination based version of Fantasy Football. Each contestant will create a roster (or multiple rosters) that will be locked and scored each week through the playoffs (including the Super Bowl). No changes are made once the roster is submitted. Scoring is similar to standard Fantasy Football types of rules.
-- Spread the word: The more participants, the larger the prizes.
-
-# Rules
+## About
+- Playoff Fantasy Football is an elimination based version of Fantasy Football. Each contestant will create a diversified roster prior to the start of playoffs (Note: Multiple rosters are allowed per "owner", as long as each are paid for in full). All playoff games, including wildcards and the Super Bowl, will be considered in the scoring.
+- The roster will be locked from changes after submission to the Commissioner.
+- The Commissioner will provide weekly updates on Fantasy Team standings throughout the contest.  
+- Scoring will follow typical Fantasy Football rules (detailed below).
+- Rosters must be submitted, valid, and paid for by the start of the first wildcard game.
 - Prizes will be awarded to the top 5 scoring entries.
-  - Actual prize amount will be announced wildcard weekend as prizes are dependent on number of paid participants.
+  - Prize purses will be announced after wildcard playoff weekend, since prizes are dependent on number of paid entries.
+- If you think you're going to win, spread the word: The more participants, the larger the prizes.
+- If you think you're going to lose, spread the word: Imagine the commaraderie of shared experience!
+
+## Team Selection
 - Pick your own team using the 'Signup Roster.xlsx' in the Forms folder.
   - Rosters may only consist of 1 PLAYER from each team that is in the playoffs for a total of 14 players (including a Defensive / Special Teams).
   - You must pick players from the following positions:
@@ -20,10 +25,10 @@ A collection of R-language scripts for setting up and managing an NFL Playoff Fa
     - Defense / Special Teams, D/ST: 1 
   - The 'Signup Roster.xlsx' is prepopulated with valid playoff players and team, and includes data validation and checks to help ensure your picks are valid.
 - Points are accumulative throughout the playoffs, including the Super Bowl.
-- Further point scoring is detailed below
+- Further point scoring is detailed below.
 
-# Scoring
-## Passing
+## Scoring
+### Passing
 Description | Points 
 --- | ---
 Every 50 passing yards | 1
@@ -34,7 +39,7 @@ TD Pass | 6
 2pt Passing Conversion | 2
 Fumble | -2
 
-## Rushing
+### Rushing
 Description | Points 
 --- | ---
 Every 10 Rushing Yards | 1
@@ -44,7 +49,7 @@ TD Rush | 6
 2pt Rushing Conversion | 2
 Fumble | -2
 
-## Receiving
+### Receiving
 Description | Points 
 --- | ---
 Every 10 Receiving Yards | 1
@@ -54,7 +59,7 @@ TD Reception | 6
 2pt Receiving Conversion | 2
 Fumble | -2
 
-## Kicking
+### Kicking
 Description | Points 
 --- | ---
 Each PAT Made | 1
@@ -64,7 +69,7 @@ FG Made (50+ yards) | 5
 Each PAT Missed | -1
 Each FG Missed | -1
 
-## Defense / Special Teams
+### Defense / Special Teams
 Description | Points 
 --- | ---
 Each Sack | 1
