@@ -198,6 +198,8 @@ if(TRUE){
         value_label == "passing_yards" & value < 400 ~ as.integer(value/50),
         value_label == "rushing_yards" & value >= 200 ~ as.integer(value/10L) + 2L,
         value_label == "rushing_yards" & value < 200 ~ as.integer(value/10L),
+        value_label == "receiving_yards" & value >= 200 ~ as.integer(value/10L) + 2L,
+        value_label == "receiving_yards" & value < 200 ~ as.integer(value/10L),
         value_label %in% c("passing_tds", "rushing_tds","receiving_tds") ~ value * 6L,
         value_label %in% c("passing_2pt_conversions", "rushing_2pt_conversions","receiving_2pt_conversions") ~ value * 2L,
         value_label == "interceptions" ~ value * -2L,
