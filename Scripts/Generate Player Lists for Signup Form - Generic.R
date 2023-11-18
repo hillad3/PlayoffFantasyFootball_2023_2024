@@ -57,7 +57,7 @@ if (length(playoff_teams) != 14L) {
 
 players <- nflreadr::load_players() %>%
   as_tibble() %>%
-  filter(status == "ACT") %>%
+  filter(status != "RET") %>% # this may need to be adjusted for certain players
   filter(team_abbr %in% playoff_teams) %>%
   filter(position_group %in% c("QB", "RB", "WR", "TE", "SPEC")) %>%
   filter(position %in% c("QB", "RB", "FB", "WR", "TE", "K")) %>%
