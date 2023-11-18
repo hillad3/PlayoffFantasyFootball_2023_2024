@@ -36,7 +36,22 @@ if (length(playoff_teams) != 14L) {
 
 players <- nflreadr::load_players() %>%
   as_tibble() %>%
-  filter(status == "ACT") %>%
+  mutate(
+    # these are cases to resolve to align to the 2022-2023 season
+    team_abbr = case_when(
+      display_name == "Brett Maher" & gsis_id == "00-0030332" ~ "DAL",
+      display_name == "Dalton Schultz" & gsis_id == "00-0034383" ~ "DAL",
+      display_name == "Dalvin Cook" & gsis_id == "00-0033893" ~ "MIN",
+      display_name == "Ezekiel Elliott" & gsis_id == "00-0033045" ~ "DAL",
+      display_name == "Leonard Fournette" & gsis_id == "00-0033856" ~ "TB",
+      display_name == "Marvin Jones" & gsis_id == "00-0029293" ~ "JAX",
+      display_name == "Mike Gesicki" & gsis_id == "00-0034829" ~ "MIA",
+      display_name == "Miles Sanders" & gsis_id == "00-0035243" ~ "PHI",
+      display_name == "Riley Patterson" & gsis_id == "00-0036816" ~ "JAX",
+      .default = team_abbr
+    )
+  ) %>% 
+  filter(status != "RET") %>%
   filter(team_abbr %in% playoff_teams) %>%
   filter(position_group %in% c("QB", "RB", "WR", "TE", "SPEC")) %>%
   filter(position %in% c("QB", "RB", "FB", "WR", "TE", "K")) %>%
