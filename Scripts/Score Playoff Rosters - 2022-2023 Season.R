@@ -33,7 +33,7 @@ team_mapping <- readxl::read_excel(
   )
 
 def_mapping <- team_mapping %>%
-  filter(position_type == "Player") %>%
+  filter(position_type == "Defense / Special teams") %>%
   select(
     team = team_abbr,
     fantasy_team_name
