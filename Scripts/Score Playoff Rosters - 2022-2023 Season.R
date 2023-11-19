@@ -69,7 +69,6 @@ ps <- ps %>%
 		sacks,
 		sack_fumbles,
 		sack_fumbles_lost,
-		sack_fumbles_lost,
 		passing_2pt_conversions,
 		rushing_yards,
 		rushing_tds,
@@ -92,7 +91,6 @@ ps <- ps %>%
       interceptions,
       sacks,
       sack_fumbles,
-      sack_fumbles_lost,
       sack_fumbles_lost,
       passing_2pt_conversions,
       rushing_yards,
@@ -203,7 +201,7 @@ if(TRUE){
         value_label %in% c("passing_tds", "rushing_tds","receiving_tds") ~ value * 6L,
         value_label %in% c("passing_2pt_conversions", "rushing_2pt_conversions","receiving_2pt_conversions") ~ value * 2L,
         value_label == "interceptions" ~ value * -2L,
-        value_label %in% c("sack_fumbles", "rushing_fumbles", "receiving_fumbles") ~ value * -2L,
+        value_label %in% c("sack_fumbles_lost", "rushing_fumbles_lost", "receiving_fumbles_lost") ~ value * -2L,
         .default = 0L
       )
     ) %>%
