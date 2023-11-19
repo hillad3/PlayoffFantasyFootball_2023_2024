@@ -168,7 +168,15 @@ pbp <- pbp %>%
     fumble_recovery_1_player_name,
     fumble_recovery_1_player_id,
     sack,
+    sack_player_id,
+    sack_player_name,
+    half_sack_1_player_id,
+    half_sack_1_player_name,
+    half_sack_2_player_id,
+    half_sack_2_player_name,
     safety,
+    safety_player_id,
+    safety_player_name,
     two_point_conv_result,
     two_point_attempt,
     extra_point_result,
@@ -180,9 +188,6 @@ pbp <- pbp %>%
     blocked_player_id
   ) %>%
   mutate(week = as.integer(str_sub(game_id,6,7)))
-
-
-
 
 
 
@@ -328,7 +333,7 @@ if(TRUE){
 
   # defensive bonus for sacks
   def[["sack"]] <- pbp %>%
-    filter(sack == 1L) %>%
+    filter(sack == 1L & !(is.na(sack_player_id) | is.na(half_sack_1_player_id))) %>%
     group_by(week, team = defteam) %>%
     reframe(value = sum(sack)) %>%
     mutate(
@@ -337,7 +342,7 @@ if(TRUE){
 
   # defensive bonus for safeties
   def[["safety"]] <- pbp %>%
-    filter(safety == 1L) %>%
+    filter(safety == 1L & !is.na(safety_player_id)) %>%
     group_by(week, team = defteam) %>%
     reframe(value = sum(safety)) %>%
     mutate(
@@ -355,7 +360,7 @@ if(TRUE){
 
   # defensive bonus for interceptions
   def[["interception"]] <- pbp %>%
-    filter(interception == 1L) %>%
+    filter(interception == 1L & !is.na(interception_player_id)) %>%
     group_by(week, team = defteam) %>%
     reframe(value = sum(interception)) %>%
     mutate(
