@@ -327,13 +327,16 @@ player_ff_teams <- player %>%
 
 
 # def
+# punts start with the receiving team listed as defteam, so those may need special consideration
 if(TRUE){
 
   def <- list()
 
   # defensive bonus for sacks
   def[["sack"]] <- pbp %>%
-    filter(sack == 1L & !(is.na(sack_player_id) | is.na(half_sack_1_player_id))) %>%
+    filter(sack == 1L & 
+             (!is.na(sack_player_name) | !is.na(half_sack_1_player_name)) &
+             yards_gained < 0L) %>% 
     group_by(week, team = defteam) %>%
     reframe(value = sum(sack)) %>%
     mutate(
@@ -351,7 +354,10 @@ if(TRUE){
 
   # defensive bonus for fumble recovery
   def[["fumble_recovery"]] <- pbp %>%
-    filter(fumble == 1L & fumble_lost == 1L) %>%
+    filter(
+      (fumble == 1L & fumble_lost == 1L & play_type != "punt") |
+      (fumble == 1L & fumble_lost == 1L & play_type == "punt" & posteam == fumble)
+    ) %>%
     group_by(week, team = defteam) %>%
     reframe(value = sum(fumble)) %>%
     mutate(
