@@ -168,15 +168,15 @@ pbp <- pbp %>%
     fumble_recovery_1_player_name,
     fumble_recovery_1_player_id,
     sack,
-    sack_player_id,
     sack_player_name,
-    half_sack_1_player_id,
+    sack_player_id,
     half_sack_1_player_name,
-    half_sack_2_player_id,
+    half_sack_1_player_id,
     half_sack_2_player_name,
+    half_sack_2_player_id,
     safety,
-    safety_player_id,
     safety_player_name,
+    safety_player_id,
     two_point_conv_result,
     two_point_attempt,
     extra_point_result,
@@ -334,12 +334,14 @@ if(TRUE){
 
   # defensive bonus for sacks
   def[["sack"]] <- pbp %>%
-    filter(sack == 1L & !(is.na(sack_player_id) | is.na(half_sack_1_player_id))) %>%
+    filter(sack == 1L) %>%
     group_by(week, team = defteam) %>%
     reframe(value = sum(sack)) %>%
     mutate(
       ff_points = as.integer(value * 1L)
     )
+  
+  #  & !(is.na(sack_player_id) | is.na(half_sack_1_player_id))
 
   # defensive bonus for safeties
   def[["safety"]] <- pbp %>%
