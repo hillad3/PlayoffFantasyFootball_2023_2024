@@ -168,15 +168,15 @@ pbp <- pbp %>%
     fumble_recovery_1_player_name,
     fumble_recovery_1_player_id,
     sack,
-    sack_player_id,
     sack_player_name,
-    half_sack_1_player_id,
+    sack_player_id,
     half_sack_1_player_name,
-    half_sack_2_player_id,
+    half_sack_1_player_id,
     half_sack_2_player_name,
+    half_sack_2_player_id,
     safety,
-    safety_player_id,
     safety_player_name,
+    safety_player_id,
     two_point_conv_result,
     two_point_attempt,
     extra_point_result,
@@ -360,7 +360,7 @@ if(TRUE){
 
   # defensive bonus for interceptions
   def[["interception"]] <- pbp %>%
-    filter(interception == 1L & !is.na(interception_player_id)) %>%
+    filter(interception == 1L) %>%
     group_by(week, team = defteam) %>%
     reframe(value = sum(interception)) %>%
     mutate(
