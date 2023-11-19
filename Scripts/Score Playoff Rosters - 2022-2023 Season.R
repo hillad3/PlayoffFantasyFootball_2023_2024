@@ -327,7 +327,6 @@ player_ff_teams <- player %>%
 
 
 # def
-# punts start with the receiving team listed as defteam, so those may need special consideration
 if(TRUE){
 
   def <- list()
@@ -354,11 +353,18 @@ if(TRUE){
 
   # defensive bonus for fumble recovery
   def[["fumble_recovery"]] <- pbp %>%
-    filter(
-      (fumble == 1L & fumble_lost == 1L & play_type != "punt") |
-      (fumble == 1L & fumble_lost == 1L & play_type == "punt" & posteam == fumble)
-    ) %>%
+    filter(fumble == 1L & fumble_lost == 1L & play_type != "punt") %>%
     group_by(week, team = defteam) %>%
+    reframe(value = sum(fumble)) %>%
+    mutate(
+      ff_points = as.integer(value * 2L)
+    )
+  
+  # defensive bonus for fumble recovery for a punt
+  # punts start with the receiving team listed as defteam, so those may need special consideration
+  def[["fumble_recovery_punt"]] <- pbp %>%
+    filter(fumble == 1L & fumble_lost == 1L & play_type == "punt") %>%
+    group_by(week, team = posteam) %>%
     reframe(value = sum(fumble)) %>%
     mutate(
       ff_points = as.integer(value * 2L)
@@ -420,7 +426,8 @@ if(TRUE){
         value == 0L ~ 10L,
         value >= 1L & value <= 6 ~ 7L,
         value >= 7L & value <= 13 ~ 4L,
-        value >= 14L & value <= 21 ~ 1L,
+        value >= 14L & value <= 17 ~ 1L,
+        value >= 18L & value <= 21 ~ 0L,
         value >= 22L & value <= 27 ~ -1L,
         value >= 28L & value <= 34 ~ -4L,
         value >= 35L & value <= 45 ~ -7L,
