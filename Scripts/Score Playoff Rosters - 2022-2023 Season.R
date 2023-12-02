@@ -331,13 +331,14 @@ if(TRUE){
 
   def <- list()
 
-  # defensive bonus for sacks
+  ## defensive bonus for sacks
+  # If you want to exclude sack where the QB got back to the line of scrimmage, then add filter 
+  # condition of yards_gained < 0L. There are some instances where the sack_player is not recorded 
+  # but there was still a sack recorded (seemingly if a fumble happens in the same play)
   def[["sack"]] <- pbp %>%
-    filter(sack == 1L & 
-             (!is.na(sack_player_name) | !is.na(half_sack_1_player_name)) &
-             yards_gained < 0L) %>% 
+    filter(sack == 1L) %>%
     group_by(week, team = defteam) %>%
-    reframe(value = sum(sack)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 1L)
     )
@@ -346,7 +347,7 @@ if(TRUE){
   def[["safety"]] <- pbp %>%
     filter(safety == 1L & !is.na(safety_player_id)) %>%
     group_by(week, team = defteam) %>%
-    reframe(value = sum(safety)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 1L)
     )
@@ -355,7 +356,7 @@ if(TRUE){
   def[["fumble_recovery"]] <- pbp %>%
     filter(fumble == 1L & fumble_lost == 1L & play_type != "punt") %>%
     group_by(week, team = defteam) %>%
-    reframe(value = sum(fumble)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 2L)
     )
@@ -365,7 +366,7 @@ if(TRUE){
   def[["fumble_recovery_punt"]] <- pbp %>%
     filter(fumble == 1L & fumble_lost == 1L & play_type == "punt") %>%
     group_by(week, team = posteam) %>%
-    reframe(value = sum(fumble)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 2L)
     )
@@ -374,7 +375,7 @@ if(TRUE){
   def[["interception"]] <- pbp %>%
     filter(interception == 1L) %>%
     group_by(week, team = defteam) %>%
-    reframe(value = sum(interception)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 2L)
     )
@@ -384,7 +385,7 @@ if(TRUE){
     filter(!is.na(blocked_player_name)) %>%
     mutate(block = 1L) %>%
     group_by(week, team = defteam) %>%
-    reframe(value = sum(block)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 2L)
     )
@@ -394,7 +395,7 @@ if(TRUE){
   def[["def_td"]] <- pbp %>%
     filter(return_touchdown == 1L & play_type %in% c("pass", "run")) %>%
     group_by(week, team = defteam) %>%
-    reframe(value = sum(return_touchdown)) %>%
+    reframe(value = n()) %>%
     mutate(
       ff_points = as.integer(value * 6L)
     )
@@ -406,11 +407,11 @@ if(TRUE){
     pbp %>%
       filter(return_touchdown == 1L & play_type %in% c("kickoff")) %>%
       group_by(week, team = posteam) %>%
-      reframe(value = sum(touchdown)),
+      reframe(value = n()),
     pbp %>%
       filter(return_touchdown == 1L & play_type %in% c("punt")) %>%
       group_by(week, team = defteam) %>%
-      reframe(value = sum(touchdown))
+      reframe(value = n())
   ) %>%
     mutate(
       ff_points = as.integer(value * 6L)
