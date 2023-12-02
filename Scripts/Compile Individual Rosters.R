@@ -10,6 +10,8 @@ library(openxlsx)
 library(logger)
 logger::log_layout(layout_glue_colors)
 
+season <- "2023-2024"
+
 # get a list of files
 directory_files <- dir("Data/Individual Rosters")
 
@@ -69,7 +71,7 @@ if(length(issues_to_fix)==0L){
 if (!exists("issues_to_fix")) {
   write.xlsx(
     rosters,
-    file = paste0("Output/Compiled Rosters/Full Fantasy Roster, Compiled ", str_remove_all(Sys.time(), ":"), ".xlsx"),
+    file = paste0("Output/Compiled Rosters/Playoff Fantasy Roster for ",season,", Compiled ", str_remove_all(Sys.time(), ":"), ".xlsx"),
     sheetName = list("Compiled Roster")
   )
 } else {
