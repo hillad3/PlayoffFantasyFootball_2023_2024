@@ -74,7 +74,8 @@ qb_player_stats <- offensive_player_stats %>%
     rushing_2pt_conversions,
     receiving_2pt_conversions,
   ) %>%
-  mutate(week = as.integer(week))
+  mutate(week = as.integer(week)) %>% 
+  arrange(desc(passing_yards))
 
 qb_player_season_stats <- qb_player_stats %>% 
   group_by(player_id, player, team_abbr, team_conf, team_division) %>% 
@@ -92,7 +93,8 @@ qb_player_season_stats <- qb_player_stats %>%
     avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
     total_receiving_tds = sum(receiving_tds),
     avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
-  )
+  ) %>% 
+  arrange(desc(total_passing_yards))
 
 rb_player_stats <- offensive_player_stats %>% 
   filter(position %in% c("RB")) %>%
@@ -115,7 +117,23 @@ rb_player_stats <- offensive_player_stats %>%
     rushing_2pt_conversions,
     receiving_2pt_conversions,
   ) %>%
-  mutate(week = as.integer(week))
+  mutate(week = as.integer(week)) %>% 
+  arrange(desc(rushing_yards))
+
+rb_player_season_stats <- rb_player_stats %>% 
+  group_by(player_id, player, team_abbr, team_conf, team_division) %>% 
+  reframe(
+    games_played = n(),
+    total_rushing_yards = sum(rushing_yards),
+    avg_rushing_yards_per_game = mean(rushing_yards, na.rm = TRUE) %>% round(0),
+    total_rushing_tds = sum(rushing_tds),
+    avg_rushing_tds_per_game = mean(rushing_tds, na.rm = TRUE) %>% round(2),
+    total_receiving_yards = sum(receiving_yards),
+    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
+    total_receiving_tds = sum(receiving_tds),
+    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
+  ) %>% 
+  arrange(desc(total_rushing_yards))
 
 wr_player_stats <- offensive_player_stats %>% 
   filter(position %in% c("WR")) %>%
@@ -126,17 +144,33 @@ wr_player_stats <- offensive_player_stats %>%
     team_abbr,
     team_conf,
     team_division,
-    rushing_yards,
-    rushing_tds,
     receiving_yards,
     receiving_tds,
     receiving_fumbles,
     receiving_fumbles_lost,
+    rushing_yards,
+    rushing_tds,
     passing_2pt_conversions,
     rushing_2pt_conversions,
     receiving_2pt_conversions,
   ) %>%
-  mutate(week = as.integer(week))
+  mutate(week = as.integer(week)) %>% 
+  arrange(desc(receiving_yards))
+
+wr_player_season_stats <- wr_player_stats %>% 
+  group_by(player_id, player, team_abbr, team_conf, team_division) %>% 
+  reframe(
+    games_played = n(),
+    total_receiving_yards = sum(receiving_yards),
+    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
+    total_receiving_tds = sum(receiving_tds),
+    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
+    total_rushing_yards = sum(rushing_yards),
+    avg_rushing_yards_per_game = mean(rushing_yards, na.rm = TRUE) %>% round(0),
+    total_rushing_tds = sum(rushing_tds),
+    avg_rushing_tds_per_game = mean(rushing_tds, na.rm = TRUE) %>% round(2),
+  ) %>% 
+  arrange(desc(total_receiving_yards))
 
 te_player_stats <- offensive_player_stats %>% 
   filter(position %in% c("TE")) %>%
@@ -155,7 +189,19 @@ te_player_stats <- offensive_player_stats %>%
     rushing_2pt_conversions,
     receiving_2pt_conversions,
   ) %>%
-  mutate(week = as.integer(week))
+  mutate(week = as.integer(week)) %>% 
+  arrange(desc(receiving_yards))
+
+te_player_season_stats <- te_player_stats %>% 
+  group_by(player_id, player, team_abbr, team_conf, team_division) %>% 
+  reframe(
+    games_played = n(),
+    total_receiving_yards = sum(receiving_yards),
+    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
+    total_receiving_tds = sum(receiving_tds),
+    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
+  ) %>% 
+  arrange(desc(total_receiving_yards))
 
 kicking_player_stats <- nflreadr::load_player_stats(seasons = 2023L, stat_type = "kicking") %>%
   as_tibble() %>%
@@ -169,7 +215,18 @@ kicking_player_stats <- nflreadr::load_player_stats(seasons = 2023L, stat_type =
     team_division,
     everything()
   ) %>%
-  mutate(week = as.integer(week))
+  mutate(week = as.integer(week)) %>% 
+  arrange(desc(fg_made))
+
+kicking_player_season_stats <- kicking_player_stats %>% 
+  group_by(player_id, player, team_abbr, team_conf, team_division) %>% 
+  reframe(
+    games_played = n(),
+    total_fg_made = sum(fg_made),
+    max_fg_made = max(fg_long),
+    total_pat_made = sum(pat_made),
+  ) %>% 
+  arrange(desc(total_fg_made))
 
 ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
