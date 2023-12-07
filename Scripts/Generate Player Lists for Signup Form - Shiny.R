@@ -48,11 +48,8 @@ nfl_player_stats <- bind_rows(
     everything()
   ) %>% 
   arrange(position, player_name, week)
-  
 
-# 
-#   distinct(position, player_id, player_name, recent_team) %>% 
-#   mutate(player_lookup = paste0(position,": ",player_id,", ",player_name," (",recent_team,")"))
+selectable_players <- nfl_player_stats$player_concat
 
 offensive_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
@@ -76,7 +73,7 @@ offensive_player_stats <- nfl_player_stats %>%
     two_pt_conversions,
   )
 
-qb_player_stats <- offensive_player_stats %>% 
+qb_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("QB")) %>%
   select(
     week,
@@ -273,19 +270,21 @@ ui <- fluidPage(
           "Statistics",
           tabsetPanel(
             p(),
-            tabPanel("Season Stats", DTOutput("statistics_season")),
-            tabPanel("Weekly Stats", DTOutput("statistics_weekly"))
+            tabPanel("2023 Season Totals", DTOutput("statistics_season")),
+            tabPanel("By Week", DTOutput("statistics_weekly"))
           )
         ),
         tabPanel(
           "Create Fantasy Roster",
           sidebarLayout(
             sidebarPanel(
-              selectInput(
+              width = 5,
+              selectizeInput(
                 inputId = "selected_players",
-                label = "Choose Player(s):",
-                choices = as.list("QB", "RB", "WR", "TE", "K"),
-                selected = "QB"
+                label = "Choose Players:",
+                choices = as.list(selectable_players),
+                multiple = TRUE,
+                options = list(maxItems = 13)
               )
             ),
             mainPanel(
@@ -298,7 +297,7 @@ ui <- fluidPage(
   )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   # list the names of teams in the playoffs in quotes
   # all teams are listed below as a default
 
@@ -343,6 +342,17 @@ server <- function(input, output) {
         filter(team_abbr %in% input$selected_teams)
     } 
   })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_players",
+      choices = selectable_players,
+      options = list(maxItems = 13),
+      selected = input$selected_players
+    )
+  })
+  
 }
 
 
