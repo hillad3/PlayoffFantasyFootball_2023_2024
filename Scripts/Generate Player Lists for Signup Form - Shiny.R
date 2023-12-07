@@ -14,36 +14,53 @@ nfl_teams <- nflreadr::load_teams(current = TRUE) %>%
   select(team_abbr, team_name, team_conf, team_division, team_logo_espn) %>%
   mutate(team_name_w_abbr = paste0(team_name, " (", team_abbr, ")"))
 
-# nfl_player_stats <- bind_rows(
-#   nflreadr::load_player_stats(seasons = 2023L, stat_type = "offense") %>% 
-#     as_tibble() %>% 
-#     filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
-#     mutate(position = if_else(position == "FB", "RB", position)),
-#   nflreadr::load_player_stats(seasons = 2023L, stat_type = "kicking") %>% 
-#     as_tibble() %>% 
-# ) %>% 
-#   left_join(
-#     nfl_teams %>% select(team_abbr, team_conf, team_division), by = c("team" = "team_abbr"))
-#   )
+nfl_player_stats <- bind_rows(
+  nflreadr::load_player_stats(seasons = 2023L, stat_type = "offense") %>%
+    as_tibble() %>%
+    filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
+    mutate(
+      position = if_else(position == "FB", "RB", position),
+      fumbles_lost = sack_fumbles_lost + rushing_fumbles_lost + receiving_fumbles_lost,
+      two_pt_conversions = passing_2pt_conversions + rushing_2pt_conversions + receiving_2pt_conversions,
+    ) %>% 
+    rename(team_abbr = recent_team),
+  nflreadr::load_player_stats(seasons = 2023L, stat_type = "kicking") %>%
+    as_tibble() %>%
+    rename(team_abbr = team) %>% 
+    mutate(position = "K")
+) %>%
+  left_join(
+    nfl_teams %>% select(team_abbr, team_conf, team_division), by = c("team_abbr")
+  ) %>% 
+  mutate(
+    week = as.integer(week),
+    player_concat = paste0(position,": ",player_id,", ",player_name," (",team_abbr,"; ",team_division,")")
+  ) %>% 
+  select(
+    week,
+    player_concat,
+    player_id,
+    player_name,
+    team_abbr,
+    team_conf,
+    team_division,
+    position,
+    everything()
+  ) %>% 
+  arrange(position, player_name, week)
+  
 
 # 
 #   distinct(position, player_id, player_name, recent_team) %>% 
 #   mutate(player_lookup = paste0(position,": ",player_id,", ",player_name," (",recent_team,")"))
 
-offensive_player_stats <- nflreadr::load_player_stats(seasons = 2023L, stat_type = "offense") %>%
-  as_tibble() %>%
+offensive_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
-  mutate(position = if_else(position == "FB", "RB", position)) %>%
-  left_join(nfl_teams %>% select(team_abbr, team_conf, team_division), by = c("recent_team" = "team_abbr")) %>% 
-  mutate(
-    fumbles_lost = sack_fumbles_lost + rushing_fumbles_lost + receiving_fumbles_lost,
-    two_pt_conversions = passing_2pt_conversions + rushing_2pt_conversions + receiving_2pt_conversions
-  ) %>% 
   select(
     week,
     player_id,
     player_name,
-    team_abbr = recent_team,
+    team_abbr,
     team_conf,
     team_division,
     position,
@@ -57,8 +74,7 @@ offensive_player_stats <- nflreadr::load_player_stats(seasons = 2023L, stat_type
     sacks,
     fumbles_lost,
     two_pt_conversions,
-  ) %>%
-  mutate(week = as.integer(week))
+  )
 
 qb_player_stats <- offensive_player_stats %>% 
   filter(position %in% c("QB")) %>%
@@ -80,7 +96,6 @@ qb_player_stats <- offensive_player_stats %>%
     fumbles_lost,
     two_pt_conversions,
   ) %>%
-  mutate(week = as.integer(week)) %>% 
   arrange(desc(passing_yards))
 
 qb_player_season_stats <- qb_player_stats %>% 
@@ -102,7 +117,7 @@ qb_player_season_stats <- qb_player_stats %>%
   ) %>% 
   arrange(desc(total_passing_yards))
 
-rb_player_stats <- offensive_player_stats %>% 
+rb_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("RB")) %>%
   select(
     week,
@@ -118,7 +133,6 @@ rb_player_stats <- offensive_player_stats %>%
     fumbles_lost,
     two_pt_conversions,
   ) %>%
-  mutate(week = as.integer(week)) %>% 
   arrange(desc(rushing_yards))
 
 rb_player_season_stats <- rb_player_stats %>% 
@@ -136,7 +150,7 @@ rb_player_season_stats <- rb_player_stats %>%
   ) %>% 
   arrange(desc(total_rushing_yards))
 
-wr_player_stats <- offensive_player_stats %>% 
+wr_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("WR")) %>%
   select(
     week,
@@ -152,7 +166,6 @@ wr_player_stats <- offensive_player_stats %>%
     fumbles_lost,
     two_pt_conversions,
   ) %>%
-  mutate(week = as.integer(week)) %>% 
   arrange(desc(receiving_yards))
 
 wr_player_season_stats <- wr_player_stats %>% 
@@ -170,7 +183,7 @@ wr_player_season_stats <- wr_player_stats %>%
   ) %>% 
   arrange(desc(total_receiving_yards))
 
-te_player_stats <- offensive_player_stats %>% 
+te_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("TE")) %>%
   select(
     week,
@@ -184,7 +197,6 @@ te_player_stats <- offensive_player_stats %>%
     fumbles_lost,
     two_pt_conversions,
   ) %>%
-  mutate(week = as.integer(week)) %>% 
   arrange(desc(receiving_yards))
 
 te_player_season_stats <- te_player_stats %>% 
@@ -198,19 +210,20 @@ te_player_season_stats <- te_player_stats %>%
   ) %>% 
   arrange(desc(total_receiving_yards))
 
-kicking_player_stats <- nflreadr::load_player_stats(seasons = 2023L, stat_type = "kicking") %>%
-  as_tibble() %>%
-  left_join(nfl_teams %>% select(team_abbr, team_conf, team_division), by = c("team" = "team_abbr")) %>% 
+kicking_player_stats <- nfl_player_stats %>% 
   select(
     week,
     player_id,
     player_name,
-    team_abbr = team,
+    team_abbr,
     team_conf,
     team_division,
-    everything()
+    fg_made,
+    fg_missed,
+    fg_long,
+    pat_made,
+    pat_missed
   ) %>%
-  mutate(week = as.integer(week)) %>% 
   arrange(desc(fg_made))
 
 kicking_player_season_stats <- kicking_player_stats %>% 
