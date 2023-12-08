@@ -49,8 +49,6 @@ nfl_player_stats <- bind_rows(
   ) %>% 
   arrange(position, player_name, week)
 
-selectable_players <- nfl_player_stats$player_concat
-
 offensive_player_stats <- nfl_player_stats %>% 
   filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
   select(
@@ -233,6 +231,12 @@ kicking_player_season_stats <- kicking_player_stats %>%
   ) %>% 
   arrange(desc(total_fg_made))
 
+qb_players <- nfl_player_stats %>% filter(position %in% c("QB")) %>% select(player_concat) %>% as.list()
+rb_players <- nfl_player_stats %>% filter(position %in% c("RB")) %>% select(player_concat) %>% as.list()
+wr_players <- nfl_player_stats %>% filter(position %in% c("WR")) %>% select(player_concat) %>% as.list()
+te_players <- nfl_player_stats %>% filter(position %in% c("TE")) %>% select(player_concat) %>% as.list()
+k_players <- nfl_player_stats %>% filter(position %in% c("K")) %>% select(player_concat) %>% as.list()
+
 ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
   sidebarLayout(
@@ -278,14 +282,37 @@ ui <- fluidPage(
           "Create Fantasy Roster",
           sidebarLayout(
             sidebarPanel(
-              width = 5,
               selectizeInput(
-                inputId = "selected_players",
-                label = "Choose Players:",
-                choices = as.list(selectable_players),
-                multiple = TRUE,
-                options = list(maxItems = 13)
-              )
+                inputId = "selected_qbs",
+                label = "Choose 3 Quarterbacks:",
+                choices = qb_players,
+                options = list(maxItems = 3)
+              ),
+              selectizeInput(
+                inputId = "selected_rbs",
+                label = "Choose 3 Running Backs:",
+                choices = rb_players,
+                options = list(maxItems = 3)
+              ),
+              selectizeInput(
+                inputId = "selected_wrs",
+                label = "Choose 3 Wide Receivers:",
+                choices = wr_players,
+                options = list(maxItems = 3)
+              ),
+              selectizeInput(
+                inputId = "selected_tes",
+                label = "Choose 2 Tight Ends:",
+                choices = te_players,
+                options = list(maxItems = 2)
+              ),
+              selectizeInput(
+                inputId = "selected_k",
+                label = "Choose 1 Kicker:",
+                choices = k_players,
+                options = list(maxItems = 1)
+              ),
+              width = 5
             ),
             mainPanel(
               
@@ -346,10 +373,50 @@ server <- function(input, output, session) {
   observe({
     updateSelectizeInput(
       session,
-      "selected_players",
-      choices = selectable_players,
-      options = list(maxItems = 13),
-      selected = input$selected_players
+      "selected_qbs",
+      choices = qb_players[!(qb_players %in% input$selected_qbs)],
+      selected = input$selected_qbs,
+      options = list(maxItems = 3)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_rbs",
+      choices = rb_players[!(rb_players %in% input$selected_rbs)],
+      selected = input$selected_rbs,
+      options = list(maxItems = 3)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_wrs",
+      choices = wr_players[!(wr_players %in% input$selected_wrs)],
+      selected = input$selected_wrs,
+      options = list(maxItems = 3)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_tes",
+      choices = te_players[!(te_players %in% input$selected_tes)],
+      selected = input$selected_tes,
+      options = list(maxItems = 2)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_k",
+      choices = k_players[!(k_players %in% input$selected_k)],
+      selected = input$selected_k,
+      options = list(maxItems = 1)
     )
   })
   
