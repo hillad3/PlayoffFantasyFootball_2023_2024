@@ -235,7 +235,9 @@ qb_players <- nfl_player_stats %>% filter(position %in% c("QB")) %>% select(play
 rb_players <- nfl_player_stats %>% filter(position %in% c("RB")) %>% select(player_concat) %>% as.list()
 wr_players <- nfl_player_stats %>% filter(position %in% c("WR")) %>% select(player_concat) %>% as.list()
 te_players <- nfl_player_stats %>% filter(position %in% c("TE")) %>% select(player_concat) %>% as.list()
+flex_players <- c(rb_players, wr_players, te_players)
 k_players <- nfl_player_stats %>% filter(position %in% c("K")) %>% select(player_concat) %>% as.list()
+def_teams <- nfl_teams %>% select(team_abbr) %>% as.list()
 
 ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
@@ -286,30 +288,42 @@ ui <- fluidPage(
                 inputId = "selected_qbs",
                 label = "Choose 3 Quarterbacks:",
                 choices = qb_players,
-                options = list(maxItems = 3)
+                options = list(maxItems = 3, maxOptions = 5)
               ),
               selectizeInput(
                 inputId = "selected_rbs",
                 label = "Choose 3 Running Backs:",
                 choices = rb_players,
-                options = list(maxItems = 3)
+                options = list(maxItems = 3, maxOptions = 5)
               ),
               selectizeInput(
                 inputId = "selected_wrs",
                 label = "Choose 3 Wide Receivers:",
                 choices = wr_players,
-                options = list(maxItems = 3)
+                options = list(maxItems = 3, maxOptions = 5)
               ),
               selectizeInput(
                 inputId = "selected_tes",
                 label = "Choose 2 Tight Ends:",
                 choices = te_players,
-                options = list(maxItems = 2)
+                options = list(maxItems = 2, maxOptions = 5)
+              ),
+              selectizeInput(
+                inputId = "selected_flex",
+                label = "Choose 1 Flex (RB, WR or TE):",
+                choices = flex_players,
+                options = list(maxItems = 1, maxOptions = 5)
               ),
               selectizeInput(
                 inputId = "selected_k",
                 label = "Choose 1 Kicker:",
                 choices = k_players,
+                options = list(maxItems = 1, maxOptions = 5)
+              ),
+              selectizeInput(
+                inputId = "selected_defense",
+                label = "Choose 1 Defensive Team:",
+                choices = def_teams,
                 options = list(maxItems = 1)
               ),
               width = 5
@@ -374,9 +388,9 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       "selected_qbs",
-      choices = qb_players[!(qb_players %in% input$selected_qbs)],
+      choices = qb_players[!(qb_players %in% list(input$selected_qbs))],
       selected = input$selected_qbs,
-      options = list(maxItems = 3)
+      options = list(maxItems = 3, maxItems = 5)
     )
   })
   
@@ -384,9 +398,9 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       "selected_rbs",
-      choices = rb_players[!(rb_players %in% input$selected_rbs)],
+      choices = rb_players[!(rb_players %in% list(input$selected_rbs))],
       selected = input$selected_rbs,
-      options = list(maxItems = 3)
+      options = list(maxItems = 3, maxItems = 5)
     )
   })
   
@@ -394,9 +408,9 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       "selected_wrs",
-      choices = wr_players[!(wr_players %in% input$selected_wrs)],
+      choices = wr_players[!(wr_players %in% list(input$selected_wrs))],
       selected = input$selected_wrs,
-      options = list(maxItems = 3)
+      options = list(maxItems = 3, maxItems = 5)
     )
   })
   
@@ -404,9 +418,19 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       "selected_tes",
-      choices = te_players[!(te_players %in% input$selected_tes)],
+      choices = te_players[!(te_players %in% list(input$selected_tes))],
       selected = input$selected_tes,
-      options = list(maxItems = 2)
+      options = list(maxItems = 2, maxItems = 5)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_flex",
+      choices = flex_players[!(flex_players %in% list(input$selected_flex))],
+      selected = input$selected_flex,
+      options = list(maxItems = 1, maxItems = 5)
     )
   })
   
@@ -414,8 +438,18 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       "selected_k",
-      choices = k_players[!(k_players %in% input$selected_k)],
+      choices = k_players[!(k_players %in% list(input$selected_k))],
       selected = input$selected_k,
+      options = list(maxItems = 1, maxItems = 5)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_def",
+      choices = def_teams[!(def_teams %in% list(input$selected_def))],
+      selected = input$selected_def,
       options = list(maxItems = 1)
     )
   })
