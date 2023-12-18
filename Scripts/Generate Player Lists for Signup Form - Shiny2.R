@@ -7,7 +7,7 @@ gc()
 
 library(tidyverse)
 library(shiny)
-library(DT)
+library(data.table)
 
 nfl_teams <- nflreadr::load_teams(current = TRUE) %>%
   as_tibble() %>%
@@ -246,91 +246,114 @@ def_teams <- nfl_teams %>% select(team_abbr) %>% as.list()
 
 ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
-  # sidebarLayout(
-  #   sidebarPanel(
-  # 
-  #     # this is a single select way to provide positions for the DT table
-  #     selectInput(
-  #       inputId = "selected_position",
-  #       label = "Choose Position:",
-  #       choices = list("QB", "RB", "WR", "TE", "K"),
-  #       selected = "QB"
-  #     ),
-  # 
-  #     checkboxGroupInput(
-  #       "selected_teams",
-  #       "Choose Teams:",
-  #       choiceNames = as.list(nfl_teams$team_name_w_abbr),
-  #       choiceValues = as.list(nfl_teams$team_abbr),
-  #       selected = as.list(nfl_teams$team_abbr)
-  #     ),
-  #     width = 2
-  #   ),
-  #   mainPanel(
-  fluidRow(
   tabsetPanel(
     tabPanel(
       "Statistics",
-      tabsetPanel(
-        p(),
-        tabPanel("2023 Season Totals", DTOutput("statistics_season")),
-        tabPanel("By Week", DTOutput("statistics_weekly"))
+      sidebarLayout(
+        sidebarPanel(
+          # this is a single select way to provide positions for the DT table
+          selectInput(
+            inputId = "selected_position",
+            label = "Choose Position:",
+            choices = list("QB", "RB", "WR", "TE", "K"),
+            selected = "QB"
+          ),
+          checkboxGroupInput(
+            "selected_teams",
+            "Choose Teams:",
+            choiceNames = as.list(nfl_teams$team_name_w_abbr),
+            choiceValues = as.list(nfl_teams$team_abbr),
+            selected = as.list(nfl_teams$team_abbr)
+          ),
+          width = 2
+        ),
+        mainPanel(
+          tabsetPanel(
+            p(),
+            tabPanel("2023 Season Totals", DTOutput("statistics_season")),
+            tabPanel("By Week", DTOutput("statistics_weekly"))
+          )
+        )
       )
     ),
     tabPanel(
-      "Create Fantasy Roster",
-      sidebarLayout(
-        sidebarPanel(
-          selectizeInput(
-            inputId = "selected_qbs",
-            label = "Choose 3 Quarterbacks:",
-            choices = NULL,
-            options = list(maxItems = 3, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_rbs",
-            label = "Choose 3 Running Backs:",
-            choices = NULL,
-            options = list(maxItems = 3, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_wrs",
-            label = "Choose 3 Wide Receivers:",
-            choices = NULL,
-            options = list(maxItems = 3, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_tes",
-            label = "Choose 2 Tight Ends:",
-            choices = NULL,
-            options = list(maxItems = 2, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_flex",
-            label = "Choose 1 Flex (RB, WR or TE):",
-            choices = NULL,
-            options = list(maxItems = 1, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_k",
-            label = "Choose 1 Kicker:",
-            choices = NULL,
-            options = list(maxItems = 1, maxOptions = 5)
-          ),
-          selectInput(
-            inputId = "selected_defense",
-            label = "Choose 1 Defensive Team:",
-            choices = c(NULL,def_teams),
-            multiple = FALSE
-          ),
-          width = 5
-        )
-      )
+      "Select Roster",
+      selectizeInput(
+        inputId = "selected_qb1",
+        label = "Quarterback (1 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_qb2",
+        label = "Quarterback (2 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_qb3",
+        label = "Quarterback (3 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_rb1",
+        label = "Running Back (1 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_rb2",
+        label = "Running Back (2 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_rb3",
+        label = "Running Back (3 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_wr1",
+        label = "Wide Receiver (1 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_wr2",
+        label = "Wide Receiver (2 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_wr3",
+        label = "Wide Receiver (3 of 3):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_te1",
+        label = "Tight End (1 of 2):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_te2",
+        label = "Tight End (2 of 2):",
+        choices = NULL
+      ),
+      selectizeInput(
+        inputId = "selected_flex",
+        label = "Flex Position (RB, WR or TE):",
+        choices = flex_players,
+        multiple = FALSE
+      ),
+      selectizeInput(
+        inputId = "selected_k",
+        label = "Kicker:",
+        choices = k_players,
+        multiple = FALSE
+      ),
+      selectInput(
+        inputId = "selected_defense",
+        label = "Choose Defensive Team:",
+        choices = def_teams,
+        multiple = FALSE
+      ),
+      width = 5  
     )
   )
-  )
-    # )
-  # )
 )
 
 server <- function(input, output, session) {
@@ -382,66 +405,121 @@ server <- function(input, output, session) {
   observe({
     updateSelectizeInput(
       session,
-      "selected_qbs",
-      choices = qb_players[!(qb_players %in% list(input$selected_qbs))],
+      "selected_qb1",
+      choices = qb_players[!(qb_players %in% list(input$selected_qb1,input$selected_qb2,input$selected_qb3))],
       server = TRUE,
-      selected = input$selected_qbs,
-      options = list(maxItems = 3, maxOptions = 5)
+      selected = input$selected_qb1,
+      options = list(maxItems = 1)
     )
   })
   
   observe({
     updateSelectizeInput(
       session,
-      "selected_rbs",
-      choices = rb_players[!(rb_players %in% list(input$selected_rbs))],
+      "selected_qb2",
+      choices = qb_players[!(qb_players %in% list(input$selected_qb1,input$selected_qb2,input$selected_qb3))],
       server = TRUE,
-      selected = input$selected_rbs,
-      options = list(maxItems = 3, maxOptions = 5)
+      selected = input$selected_qb2,
+      options = list(maxItems = 1)
     )
   })
   
   observe({
     updateSelectizeInput(
       session,
-      "selected_wrs",
-      choices = wr_players[!(wr_players %in% list(input$selected_wrs))],
+      "selected_qb3",
+      choices = qb_players[!(qb_players %in% list(input$selected_qb1,input$selected_qb2,input$selected_qb3))],
       server = TRUE,
-      selected = input$selected_wrs,
-      options = list(maxItems = 3, maxOptions = 5)
+      selected = input$selected_qb3,
+      options = list(maxItems = 1)
     )
   })
   
   observe({
     updateSelectizeInput(
       session,
-      "selected_tes",
-      choices = te_players[!(te_players %in% list(input$selected_tes))],
+      "selected_rb1",
+      choices = rb_players[!(rb_players %in% list(input$selected_rb1,input$selected_rb2,input$selected_rb3))],
       server = TRUE,
-      selected = input$selected_tes,
-      options = list(maxItems = 2, maxOptions = 5)
+      selected = input$selected_rb1,
+      options = list(maxItems = 1)
     )
   })
   
   observe({
     updateSelectizeInput(
       session,
-      "selected_flex",
-      choices = flex_players[!(flex_players %in% list(input$selected_flex))],
+      "selected_rb2",
+      choices = rb_players[!(rb_players %in% list(input$selected_rb1,input$selected_rb2,input$selected_rb3))],
       server = TRUE,
-      selected = input$selected_flex,
-      options = list(maxItems = 1, maxOptions = 5)
+      selected = input$selected_rb2,
+      options = list(maxItems = 1)
     )
   })
   
   observe({
     updateSelectizeInput(
       session,
-      "selected_k",
-      choices = k_players[!(k_players %in% list(input$selected_k))],
+      "selected_rb3",
+      choices = rb_players[!(rb_players %in% list(input$selected_rb1,input$selected_rb2,input$selected_rb3))],
       server = TRUE,
-      selected = input$selected_k,
-      options = list(maxItems = 1, maxOptions = 5)
+      selected = input$selected_rb3,
+      options = list(maxItems = 1)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_wr1",
+      choices = wr_players[!(wr_players %in% list(input$selected_wr1,input$selected_wr2,input$selected_wr3))],
+      server = TRUE,
+      selected = input$selected_wr1,
+      options = list(maxItems = 1)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_wr2",
+      choices = wr_players[!(wr_players %in% list(input$selected_wr1,input$selected_wr2,input$selected_wr3))],
+      server = TRUE,
+      selected = input$selected_wr2,
+      options = list(maxItems = 1)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_wr3",
+      choices = wr_players[!(wr_players %in% list(input$selected_wr1,input$selected_wr2,input$selected_wr3))],
+      server = TRUE,
+      selected = input$selected_wr3,
+      options = list(maxItems = 1)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_te1",
+      choices = te_players[!(te_players %in% list(input$selected_te1,input$selected_te2))],
+      server = TRUE,
+      selected = input$selected_te1,
+      options = list(maxItems = 1)
+    )
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      "selected_te2",
+      choices = te_players[!(te_players %in% list(input$selected_te1,input$selected_te2))],
+      server = TRUE,
+      selected = input$selected_te2,
+      options = list(maxItems = 1)
     )
   })
   
@@ -449,3 +527,4 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui, server)
+
