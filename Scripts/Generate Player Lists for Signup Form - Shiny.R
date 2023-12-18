@@ -383,7 +383,7 @@ server <- function(input, output, session) {
     team_lookupstring_position[lookup_string %in% input$roster_selections_made, position]
   })
   
-  output$players_remaining_text <- renderText({
+  players_remaining <- reactive({
 
     players_remaining <- team_lookupstring_position %>%
       filter(!(team_abbr %in% teams_on_roster()))
@@ -400,7 +400,7 @@ server <- function(input, output, session) {
       players_remaining <- players_remaining %>%
         filter(position != "QB")
     }
-    # for RB, TE and WR, need to consider if the flex position when filtering
+    # for RB, TE and WR, need to consider the flex position when filtering
     if((length(positions_selected()[positions_selected() == "RB"])==3L & 
        (length(positions_selected()[positions_selected() == "TE"])==3L |
         length(positions_selected()[positions_selected() == "WR"])==4L) )|
@@ -430,13 +430,18 @@ server <- function(input, output, session) {
     
   })
   
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     inputId = "selected_defense",
-  #     choices = teams_available()
-  #   )
-  # })
+  output$players_remaining_text <- renderText({
+    players_remaining()
+  })
+  
+  observe({
+    updateSelectizeInput(
+      session,
+      inputId = "roster_selections_made",
+      choices = players_remaining(),
+      selected = input$roster_selections_made
+    )
+  })
   
 }
 
