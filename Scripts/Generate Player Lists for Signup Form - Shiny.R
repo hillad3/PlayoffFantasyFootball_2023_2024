@@ -7,6 +7,7 @@ gc()
 
 library(tidyverse)
 library(shiny)
+library(data.table)
 library(DT)
 
 nfl_teams <- nflreadr::load_teams(current = TRUE) %>%
@@ -34,12 +35,12 @@ nfl_player_stats <- bind_rows(
   ) %>% 
   mutate(
     week = as.integer(week),
-    player_lookup = paste0(position,": ",player_id,", ",player_name," (",team_abbr,"; ",team_division,")")
+    lookup_string = paste0(position,", ",team_abbr,": ",player_name," (",team_division,", ID: ",player_id,")")
   ) %>% 
   select(
     position,
     week,
-    player_lookup,
+    lookup_string,
     player_id,
     player_name,
     team_abbr,
@@ -236,216 +237,209 @@ kicking_player_season_stats <- kicking_player_stats %>%
   ) %>% 
   arrange(desc(total_fg_made))
 
-qb_players <- nfl_player_stats %>% filter(position %in% c("QB")) %>% select(player_lookup) %>% as.list()
-rb_players <- nfl_player_stats %>% filter(position %in% c("RB")) %>% select(player_lookup) %>% as.list()
-wr_players <- nfl_player_stats %>% filter(position %in% c("WR")) %>% select(player_lookup) %>% as.list()
-te_players <- nfl_player_stats %>% filter(position %in% c("TE")) %>% select(player_lookup) %>% as.list()
-flex_players <- c(rb_players, wr_players, te_players)
-k_players <- nfl_player_stats %>% filter(position %in% c("K")) %>% select(player_lookup) %>% as.list()
-def_teams <- nfl_teams %>% select(team_abbr) %>% as.list()
+team_lookupstring_position <- bind_rows(
+  nfl_player_stats %>% 
+    distinct(team_abbr, lookup_string, position) %>% 
+    arrange(lookup_string),
+  nfl_teams %>% 
+    mutate(position = "Defense",
+           lookup_string = paste0(position,", ",team_abbr," (",team_division,")")) %>% 
+    select(team_abbr, lookup_string, position)
+) %>% as.data.table()
+roster_choices <- team_lookupstring_position %>% distinct(lookup_string) %>% as.list()
+def_teams_choices <- nfl_teams %>% distinct(team_abbr) %>% as.list()
 
 ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
-  # sidebarLayout(
-  #   sidebarPanel(
-  # 
-  #     # this is a single select way to provide positions for the DT table
-  #     selectInput(
-  #       inputId = "selected_position",
-  #       label = "Choose Position:",
-  #       choices = list("QB", "RB", "WR", "TE", "K"),
-  #       selected = "QB"
-  #     ),
-  # 
-  #     checkboxGroupInput(
-  #       "selected_teams",
-  #       "Choose Teams:",
-  #       choiceNames = as.list(nfl_teams$team_name_w_abbr),
-  #       choiceValues = as.list(nfl_teams$team_abbr),
-  #       selected = as.list(nfl_teams$team_abbr)
-  #     ),
-  #     width = 2
-  #   ),
-  #   mainPanel(
-  fluidRow(
   tabsetPanel(
     tabPanel(
-      "Statistics",
-      tabsetPanel(
-        p(),
-        tabPanel("2023 Season Totals", DTOutput("statistics_season")),
-        tabPanel("By Week", DTOutput("statistics_weekly"))
+      "Regular Season 2023 Stats",
+      sidebarLayout(
+        sidebarPanel(
+          # this is a single select way to provide positions for the DT table
+          selectInput(
+            inputId = "selected_position",
+            label = "Inspect a Position:",
+            choices = list("QB", "RB", "WR", "TE", "K"),
+            selected = "QB"
+          ),
+          checkboxGroupInput(
+            "selected_teams",
+            "Inspect Team(s):",
+            choiceNames = as.list(nfl_teams$team_name_w_abbr),
+            choiceValues = as.list(nfl_teams$team_abbr),
+            selected = as.list(nfl_teams$team_abbr)
+          ),
+          width = 2
+        ),
+        mainPanel(
+          tabsetPanel(
+            p(),
+            tabPanel("Season Totals", DTOutput("statistics_season")),
+            tabPanel("Weekly Totals", DTOutput("statistics_weekly"))
+          )
+        )
       )
     ),
     tabPanel(
-      "Create Fantasy Roster",
+      "Select Roster",
       sidebarLayout(
         sidebarPanel(
           selectizeInput(
-            inputId = "selected_qbs",
-            label = "Choose 3 Quarterbacks:",
-            choices = NULL,
-            options = list(maxItems = 3, maxOptions = 5)
+            inputId = "roster_selections_made",
+            label = "Select Players and Defensive Team:",
+            choices = c("",roster_choices),
+            options = list(maxItems = 14)
           ),
-          selectizeInput(
-            inputId = "selected_rbs",
-            label = "Choose 3 Running Backs:",
-            choices = NULL,
-            options = list(maxItems = 3, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_wrs",
-            label = "Choose 3 Wide Receivers:",
-            choices = NULL,
-            options = list(maxItems = 3, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_tes",
-            label = "Choose 2 Tight Ends:",
-            choices = NULL,
-            options = list(maxItems = 2, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_flex",
-            label = "Choose 1 Flex (RB, WR or TE):",
-            choices = NULL,
-            options = list(maxItems = 1, maxOptions = 5)
-          ),
-          selectizeInput(
-            inputId = "selected_k",
-            label = "Choose 1 Kicker:",
-            choices = NULL,
-            options = list(maxItems = 1, maxOptions = 5)
-          ),
-          selectInput(
-            inputId = "selected_defense",
-            label = "Choose 1 Defensive Team:",
-            choices = c(NULL,def_teams),
-            multiple = FALSE
-          ),
-          width = 5
+          width = 3 
+        ),
+        mainPanel(
+          textOutput(outputId = "roster_slots_remaining_text"),
+          textOutput(outputId = "teams_on_roster_text"),
+          textOutput(outputId = "teams_available_text"),
+          textOutput(outputId = "players_remaining_text"),
         )
       )
     )
   )
-  )
-    # )
-  # )
 )
 
 server <- function(input, output, session) {
-  # list the names of teams in the playoffs in quotes
-  # all teams are listed below as a default
 
-  x <- reactive({
+  ## this section is for stats exploration
+  stats_dropdown <- reactive({
     input$selected_position
   })
 
   output$statistics_weekly <- renderDT({
-    if (x() == "K") {
+    if (stats_dropdown() == "K") {
       kicking_player_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "QB") {
+    } else if (stats_dropdown() == "QB") {
       qb_player_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "RB") {
+    } else if (stats_dropdown() == "RB") {
       rb_player_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "WR") {
+    } else if (stats_dropdown() == "WR") {
       wr_player_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "TE") {
+    } else if (stats_dropdown() == "TE") {
       te_player_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } 
   })
   
   output$statistics_season <- renderDT({
-    if (x() == "K") {
+    if (stats_dropdown() == "K") {
       kicking_player_season_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "QB") {
+    } else if (stats_dropdown() == "QB") {
       qb_player_season_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "RB") {
+    } else if (stats_dropdown() == "RB") {
       rb_player_season_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "WR") {
+    } else if (stats_dropdown() == "WR") {
       wr_player_season_stats %>%
         filter(team_abbr %in% input$selected_teams)
-    } else if (x() == "TE") {
+    } else if (stats_dropdown() == "TE") {
       te_player_season_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } 
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      "selected_qbs",
-      choices = qb_players[!(qb_players %in% list(input$selected_qbs))],
-      server = TRUE,
-      selected = input$selected_qbs,
-      options = list(maxItems = 3, maxOptions = 5)
-    )
+  
+  ## this section is for Roster Selection
+  # count the number of roster spots available and display text
+  roster_slots_remaining <- reactive({
+    14-length(input$roster_selections_made)
+  }) 
+  output$roster_slots_remaining_text <- renderText({
+      paste0("Open roster slot(s) remaining: ", roster_slots_remaining(), " of 14")
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      "selected_rbs",
-      choices = rb_players[!(rb_players %in% list(input$selected_rbs))],
-      server = TRUE,
-      selected = input$selected_rbs,
-      options = list(maxItems = 3, maxOptions = 5)
-    )
+  # keep track of teams selected on the roster
+  teams_on_roster <- reactive({
+    team_lookupstring_position[lookup_string %in% input$roster_selections_made, team_abbr] %>% 
+      unique() %>% 
+      sort()
+  })
+  output$teams_on_roster_text <- renderText({
+    paste0("Teams on roster: ", paste0(teams_on_roster(), collapse = ",  "))
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      "selected_wrs",
-      choices = wr_players[!(wr_players %in% list(input$selected_wrs))],
-      server = TRUE,
-      selected = input$selected_wrs,
-      options = list(maxItems = 3, maxOptions = 5)
-    )
+  # keep track of unselected teams
+  teams_available <- reactive({
+    team_lookupstring_position[!(team_abbr %in% teams_on_roster()), team_abbr] %>% unique() %>% sort()
+  }) 
+  output$teams_available_text <- renderText({
+    paste0("Teams available: ", paste0(teams_available() %>% unlist(), collapse = ",  "))
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      "selected_tes",
-      choices = te_players[!(te_players %in% list(input$selected_tes))],
-      server = TRUE,
-      selected = input$selected_tes,
-      options = list(maxItems = 2, maxOptions = 5)
-    )
+  
+  # keep track of positions on the roster
+  positions_selected <- reactive({
+    team_lookupstring_position[lookup_string %in% input$roster_selections_made, position]
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      "selected_flex",
-      choices = flex_players[!(flex_players %in% list(input$selected_flex))],
-      server = TRUE,
-      selected = input$selected_flex,
-      options = list(maxItems = 1, maxOptions = 5)
-    )
+  output$players_remaining_text <- renderText({
+
+    players_remaining <- team_lookupstring_position %>%
+      filter(!(team_abbr %in% teams_on_roster()))
+    
+    if(length(positions_selected()[positions_selected() == "Defense"])>=1L){
+      players_remaining <- players_remaining %>%
+        filter(position != "Defense")
+    }   
+    if(length(positions_selected()[positions_selected() == "K"])>=1L){
+      players_remaining <- players_remaining %>%
+        filter(position != "K")
+    }
+    if(length(positions_selected()[positions_selected() == "QB"])>=3L){
+      players_remaining <- players_remaining %>%
+        filter(position != "QB")
+    }
+    # for RB, TE and WR, need to consider if the flex position when filtering
+    if((length(positions_selected()[positions_selected() == "RB"])==3L & 
+       (length(positions_selected()[positions_selected() == "TE"])==3L |
+        length(positions_selected()[positions_selected() == "WR"])==4L) )|
+       (length(positions_selected()[positions_selected() == "RB"])>=4L)){
+      players_remaining <- players_remaining %>%
+        filter(position != "RB")
+    }
+    if((length(positions_selected()[positions_selected() == "TE"])==2L & 
+        (length(positions_selected()[positions_selected() == "RB"])==4L |
+         length(positions_selected()[positions_selected() == "WR"])==4L) )|
+       (length(positions_selected()[positions_selected() == "TE"])>=3L)){
+      players_remaining <- players_remaining %>%
+        filter(position != "TE")
+    }
+    if((length(positions_selected()[positions_selected() == "WR"])==3L & 
+        (length(positions_selected()[positions_selected() == "TE"])==3L |
+         length(positions_selected()[positions_selected() == "RB"])==4L) )|
+       (length(positions_selected()[positions_selected() == "WR"])>=4L)){
+      players_remaining <- players_remaining %>%
+        filter(position != "WR")
+    }
+    
+    players_remaining <- players_remaining %>%
+      distinct(lookup_string) %>%
+      unlist() %>%
+      paste()
+    
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      "selected_k",
-      choices = k_players[!(k_players %in% list(input$selected_k))],
-      server = TRUE,
-      selected = input$selected_k,
-      options = list(maxItems = 1, maxOptions = 5)
-    )
-  })
+  # observe({
+  #   updateSelectizeInput(
+  #     session,
+  #     inputId = "selected_defense",
+  #     choices = teams_available()
+  #   )
+  # })
   
 }
 
 
 shinyApp(ui, server)
+
