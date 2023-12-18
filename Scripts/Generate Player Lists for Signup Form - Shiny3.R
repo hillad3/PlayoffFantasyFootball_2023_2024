@@ -7,6 +7,7 @@ gc()
 
 library(tidyverse)
 library(shiny)
+library(data.table)
 library(DT)
 
 nfl_teams <- nflreadr::load_teams(current = TRUE) %>%
@@ -236,19 +237,15 @@ kicking_player_season_stats <- kicking_player_stats %>%
   ) %>% 
   arrange(desc(total_fg_made))
 
-qb_players <- nfl_player_stats %>% filter(position %in% c("QB")) %>% distinct(player_lookup, team_abbr) %>% as.list()
-rb_players <- nfl_player_stats %>% filter(position %in% c("RB")) %>% distinct(player_lookup, team_abbr) %>% as.list()
-wr_players <- nfl_player_stats %>% filter(position %in% c("WR")) %>% distinct(player_lookup, team_abbr) %>% as.list()
-te_players <- nfl_player_stats %>% filter(position %in% c("TE")) %>% distinct(player_lookup, team_abbr) %>% as.list()
-flex_players <- c(rb_players, wr_players, te_players)
-k_players <- nfl_player_stats %>% filter(position %in% c("K")) %>% distinct(player_lookup) %>% as.list()
-def_teams <- nfl_teams %>% distinct(team_abbr) %>% as.list()
+team_player_position <- nfl_player_stats %>% distinct(team_abbr, player_lookup, position) %>% as.data.table()
+player_choices <- team_player_position %>% distinct(player_lookup) %>% as.list()
+def_teams_choices <- nfl_teams %>% distinct(team_abbr) %>% as.list()
 
 ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
   tabsetPanel(
     tabPanel(
-      "Regular Season Statistics",
+      "Regular Season 2023 Stats",
       sidebarLayout(
         sidebarPanel(
           # this is a single select way to provide positions for the DT table
@@ -270,101 +267,38 @@ ui <- fluidPage(
         mainPanel(
           tabsetPanel(
             p(),
-            tabPanel("2023 Season Totals", DTOutput("statistics_season")),
-            tabPanel("By Week", DTOutput("statistics_weekly"))
+            tabPanel("Season Totals", DTOutput("statistics_season")),
+            tabPanel("Weekly Totals", DTOutput("statistics_weekly"))
           )
         )
       )
     ),
     tabPanel(
       "Select Roster",
-      selectInput(
-        inputId = "selected_qb1",
-        label = "Quarterback (1 of 3):",
-        selected = NULL,
-        choices = qb_players,
-        multiple = TRUE,
-        options = list(maxItems = 3)
-      ),
-      # selectizeInput(
-      #   inputId = "selected_qb2",
-      #   label = "Quarterback (2 of 3):",
-      #   choices = qb_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_qb3",
-      #   label = "Quarterback (3 of 3):",
-      #   choices = qb_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_rb1",
-      #   label = "Running Back (1 of 3):",
-      #   choices = rb_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_rb2",
-      #   label = "Running Back (2 of 3):",
-      #   choices = rb_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_rb3",
-      #   label = "Running Back (3 of 3):",
-      #   choices = rb_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_wr1",
-      #   label = "Wide Receiver (1 of 3):",
-      #   choices = wr_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_wr2",
-      #   label = "Wide Receiver (2 of 3):",
-      #   choices = wr_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_wr3",
-      #   label = "Wide Receiver (3 of 3):",
-      #   choices = wr_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_te1",
-      #   label = "Tight End (1 of 2):",
-      #   choices = te_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_te2",
-      #   label = "Tight End (2 of 2):",
-      #   choices = te_players,
-      #   selected = NULL
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_flex",
-      #   label = "Flex Position (RB, WR or TE):",
-      #   choices = flex_players,
-      #   multiple = FALSE
-      # ),
-      # selectizeInput(
-      #   inputId = "selected_k",
-      #   label = "Kicker:",
-      #   choices = k_players,
-      #   multiple = FALSE
-      # ),
-      # selectInput(
-      #   inputId = "selected_defense",
-      #   label = "Choose Defensive Team:",
-      #   choices = def_teams,
-      #   multiple = FALSE
-      # ),
-      width = 5  
+      sidebarLayout(
+        sidebarPanel(
+          selectizeInput(
+            inputId = "selected_players",
+            label = "Select players:",
+            choices = c("",player_choices),
+            options = list(maxItems = 13)
+          ),
+          selectizeInput(
+            inputId = "selected_defense",
+            label = "Select a Defensive Team:",
+            choices = c("",def_teams_choices),
+            selected = NULL,
+            options = list(maxItems = 1)
+          ),
+          width = 3 
+        ),
+        mainPanel(
+          textOutput(outputId = "player_slots_remaining_text"),
+          textOutput(outputId = "teams_selected_text"),
+          textOutput(outputId = "teams_unselected_text"),
+          textOutput(outputId = "players_remaining_text"),
+        )
+      )
     )
   )
 )
@@ -415,124 +349,66 @@ server <- function(input, output, session) {
     } 
   })
   
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_qb1",
-  #     choices = qb_players[!(qb_players %in% list(input$selected_qb1,input$selected_qb2,input$selected_qb3))],
-  #     server = TRUE,
-  #     selected = input$selected_qb1,
-  #     options = list(maxItems = 3)
-  #   )
-  # })
+  
+  # count the number of roster spots available and display text
+  player_slots_remaining <- reactive({
+    13-length(input$selected_players)
+  }) 
+  output$player_slots_remaining_text <- renderText({
+      paste0("Open player slot(s) remaining: ", player_slots_remaining())
+  })
+  
+  # keep track of teams selected on the roster
+  teams_selected <- reactive({
+    if(input$selected_defense == ""){
+      c(
+        team_player_position[player_lookup %in% input$selected_players, team_abbr] %>% 
+          unique()
+      ) %>% 
+        sort()
+    } else {
+      c(
+        team_player_position[player_lookup %in% input$selected_players, team_abbr] %>% 
+          unique(),
+        input$selected_defense
+      ) %>% 
+        sort()
+    }
+  })
+  output$teams_selected_text <- renderText({
+    paste0("Teams on roster: ", paste0(teams_selected(), collapse = ",  "))
+  })
+  
+  
+  
+  teams_unselected <- reactive({
+    team_player_position[!(team_abbr %in% teams_selected()), team_abbr] %>% unique() %>% sort()
+  }) 
+  output$teams_unselected_text <- renderText({
+    paste0("Teams available: ", paste0(teams_unselected() %>% unlist(), collapse = ",  "))
+  })
+  
+  # teams_remaining <- reactive({
+  #   def_teams_choices[[1]][!(def_teams_choices[[1]] %in% input$selected_defense)]
+  # }) 
   # 
+  # output$teams_unselected_text <- reactive({
+  #   def_teams_choices[[1]][!(def_teams_choices[[1]] %in% c(input$selected_defense,player_teams_selected()))] %>% sort()
+  # }) 
+  
+  output$players_remaining_text <- renderText({
+    team_player_position %>% 
+      filter(!(team_abbr %in% input$selected_defense)) %>% 
+      distinct(player_lookup) %>% 
+      unlist() %>% 
+      paste(collapse = "\t\n")
+  })
+  
+  
   # observe({
   #   updateSelectizeInput(
   #     session,
-  #     "selected_qb2",
-  #     choices = qb_players[!(qb_players %in% list(input$selected_qb1,input$selected_qb2,input$selected_qb3))],
-  #     server = TRUE,
-  #     selected = input$selected_qb2,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_qb3",
-  #     choices = qb_players[!(qb_players %in% list(input$selected_qb1,input$selected_qb2,input$selected_qb3))],
-  #     server = TRUE,
-  #     selected = input$selected_qb3,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_rb1",
-  #     choices = rb_players[!(rb_players %in% list(input$selected_rb1,input$selected_rb2,input$selected_rb3))],
-  #     server = TRUE,
-  #     selected = input$selected_rb1,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_rb2",
-  #     choices = rb_players[!(rb_players %in% list(input$selected_rb1,input$selected_rb2,input$selected_rb3))],
-  #     server = TRUE,
-  #     selected = input$selected_rb2,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_rb3",
-  #     choices = rb_players[!(rb_players %in% list(input$selected_rb1,input$selected_rb2,input$selected_rb3))],
-  #     server = TRUE,
-  #     selected = input$selected_rb3,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_wr1",
-  #     choices = wr_players[!(wr_players %in% list(input$selected_wr1,input$selected_wr2,input$selected_wr3))],
-  #     server = TRUE,
-  #     selected = input$selected_wr1,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_wr2",
-  #     choices = wr_players[!(wr_players %in% list(input$selected_wr1,input$selected_wr2,input$selected_wr3))],
-  #     server = TRUE,
-  #     selected = input$selected_wr2,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_wr3",
-  #     choices = wr_players[!(wr_players %in% list(input$selected_wr1,input$selected_wr2,input$selected_wr3))],
-  #     server = TRUE,
-  #     selected = input$selected_wr3,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_te1",
-  #     choices = te_players[!(te_players %in% list(input$selected_te1,input$selected_te2))],
-  #     server = TRUE,
-  #     selected = input$selected_te1,
-  #     options = list(maxItems = 1)
-  #   )
-  # })
-  # 
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     "selected_te2",
-  #     choices = te_players[!(te_players %in% list(input$selected_te1,input$selected_te2))],
-  #     server = TRUE,
-  #     selected = input$selected_te2,
-  #     options = list(maxItems = 1)
+  #     label = paste0("Select ",selections_remaining()," players:")
   #   )
   # })
   
