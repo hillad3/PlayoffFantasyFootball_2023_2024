@@ -424,24 +424,22 @@ server <- function(input, output, session) {
     }
     
     players_remaining <- players_remaining %>%
-      distinct(lookup_string) %>%
-      unlist() %>%
-      paste()
+      distinct(lookup_string)
     
   })
   
   output$players_remaining_text <- renderText({
-    players_remaining()
+    players_remaining() %>% unlist()
   })
   
-  observe({
-    updateSelectizeInput(
-      session,
-      inputId = "roster_selections_made",
-      choices = players_remaining(),
-      selected = input$roster_selections_made
-    )
-  })
+  # observe({
+  #   updateSelectizeInput(
+  #     session,
+  #     inputId = "roster_selections_made",
+  #     choices = players_remaining(),
+  #     selected = input$roster_selections_made
+  #   )
+  # })
   
 }
 
