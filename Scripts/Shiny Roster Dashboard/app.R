@@ -327,9 +327,12 @@ ui <- fluidPage(
             choices = list("QB", "RB", "WR", "TE", "K"),
             selected = "QB"
           ),
+          p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
+          actionButton("select_all_teams", label="All", inline=TRUE),
+          actionButton("deselect_all_teams", label="None", inline=TRUE),
           checkboxGroupInput(
             "selected_teams",
-            "Inspect Team(s):",
+            label = "",
             choiceNames = as.list(nfl_teams$team_name_w_abbr),
             choiceValues = as.list(nfl_teams$team_abbr),
             selected = as.list(nfl_teams$team_abbr)
@@ -391,6 +394,30 @@ server <- function(input, output, session) {
       te_player_season_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } 
+  })
+  
+  observeEvent(
+    input$select_all_teams, {
+    updateCheckboxGroupInput(
+      session,
+      "selected_teams",
+      label = "",
+      choiceNames = as.list(nfl_teams$team_name_w_abbr),
+      choiceValues = as.list(nfl_teams$team_abbr),
+      selected = as.list(nfl_teams$team_abbr)
+    )
+  })
+  
+  observeEvent(
+    input$deselect_all_teams, {
+    updateCheckboxGroupInput(
+      session,
+      "selected_teams",
+      label = "",
+      choiceNames = as.list(nfl_teams$team_name_w_abbr),
+      choiceValues = as.list(nfl_teams$team_abbr),
+      selected = NULL
+    )
   })
   
   
