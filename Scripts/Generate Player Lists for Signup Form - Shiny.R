@@ -253,7 +253,71 @@ ui <- fluidPage(
   titlePanel("Playoff Fantasy Football"),
   tabsetPanel(
     tabPanel(
-      "Regular Season 2023 Stats",
+      "Select Roster",
+      sidebarLayout(
+        sidebarPanel(
+          selectizeInput(
+            inputId = "roster_selections_made",
+            label = "Select Player or Defensive Team",
+            choices = c("",roster_choices),
+            options = list(maxItems = 1)
+          ),
+          actionButton(
+            inputId = "add_player",
+            label = "Add to Roster",
+            icon = icon("add"),
+            style="color: white; background-color: #0086b3; border-color: #2e6da4"
+          ),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "roster_slots_remaining_text"),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "teams_available_text"),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "positions_available_text"),
+          h1("", style = 'margin:100px'),
+          selectizeInput(
+            inputId = "roster_selections_removed",
+            label = "Remove Player or Defensive Team",
+            choices = NULL,
+            options = list(maxItems = 1),
+          ),
+          actionButton(
+            inputId = "remove_player",
+            label = "Remove",
+            icon = icon("trash", lib = "glyphicon"),
+            style="color: white; background-color: gray; border-color: black"
+          ),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "teams_on_roster_text"),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "positions_on_roster_text"),
+          p("", style='margin-bottom:100px'),
+          fluidPage(
+            h4("Participant Information", style='font-weight:bold'),
+            textInput("team_owner", label = "Player Name (your real one)"),
+            textInput("owner_email", label = "Email"),
+            textInput("team_name", label = "Fantasy Team Name"),
+            p("Note: Team name will be displayed in rankings"),
+            actionButton(inputId = "email_commish", label = "Email Roster to the Commish"),
+            p(""),
+            style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
+          ),
+          width = 3
+        ),
+        mainPanel(
+          fluidRow(
+            h3("Current Roster"),
+            DTOutput(outputId = "players_on_roster_DT")
+          ),
+          fluidRow(
+            h3("Possible Players Available", style="margin-top:100px"),
+            DTOutput(outputId = "players_remaining_DT"),
+          )
+        )
+      )
+    ),
+    tabPanel(
+      "Explore 2023 Stats",
       sidebarLayout(
         sidebarPanel(
           # this is a single select way to provide positions for the DT table
@@ -275,29 +339,9 @@ ui <- fluidPage(
         mainPanel(
           tabsetPanel(
             p(),
-            tabPanel("Season Totals", DTOutput("statistics_season")),
+            tabPanel("Regular Season Totals", DTOutput("statistics_season")),
             tabPanel("Weekly Totals", DTOutput("statistics_weekly"))
           )
-        )
-      )
-    ),
-    tabPanel(
-      "Select Roster",
-      sidebarLayout(
-        sidebarPanel(
-          selectizeInput(
-            inputId = "roster_selections_made",
-            label = "Select Players and Defensive Team:",
-            choices = c("",roster_choices),
-            options = list(maxItems = 14)
-          ),
-          width = 3 
-        ),
-        mainPanel(
-          textOutput(outputId = "roster_slots_remaining_text"),
-          textOutput(outputId = "teams_on_roster_text"),
-          textOutput(outputId = "teams_available_text"),
-          textOutput(outputId = "players_remaining_text"),
         )
       )
     )
@@ -352,21 +396,41 @@ server <- function(input, output, session) {
   
   ## this section is for Roster Selection
   # count the number of roster spots available and display text
+  
+  roster <- reactiveValues(players = c(NULL))
+  
+  observeEvent(input$add_player,{
+    if(input$roster_selections_made == ""){
+      
+    } else{
+      roster$players <- c(roster$players, input$roster_selections_made) %>% sort()
+    }
+  })
+  
+  observeEvent(input$remove_player,{
+    roster$players <- roster$players[!(roster$players %in% input$roster_selections_removed)]
+  })
+  
   roster_slots_remaining <- reactive({
-    14-length(input$roster_selections_made)
+    14-length(roster$players)
   }) 
   output$roster_slots_remaining_text <- renderText({
-      paste0("Open roster slot(s) remaining: ", roster_slots_remaining(), " of 14")
+      paste0("Roster slot(s) remaining: ", roster_slots_remaining(), " of 14")
   })
+
   
   # keep track of teams selected on the roster
   teams_on_roster <- reactive({
-    team_lookupstring_position[lookup_string %in% input$roster_selections_made, team_abbr] %>% 
+    team_lookupstring_position[lookup_string %in% roster$players, team_abbr] %>% 
       unique() %>% 
       sort()
   })
   output$teams_on_roster_text <- renderText({
-    paste0("Teams on roster: ", paste0(teams_on_roster(), collapse = ",  "))
+    if(is_empty(teams_on_roster())){
+      "Teams on roster: None"
+    } else {
+      paste0("Teams on roster: ", paste0(teams_on_roster(), collapse = ",  "))
+    }
   })
   
   # keep track of unselected teams
@@ -374,13 +438,20 @@ server <- function(input, output, session) {
     team_lookupstring_position[!(team_abbr %in% teams_on_roster()), team_abbr] %>% unique() %>% sort()
   }) 
   output$teams_available_text <- renderText({
-    paste0("Teams available: ", paste0(teams_available() %>% unlist(), collapse = ",  "))
+    paste0("Teams remaining: ", paste0(teams_available() %>% unlist(), collapse = ",  "))
   })
   
   
   # keep track of positions on the roster
   positions_selected <- reactive({
-    team_lookupstring_position[lookup_string %in% input$roster_selections_made, position]
+    team_lookupstring_position[lookup_string %in% roster$players, position]
+  })
+  output$positions_on_roster_text <- renderText({
+    if(is_empty(positions_selected())){
+      "Positions Filled: None"
+    } else {
+      paste0("Positions Filled: ", paste0(positions_selected() %>% unlist(), collapse = ",  "))
+    }
   })
   
   players_remaining <- reactive({
@@ -428,18 +499,47 @@ server <- function(input, output, session) {
     
   })
   
-  output$players_remaining_text <- renderText({
-    players_remaining() %>% unlist()
+  output$players_on_roster_DT <- renderDT({
+    if(is_empty(roster$players)){
+      DT::datatable(data.table(lookup_string = "Roster is empty"), options = list(pageLength = 25))
+    } else {
+      DT::datatable(data.table(lookup_string = roster$players), options = list(pageLength = 25))
+    }
   })
   
-  # observe({
-  #   updateSelectizeInput(
-  #     session,
-  #     inputId = "roster_selections_made",
-  #     choices = players_remaining(),
-  #     selected = input$roster_selections_made
-  #   )
-  # })
+  output$players_remaining_DT <- renderDT({players_remaining()})
+  
+  observeEvent(
+    input$add_player,{
+    updateSelectizeInput(
+      session,
+      inputId = "roster_selections_made",
+      choices = c("",players_remaining()),
+      selected = ""
+    )
+      
+    updateSelectizeInput(
+      session,
+      inputId = "roster_selections_removed",
+      choices = roster$players
+    )
+  })
+  
+  observeEvent(
+    input$remove_player,{
+      updateSelectizeInput(
+        session,
+        inputId = "roster_selections_made",
+        choices = c("",players_remaining()),
+        selected = ""
+      )
+      
+      updateSelectizeInput(
+        session,
+        inputId = "roster_selections_removed",
+        choices = roster$players
+      )
+    })
   
 }
 
