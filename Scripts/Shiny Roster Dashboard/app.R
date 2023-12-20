@@ -9,13 +9,14 @@ library(tidyverse)
 library(shiny)
 library(data.table)
 library(DT)
+library(shinyjs)
 
 nfl_teams <- nflreadr::load_teams(current = TRUE) %>%
   as_tibble() %>%
   select(team_abbr, team_name, team_conf, team_division, team_logo_espn) %>%
   mutate(team_name_w_abbr = paste0(team_name, " (", team_abbr, ")"))
 
-nfl_player_stats <- bind_rows(
+nfl_player_week_stats <- bind_rows(
   nflreadr::load_player_stats(seasons = 2023L, stat_type = "offense") %>%
     as_tibble() %>%
     filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
@@ -50,8 +51,8 @@ nfl_player_stats <- bind_rows(
   ) %>% 
   arrange(position, player_name, week)
 
-offensive_player_stats <- nfl_player_stats %>% 
-  filter(position %in% c("QB", "RB", "FB", "WR", "TE")) %>%
+offensive_player_week_stats <- nfl_player_week_stats %>% 
+  filter(position %in% c("QB", "RB", "WR", "TE")) %>%
   select(
     position,
     week,
@@ -72,7 +73,7 @@ offensive_player_stats <- nfl_player_stats %>%
     two_pt_conversions,
   )
 
-qb_player_stats <- nfl_player_stats %>% 
+qb_player_week_stats <- nfl_player_week_stats %>% 
   filter(position %in% c("QB")) %>%
   select(
     position,
@@ -95,7 +96,7 @@ qb_player_stats <- nfl_player_stats %>%
   ) %>%
   arrange(desc(passing_yards))
 
-qb_player_season_stats <- qb_player_stats %>% 
+qb_player_season_stats <- qb_player_week_stats %>% 
   group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
   reframe(
     games_played = n(),
@@ -114,7 +115,7 @@ qb_player_season_stats <- qb_player_stats %>%
   ) %>% 
   arrange(desc(total_passing_yards))
 
-rb_player_stats <- nfl_player_stats %>% 
+rb_player_week_stats <- nfl_player_week_stats %>% 
   filter(position %in% c("RB")) %>%
   select(
     position,
@@ -133,7 +134,7 @@ rb_player_stats <- nfl_player_stats %>%
   ) %>%
   arrange(desc(rushing_yards))
 
-rb_player_season_stats <- rb_player_stats %>% 
+rb_player_season_stats <- rb_player_week_stats %>% 
   group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
   reframe(
     games_played = n(),
@@ -148,7 +149,7 @@ rb_player_season_stats <- rb_player_stats %>%
   ) %>% 
   arrange(desc(total_rushing_yards))
 
-wr_player_stats <- nfl_player_stats %>% 
+wr_player_week_stats <- nfl_player_week_stats %>% 
   filter(position %in% c("WR")) %>%
   select(
     position,
@@ -167,7 +168,7 @@ wr_player_stats <- nfl_player_stats %>%
   ) %>%
   arrange(desc(receiving_yards))
 
-wr_player_season_stats <- wr_player_stats %>% 
+wr_player_season_stats <- wr_player_week_stats %>% 
   group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
   reframe(
     games_played = n(),
@@ -182,7 +183,7 @@ wr_player_season_stats <- wr_player_stats %>%
   ) %>% 
   arrange(desc(total_receiving_yards))
 
-te_player_stats <- nfl_player_stats %>% 
+te_player_week_stats <- nfl_player_week_stats %>% 
   filter(position %in% c("TE")) %>%
   select(
     position,
@@ -199,7 +200,7 @@ te_player_stats <- nfl_player_stats %>%
   ) %>%
   arrange(desc(receiving_yards))
 
-te_player_season_stats <- te_player_stats %>% 
+te_player_season_stats <- te_player_week_stats %>% 
   group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
   reframe(
     games_played = n(),
@@ -210,7 +211,8 @@ te_player_season_stats <- te_player_stats %>%
   ) %>% 
   arrange(desc(total_receiving_yards))
 
-kicking_player_stats <- nfl_player_stats %>% 
+kicking_player_week_stats <- nfl_player_week_stats %>% 
+  filter(position %in% c("K")) %>% 
   select(
     position,
     week,
@@ -227,7 +229,7 @@ kicking_player_stats <- nfl_player_stats %>%
   ) %>%
   arrange(desc(fg_made))
 
-kicking_player_season_stats <- kicking_player_stats %>% 
+kicking_player_season_stats <- kicking_player_week_stats %>% 
   group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
   reframe(
     games_played = n(),
@@ -238,7 +240,7 @@ kicking_player_season_stats <- kicking_player_stats %>%
   arrange(desc(total_fg_made))
 
 team_lookupstring_position <- bind_rows(
-  nfl_player_stats %>% 
+  nfl_player_week_stats %>% 
     distinct(team_abbr, lookup_string, position) %>% 
     arrange(lookup_string),
   nfl_teams %>% 
@@ -249,7 +251,28 @@ team_lookupstring_position <- bind_rows(
 roster_choices <- team_lookupstring_position %>% distinct(lookup_string) %>% as.list()
 def_teams_choices <- nfl_teams %>% distinct(team_abbr) %>% as.list()
 
+count_positions <- function(x){
+  position_counts <- c(NULL)
+  position_tmp <- c(NULL)
+  for(a in x){
+    if(a %in% c("K","Defense")){
+      position_counts <- c(position_counts,a)
+    } else if((a == "RB" & sum(position_tmp==a)==3L) |
+              (a == "TE" & sum(position_tmp==a)==2L) |
+              (a == "WR" & sum(position_tmp==a)==3L)
+    ){
+      position_tmp <- c(position_tmp,a)
+      position_counts <- c(position_counts,paste0("FLEX (",a,")"))
+    } else {
+      position_counts <- c(position_counts,paste0(a,sum(position_tmp==a)+1L))
+      position_tmp <- c(position_tmp,a)
+    }
+  }
+  return(position_counts)
+}
+
 ui <- fluidPage(
+  shinyjs::useShinyjs(),
   titlePanel("Playoff Fantasy Football"),
   tabsetPanel(
     tabPanel(
@@ -271,9 +294,9 @@ ui <- fluidPage(
           p("", style="margin-top:10px"),
           textOutput(outputId = "roster_slots_remaining_text"),
           p("", style="margin-top:10px"),
-          textOutput(outputId = "teams_available_text"),
-          p("", style="margin-top:10px"),
           textOutput(outputId = "positions_available_text"),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "teams_available_text"),
           h1("", style = 'margin:100px'),
           selectizeInput(
             inputId = "roster_selections_removed",
@@ -288,21 +311,27 @@ ui <- fluidPage(
             style="color: white; background-color: gray; border-color: black"
           ),
           p("", style="margin-top:10px"),
-          textOutput(outputId = "teams_on_roster_text"),
-          p("", style="margin-top:10px"),
           textOutput(outputId = "positions_on_roster_text"),
+          p("", style="margin-top:10px"),
+          textOutput(outputId = "teams_on_roster_text"),
           p("", style='margin-bottom:100px'),
           fluidPage(
             h4("Participant Information", style='font-weight:bold'),
-            textInput("team_owner", label = "Player Name (your real one)"),
+            textInput("fantasy_owner", label = "Name"),
             textInput("owner_email", label = "Email"),
-            textInput("team_name", label = "Fantasy Team Name"),
-            p("Note: Team name will be displayed in rankings"),
-            actionButton(inputId = "email_commish", label = "Email Roster to the Commish"),
+            textInput("fantasy_team_name", label = "Fantasy Team Name"),
+            p("Note: Fantasy Team Name will be displayed in rankings"),
+            actionButton(
+              inputId = "download_roster", 
+              label = "Download Completed Roster"
+            ),
+            p("Don't forget to email your roster to the Commish!"),
+            # TODO
+            # shinyjs::disable("email_commish"),
             p(""),
             style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
           ),
-          width = 3
+          width = 4
         ),
         mainPanel(
           fluidRow(
@@ -310,7 +339,7 @@ ui <- fluidPage(
             DTOutput(outputId = "players_on_roster_DT")
           ),
           fluidRow(
-            h3("Possible Players Available", style="margin-top:100px"),
+            h3("Valid Player Selections Remaining", style="margin-top:100px"),
             DTOutput(outputId = "players_remaining_DT"),
           )
         )
@@ -360,19 +389,19 @@ server <- function(input, output, session) {
 
   output$statistics_weekly <- renderDT({
     if (stats_dropdown() == "K") {
-      kicking_player_stats %>%
+      kicking_player_week_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } else if (stats_dropdown() == "QB") {
-      qb_player_stats %>%
+      qb_player_week_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } else if (stats_dropdown() == "RB") {
-      rb_player_stats %>%
+      rb_player_week_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } else if (stats_dropdown() == "WR") {
-      wr_player_stats %>%
+      wr_player_week_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } else if (stats_dropdown() == "TE") {
-      te_player_stats %>%
+      te_player_week_stats %>%
         filter(team_abbr %in% input$selected_teams)
     } 
   })
@@ -468,7 +497,6 @@ server <- function(input, output, session) {
     paste0("Teams remaining: ", paste0(teams_available() %>% unlist(), collapse = ",  "))
   })
   
-  
   # keep track of positions on the roster
   positions_selected <- reactive({
     team_lookupstring_position[lookup_string %in% roster$players, position]
@@ -477,7 +505,19 @@ server <- function(input, output, session) {
     if(is_empty(positions_selected())){
       "Positions Filled: None"
     } else {
-      paste0("Positions Filled: ", paste0(positions_selected() %>% unlist(), collapse = ",  "))
+      paste0("Positions Filled: ", paste0(count_positions(positions_selected()) %>% unlist(), collapse = ",  "))
+    }
+  })
+  
+  output$positions_available_text <- renderText({
+    if(length(positions_selected())==14L){
+      "Positions Remaining: None"
+    } else {
+      all_positions <- c("K","QB1","QB2","QB3","RB1","RB2","RB3","TE1","TE2","WR1","WR2","WR3","FLEX","Defense")
+      current_positions <- count_positions(positions_selected())
+      current_positions <- str_remove(current_positions," .[:alpha:]{2}.")
+      remaining_positions <- all_positions[!(all_positions %in% current_positions)]
+      paste0("Positions Remaining: ", paste0(remaining_positions %>% unlist(), collapse = ",  "))
     }
   })
   
@@ -521,8 +561,7 @@ server <- function(input, output, session) {
         filter(position != "WR")
     }
     
-    players_remaining <- players_remaining %>%
-      distinct(lookup_string)
+    players_remaining <- players_remaining %>% select(position, team_abbr, lookup_string)
     
   })
   
@@ -530,7 +569,12 @@ server <- function(input, output, session) {
     if(is_empty(roster$players)){
       DT::datatable(data.table(lookup_string = "Roster is empty"), options = list(pageLength = 25))
     } else {
-      DT::datatable(data.table(lookup_string = roster$players), options = list(pageLength = 25))
+      DT::datatable(
+        team_lookupstring_position %>%
+          filter(lookup_string %in% roster$players) %>%
+          select(position, team_abbr, lookup_string),
+        options = list(pageLength = 25)
+      )
     }
   })
   
@@ -541,7 +585,7 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       inputId = "roster_selections_made",
-      choices = c("",players_remaining()),
+      choices = c("",players_remaining()$lookup_string),
       selected = ""
     )
       
@@ -557,7 +601,7 @@ server <- function(input, output, session) {
       updateSelectizeInput(
         session,
         inputId = "roster_selections_made",
-        choices = c("",players_remaining()),
+        choices = c("",players_remaining()$lookup_string),
         selected = ""
       )
       
@@ -567,6 +611,21 @@ server <- function(input, output, session) {
         choices = roster$players
       )
     })
+
+  # TODO
+  # roster_ready <- reactive({
+  #   all(
+  #     positions_selected() == 14L,
+  #     !is_empty(input$team_owner),
+  #     !is_empty(input$owner_email),
+  #     !is_empty(input$team_name),
+  #   )
+  # })
+  # 
+  # observeEvent(
+  #   roster_ready(),{
+  #     shinyjs::enable("email_commish")
+  # })
   
 }
 
