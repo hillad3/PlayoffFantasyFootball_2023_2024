@@ -277,100 +277,118 @@ ui <- fluidPage(
   tabsetPanel(
     tabPanel(
       "Select Roster",
+      actionButton(
+        inputId = "toggleRosterSelector", 
+        label = "Toggle Roster Selector",
+        icon = icon("bars"),
+        style = "margin-top:3px; margin-bottom:3px"
+      ),
       sidebarLayout(
-        sidebarPanel(
-          selectizeInput(
-            inputId = "roster_selections_made",
-            label = "Select Player or Defensive Team",
-            choices = c("",roster_choices),
-            options = list(maxItems = 1)
-          ),
-          actionButton(
-            inputId = "add_player",
-            label = "Add to Roster",
-            icon = icon("add"),
-            style="color: white; background-color: #0086b3; border-color: #2e6da4"
-          ),
-          p("", style="margin-top:10px"),
-          textOutput(outputId = "roster_slots_remaining_text"),
-          p("", style="margin-top:10px"),
-          textOutput(outputId = "positions_available_text"),
-          p("", style="margin-top:10px"),
-          textOutput(outputId = "teams_available_text"),
-          h1("", style = 'margin:100px'),
-          selectizeInput(
-            inputId = "roster_selections_removed",
-            label = "Remove Player or Defensive Team",
-            choices = NULL,
-            options = list(maxItems = 1),
-          ),
-          actionButton(
-            inputId = "remove_player",
-            label = "Remove",
-            icon = icon("trash", lib = "glyphicon"),
-            style="color: white; background-color: gray; border-color: black"
-          ),
-          p("", style="margin-top:10px"),
-          textOutput(outputId = "positions_on_roster_text"),
-          p("", style="margin-top:10px"),
-          textOutput(outputId = "teams_on_roster_text"),
-          p("", style='margin-bottom:100px'),
-          fluidPage(
-            h4("Participant Information", style='font-weight:bold'),
-            textInput("fantasy_owner", label = "Name"),
-            textInput("owner_email", label = "Email"),
-            textInput("fantasy_team_name", label = "Fantasy Team Name"),
-            p("Note: Fantasy Team Name will be displayed in rankings"),
-            actionButton(
-              inputId = "download_roster", 
-              label = "Download Completed Roster"
+        div(id = "rosterSelector",
+          sidebarPanel(
+            selectizeInput(
+              inputId = "roster_selections_made",
+              label = "Select Player or Defensive Team",
+              choices = c("",roster_choices),
+              options = list(maxItems = 1)
             ),
-            p("Don't forget to email your roster to the Commish!"),
-            # TODO
-            # shinyjs::disable("email_commish"),
-            p(""),
-            style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
-          ),
-          width = 4
+            actionButton(
+              inputId = "add_player",
+              label = "Add to Roster",
+              icon = icon("add"),
+              style="color: white; background-color: #0086b3; border-color: #2e6da4"
+            ),
+            p("", style="margin-top:10px"),
+            textOutput(outputId = "roster_slots_remaining_text"),
+            p("", style="margin-top:10px"),
+            textOutput(outputId = "positions_available_text"),
+            p("", style="margin-top:10px"),
+            textOutput(outputId = "teams_available_text"),
+            h1("", style = 'margin:100px'),
+            selectizeInput(
+              inputId = "roster_selections_removed",
+              label = "Remove Player or Defensive Team",
+              choices = NULL,
+              options = list(maxItems = 1),
+            ),
+            actionButton(
+              inputId = "remove_player",
+              label = "Remove",
+              icon = icon("trash", lib = "glyphicon"),
+              style="color: white; background-color: gray; border-color: black"
+            ),
+            p("", style="margin-top:10px"),
+            textOutput(outputId = "positions_on_roster_text"),
+            p("", style="margin-top:10px"),
+            textOutput(outputId = "teams_on_roster_text"),
+            p("", style='margin-bottom:100px'),
+            fluidPage(
+              h4("Participant Information", style='font-weight:bold'),
+              textInput("fantasy_owner", label = "Name"),
+              textInput("owner_email", label = "Email"),
+              textInput("fantasy_team_name", label = "Fantasy Team Name"),
+              p("Note: Fantasy Team Name will be displayed in rankings"),
+              actionButton(
+                inputId = "download_roster", 
+                label = "Download Completed Roster"
+              ),
+              p("Don't forget to email your roster to the Commish!"),
+              # TODO
+              # shinyjs::disable("email_commish"),
+              p(""),
+              style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
+            ),
+            width = 4
+          )
         ),
         mainPanel(
           fluidRow(
             h3("Current Roster"),
-            DTOutput(outputId = "players_on_roster_DT")
+            DTOutput(outputId = "players_on_roster_DT"),
+            style="margin-left:2px"
           ),
           fluidRow(
             h3("Valid Player Selections Remaining", style="margin-top:100px"),
             DTOutput(outputId = "players_remaining_DT"),
+            style="margin-left:2px"
           )
         )
       )
     ),
     tabPanel(
       "Explore 2023 Stats",
+      actionButton(
+        inputId = "toggleFilterOptions", 
+        label = "Toggle Filter Options",
+        icon = icon("bars"),
+        style = "margin-top:3px; margin-bottom:3px"
+      ),
       sidebarLayout(
-        sidebarPanel(
-          # this is a single select way to provide positions for the DT table
-          selectInput(
-            inputId = "selected_position",
-            label = "Inspect a Position:",
-            choices = list("QB", "RB", "WR", "TE", "K"),
-            selected = "QB"
-          ),
-          p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
-          actionButton("select_all_teams", label="All", inline=TRUE),
-          actionButton("deselect_all_teams", label="None", inline=TRUE),
-          checkboxGroupInput(
-            "selected_teams",
-            label = "",
-            choiceNames = as.list(nfl_teams$team_name_w_abbr),
-            choiceValues = as.list(nfl_teams$team_abbr),
-            selected = as.list(nfl_teams$team_abbr)
-          ),
-          width = 2
+        div(id = "filterOptions",
+          sidebarPanel(
+            # this is a single select way to provide positions for the DT table
+            selectInput(
+              inputId = "selected_position",
+              label = "Inspect a Position:",
+              choices = list("QB", "RB", "WR", "TE", "K"),
+              selected = "QB"
+            ),
+            p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
+            actionButton("select_all_teams", label="All", inline=TRUE),
+            actionButton("deselect_all_teams", label="None", inline=TRUE),
+            checkboxGroupInput(
+              "selected_teams",
+              label = "",
+              choiceNames = as.list(nfl_teams$team_name_w_abbr),
+              choiceValues = as.list(nfl_teams$team_abbr),
+              selected = as.list(nfl_teams$team_abbr)
+            ),
+            width = 2
+          )
         ),
         mainPanel(
           tabsetPanel(
-            p(),
+            p("", style="margin-top:10px"),
             tabPanel("Regular Season Totals", DTOutput("statistics_season")),
             tabPanel("Weekly Totals", DTOutput("statistics_weekly"))
           )
@@ -383,6 +401,11 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
   ## this section is for stats exploration
+  observeEvent(input$toggleFilterOptions, {
+    shinyjs::toggle(id = "filterOptions")
+  })
+  
+  
   stats_dropdown <- reactive({
     input$selected_position
   })
@@ -451,7 +474,10 @@ server <- function(input, output, session) {
   
   
   ## this section is for Roster Selection
-  # count the number of roster spots available and display text
+  
+  observeEvent(input$toggleRosterSelector, {
+    shinyjs::toggle(id = "rosterSelector")
+  })
   
   roster <- reactiveValues(players = c(NULL))
   
