@@ -289,7 +289,7 @@ ui <- fluidPage(
             selectizeInput(
               inputId = "roster_selections_made",
               label = "Select Player or Defensive Team",
-              choices = c("",roster_choices),
+              choices = roster_choices,
               options = list(maxItems = 1)
             ),
             actionButton(
@@ -321,23 +321,24 @@ ui <- fluidPage(
             textOutput(outputId = "positions_on_roster_text"),
             p("", style="margin-top:10px"),
             textOutput(outputId = "teams_on_roster_text"),
-            p("", style='margin-bottom:100px'),
+            p("", style='margin-bottom:25px'),
             fluidPage(
               h4("Participant Information", style='font-weight:bold'),
-              textInput("fantasy_owner", label = "Name"),
-              textInput("owner_email", label = "Email"),
-              textInput("fantasy_team_name", label = "Fantasy Team Name"),
+              textInput("fantasy_owner_name", label = "Name", placeholder = "John Doe"),
+              textInput("fantasy_owner_email", label = "Email", placeholder = "abcd@gmail.com"),
+              textInput("fantasy_team_name", label = "Fantasy Team Name", placeholder = "My Clever Team Name"),
               p("Note: Fantasy Team Name will be displayed in rankings"),
-              actionButton(
-                inputId = "download_roster", 
-                label = "Download Completed Roster"
-              ),
-              p("Don't forget to email your roster to the Commish!"),
-              # TODO
-              # shinyjs::disable("email_commish"),
-              p(""),
+              checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent"),
               style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
             ),
+            p("", style='margin-bottom:20px'),
+            downloadButton(
+              outputId = "download_roster", 
+              label = "Download Roster",
+              # icon = icon("download-alt", lib = "glyphicon"),
+              style = "color: white; background-color: #F62817;"
+            ),
+            p("Don't forget to email your roster to the Commish!"),
             width = 4
           )
         ),
@@ -611,8 +612,7 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       inputId = "roster_selections_made",
-      choices = c("",players_remaining()$lookup_string),
-      selected = ""
+      choices = players_remaining()$lookup_string
     )
       
     updateSelectizeInput(
@@ -627,8 +627,7 @@ server <- function(input, output, session) {
       updateSelectizeInput(
         session,
         inputId = "roster_selections_made",
-        choices = c("",players_remaining()$lookup_string),
-        selected = ""
+        choices = players_remaining()$lookup_string
       )
       
       updateSelectizeInput(
@@ -637,21 +636,104 @@ server <- function(input, output, session) {
         choices = roster$players
       )
     })
+  
+  
 
-  # TODO
-  # roster_ready <- reactive({
-  #   all(
-  #     positions_selected() == 14L,
-  #     !is_empty(input$team_owner),
-  #     !is_empty(input$owner_email),
-  #     !is_empty(input$team_name),
-  #   )
-  # })
-  # 
-  # observeEvent(
-  #   roster_ready(),{
-  #     shinyjs::enable("email_commish")
-  # })
+
+  # reactive boolean for activating download button
+  participant_info <- reactive({
+    fantasy_owner_name <- input$fantasy_owner_name
+    fantasy_owner_email <- input$fantasy_owner_email
+    fantasy_team_name <- input$fantasy_team_name
+    paid <- input$paid_checkbox
+    data.table("fantasy_owner_name" = fantasy_owner_name, 
+      "fantasy_owner_email" = fantasy_owner_email, 
+      "fantasy_team_name" = fantasy_team_name,
+      "paid_checkbox" = paid)
+  })
+  
+  download_btn_status <- reactive({
+    all(
+      participant_info()$fantasy_owner_name!="",
+      str_detect(participant_info()$fantasy_owner_email,"[:graph:]{3,}@[:alnum:]{1,}\\.[:alnum:]{2,}"),
+      participant_info()$fantasy_team_name!="",
+      participant_info()$paid,
+      length(positions_selected()) == 14L
+    )
+  })
+
+  observeEvent(
+    download_btn_status(),
+    {
+      if(download_btn_status()) {
+        shinyjs::enable("download_roster")
+
+      } else {
+        shinyjs::disable("download_roster")
+      }
+    }
+  )
+  
+  roster_data <- reactive({
+    team_lookupstring_position %>%
+      filter(lookup_string %in% roster$players) %>%
+      select(position, team_abbr, lookup_string) %>% 
+      mutate(
+        `Fantasy Owner` = rep(participant_info()$fantasy_owner_name,14),
+        `Fantasy Owner Email` = rep(participant_info()$fantasy_owner_email,14),
+        `Fantasy Team Name` = rep(participant_info()$fantasy_team_name,14),
+        `Roster` = 1:14,
+        `Position Type` = if_else(position == "Defense", "Defense / Special teams", "Player"),
+        `Automation Mapping` = if_else(
+          position == "Defense", 
+          team_abbr, 
+          str_remove(lookup_string, "^.*, ID: ")
+        ),
+        `Check 1 - Selection is Unique` = TRUE,
+        `Check 2 - Team is Unique` = TRUE
+      ) %>% 
+      group_by(
+        position
+      ) %>% 
+      mutate(
+        `Position Code` = if_else(position %in% c("QB","WR","TE","RB"), paste0(position,1:n()), position)
+      ) %>% 
+      ungroup() %>% 
+      rename(
+        `Position Group` = position,
+        `Team Abbr.` = team_abbr,
+        `Selection` = lookup_string
+      ) %>%
+      mutate(
+        `Position Group` = if_else(`Position Code` == "K", "SPEC", 
+                           if_else(`Position Code` %in% c("RB4","WR4","TE3"), "FLEX", `Position Group`, 
+                           if_else(`Position Code` == "Defense", "D", `Position Group`)))
+      ) %>% 
+      select(
+        `Fantasy Owner`,
+        `Fantasy Owner Email`,
+        `Fantasy Team Name`,
+        `Automation Mapping`,
+        `Roster`,
+        `Position Type`,
+        `Position Code`,
+        `Position Group`,
+        `Team Abbr.`,
+        `Selection`,
+        `Check 1 - Selection is Unique`,
+        `Check 2 - Team is Unique`,
+        everything()
+      )
+  })
+  
+  output$download_roster <- downloadHandler(
+    filename = function() {
+      paste0('Playoff Fantasy Roster ',Sys.time(), '.csv')
+    },
+    content = function(file) {
+      write.csv(roster_data(), file, row.names = FALSE)
+    }
+  )
   
 }
 
