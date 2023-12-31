@@ -14,154 +14,21 @@ season_year <- 2023L
 season_type <- c("REG")
 
 # create data.table for NFL teams
-dt_nfl_teams <- data.table::as.data.table(nflreadr::load_teams(current = TRUE))
-dt_nfl_teams[,team_name_w_abbr := paste0(team_name, " (", team_abbr, ")")]
-dt_nfl_teams <- dt_nfl_teams[,.(team_abbr, team_name, team_name_w_abbr, team_conf, team_division, team_logo_espn)]
+dt_nfl_teams <- get_team_names()
 
+# TODO currently I do not have functionality set up for team points calculated on pbp data
 # create data.table for play-by-play data for scoring defensive points for each team
-dt_nfl_team_stats <- data.table::as.data.table(nflfastR::load_pbp(seasons = season_year))
-dt_nfl_team_stats[season_type %in% season_type]
+# dt_nfl_team_stats <- data.table::as.data.table(nflfastR::load_pbp(seasons = season_year))
+# dt_nfl_team_stats[season_type %in% season_type]
 
 # create data.table for players, which is a combination of the offensive scorers plus kickers
-tmp1 <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year, stat_type = "offense"))
-tmp1 <- tmp1[season_type %in% season_type]
-setnames(tmp1, old=c('recent_team'), new=c('team_abbr'))
-tmp1 <- tmp1[position %in% c("QB", "RB", "FB", "WR", "TE")]
-tmp1[,position := if_else(position == "FB", "RB", position)]
-tmp1[,fumbles_lost := sack_fumbles_lost + rushing_fumbles_lost + receiving_fumbles_lost]
-tmp1[,two_pt_conversions := passing_2pt_conversions + rushing_2pt_conversions + receiving_2pt_conversions]
-tmp1 <- tmp1[
-  , .(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    passing_yards,
-    passing_tds,
-    rushing_yards,
-    rushing_tds,
-    receiving_yards,
-    receiving_tds,
-    interceptions,
-    sacks,
-    fumbles_lost,
-    two_pt_conversions
-  )
-]
-tmp1 <- melt(
-  tmp1,
-  id.vars = c('position',
-              'week',
-              'player_id',
-              'player_name',
-              'team_abbr'),
-  measure.vars = c(
-    'passing_yards',
-    'passing_tds',
-    'rushing_yards',
-    'rushing_tds',
-    'receiving_yards',
-    'receiving_tds',
-    'interceptions',
-    'sacks',
-    'fumbles_lost',
-    'two_pt_conversions'
-  ),
-  variable.factor = FALSE,
-  variable.name = "stat_label",
-  value.name = "football_value"
-)
-tmp1[,fantasy_points := case_when(
-      stat_label == "passing_yards" & football_value >= 400 ~ as.integer(football_value/50) + 2L,
-      stat_label == "passing_yards" & football_value < 400 ~ as.integer(football_value/50),
-      stat_label == "rushing_yards" & football_value >= 200 ~ as.integer(football_value/10L) + 2L,
-      stat_label == "rushing_yards" & football_value < 200 ~ as.integer(football_value/10L),
-      stat_label == "receiving_yards" & football_value >= 200 ~ as.integer(football_value/10L) + 2L,
-      stat_label == "receiving_yards" & football_value < 200 ~ as.integer(football_value/10L),
-      stat_label %in% c("passing_tds", "rushing_tds","receiving_tds") ~ as.integer(football_value) * 6L,
-      stat_label %in% c("passing_2pt_conversions", "rushing_2pt_conversions","receiving_2pt_conversions") ~ as.integer(football_value) * 2L,
-      stat_label == "interceptions" ~ as.integer(football_value) * -2L,
-      stat_label %in% c("sack_fumbles_lost", "rushing_fumbles_lost", "receiving_fumbles_lost") ~ as.integer(football_value) * -2L,
-      .default = 0L
-    )
-]
-tmp1 <- tmp1[abs(fantasy_points) >= 1e-7 | abs(football_value) >= 1e-7]
- 
+dt_nfl_player_stats <- get_player_stats()
 
-tmp2 <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year, stat_type = "kicking"))
-tmp2 <- tmp2[season_type %in% season_type]
-setnames(tmp2, old=c('team'), new=c('team_abbr'))
-tmp2[,position := "K"]
-tmp2[,fg_made_50_ := fg_made_50_59 + fg_made_60_]
-tmp2 <- tmp2[
-  , .(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    fg_made,
-    fg_made_40_49,
-    fg_made_50_,
-    fg_missed,
-    fg_missed_list,
-    fg_blocked,
-    fg_blocked_list,
-    pat_made,
-    pat_missed
-  )
-]
-tmp2 <- melt(
-  tmp2,
-  id.vars = c('position',
-              'week',
-              'player_id',
-              'player_name',
-              'team_abbr'),
-  measure.vars = c(
-    'fg_made',
-    'fg_made_40_49',
-    'fg_made_50_',
-    'fg_missed',
-    'fg_blocked',
-    'pat_made',
-    'pat_missed'
-  ),
-  variable.factor = FALSE,
-  variable.name = "stat_label",
-  value.name = "football_value"
-)
-tmp2[, fantasy_points := case_when(
-  stat_label == "fg_made" ~ as.integer(football_value) * 3L,
-  stat_label == "fg_made_40_49" ~ as.integer(football_value) * 1L,
-  stat_label == "fg_made_50_" ~ as.integer(football_value) * 2L,
-  stat_label == "fg_missed" ~ as.integer(football_value) * -1L,
-  stat_label == "pat_made" ~ as.integer(football_value) * 1L,
-  stat_label == "pat_missed" ~ as.integer(football_value) * -1L,
-  .default = 0L
-)]
-tmp2 <- tmp2[abs(fantasy_points) >= 1e-7 | abs(football_value) >= 1e-7]
+# get a list of unique players for the lookup
+dt_lookup <- unique(dt_nfl_player_stats[,.(position, lookup_string, team_abbr)], by=c('lookup_string'))
 
-
-dt_nfl_player_stats <- rbindlist(list(tmp1, tmp2), fill=TRUE)
-rm(tmp1,tmp2)
-dt_nfl_player_stats <- merge(dt_nfl_player_stats, dt_nfl_teams[,.(team_abbr, team_conf, team_division)], all.x = TRUE)
-dt_nfl_player_stats[,lookup_string := paste0(position,", ",team_abbr,": ",player_name," (",team_division,", ID: ",player_id,")")]
-setorder(dt_nfl_player_stats, cols = position, player_name, week)
-setcolorder(
-  dt_nfl_player_stats,
-  c(
-    'position',
-    'week',
-    'lookup_string',
-    'player_id',
-    'player_name',
-    'team_abbr',
-    'team_conf',
-    'team_division'
-  )
-)
+# remove zero value statistics
+dt_nfl_player_stats <- dt_nfl_player_stats[abs(fantasy_points) >= 1e-7 | abs(football_value) >= 1e-7]
 
 
 qb_player_week_stats <- dt_nfl_player_stats %>% 
