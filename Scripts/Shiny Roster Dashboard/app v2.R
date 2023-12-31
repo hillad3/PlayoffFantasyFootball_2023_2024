@@ -24,178 +24,21 @@ dt_nfl_teams <- get_team_names()
 # create data.table for players, which is a combination of the offensive scorers plus kickers
 dt_nfl_player_stats <- get_player_stats()
 
-# get a list of unique players for the lookup
-dt_lookup <- unique(dt_nfl_player_stats[,.(position, lookup_string, team_abbr)], by=c('lookup_string'))
-
 # remove zero value statistics
 dt_nfl_player_stats <- dt_nfl_player_stats[abs(fantasy_points) >= 1e-7 | abs(football_value) >= 1e-7]
 
+# get a list of unique players for the lookup
+dt_lookup <- unique(get_player_stats()[,.(position, lookup_string, team_abbr)], by=c('lookup_string'))
+dt_lookup <- setorder(dt_lookup, cols = position, team_abbr, lookup_string)
 
-qb_player_week_stats <- dt_nfl_player_stats %>% 
-  filter(position %in% c("QB")) %>%
-  select(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    team_conf,
-    team_division,
-    passing_yards,
-    passing_tds,
-    rushing_yards,
-    rushing_tds,
-    receiving_yards,
-    receiving_tds,
-    interceptions,
-    sacks,
-    fumbles_lost,
-    two_pt_conversions,
-  ) %>%
-  arrange(desc(passing_yards))
 
-qb_player_season_stats <- qb_player_week_stats %>% 
-  group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
-  reframe(
-    games_played = n(),
-    total_passing_yards = sum(passing_yards),
-    avg_passing_yards_per_game = mean(passing_yards, na.rm = TRUE) %>% round(0),
-    total_passing_tds = sum(passing_tds),
-    avg_passing_tds_per_game = mean(passing_tds, na.rm = TRUE) %>% round(2),
-    total_rushing_yards = sum(rushing_yards),
-    avg_rushing_yards_per_game = mean(rushing_yards, na.rm = TRUE) %>% round(0),
-    total_rushing_tds = sum(rushing_tds),
-    avg_rushing_tds_per_game = mean(rushing_tds, na.rm = TRUE) %>% round(2),
-    total_receiving_yards = sum(receiving_yards),
-    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
-    total_receiving_tds = sum(receiving_tds),
-    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
-  ) %>% 
-  arrange(desc(total_passing_yards))
+player_stats <- get_position_stats(
+  dt_nfl_player_stats, 
+  "K", 
+  summarized_boolean = FALSE, 
+  long_format_boolean = TRUE
+) %>% order_cols()
 
-rb_player_week_stats <- dt_nfl_player_stats %>% 
-  filter(position %in% c("RB")) %>%
-  select(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    team_conf,
-    team_division,
-    rushing_yards,
-    rushing_tds,
-    receiving_yards,
-    receiving_tds,
-    fumbles_lost,
-    two_pt_conversions,
-  ) %>%
-  arrange(desc(rushing_yards))
-
-rb_player_season_stats <- rb_player_week_stats %>% 
-  group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
-  reframe(
-    games_played = n(),
-    total_rushing_yards = sum(rushing_yards),
-    avg_rushing_yards_per_game = mean(rushing_yards, na.rm = TRUE) %>% round(0),
-    total_rushing_tds = sum(rushing_tds),
-    avg_rushing_tds_per_game = mean(rushing_tds, na.rm = TRUE) %>% round(2),
-    total_receiving_yards = sum(receiving_yards),
-    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
-    total_receiving_tds = sum(receiving_tds),
-    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
-  ) %>% 
-  arrange(desc(total_rushing_yards))
-
-wr_player_week_stats <- dt_nfl_player_stats %>% 
-  filter(position %in% c("WR")) %>%
-  select(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    team_conf,
-    team_division,
-    receiving_yards,
-    receiving_tds,
-    rushing_yards,
-    rushing_tds,
-    fumbles_lost,
-    two_pt_conversions,
-  ) %>%
-  arrange(desc(receiving_yards))
-
-wr_player_season_stats <- wr_player_week_stats %>% 
-  group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
-  reframe(
-    games_played = n(),
-    total_receiving_yards = sum(receiving_yards),
-    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
-    total_receiving_tds = sum(receiving_tds),
-    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
-    total_rushing_yards = sum(rushing_yards),
-    avg_rushing_yards_per_game = mean(rushing_yards, na.rm = TRUE) %>% round(0),
-    total_rushing_tds = sum(rushing_tds),
-    avg_rushing_tds_per_game = mean(rushing_tds, na.rm = TRUE) %>% round(2),
-  ) %>% 
-  arrange(desc(total_receiving_yards))
-
-te_player_week_stats <- dt_nfl_player_stats %>% 
-  filter(position %in% c("TE")) %>%
-  select(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    team_conf,
-    team_division,
-    receiving_yards,
-    receiving_tds,
-    fumbles_lost,
-    two_pt_conversions,
-  ) %>%
-  arrange(desc(receiving_yards))
-
-te_player_season_stats <- te_player_week_stats %>% 
-  group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
-  reframe(
-    games_played = n(),
-    total_receiving_yards = sum(receiving_yards),
-    avg_receiving_yards_per_game = mean(receiving_yards, na.rm = TRUE) %>% round(0),
-    total_receiving_tds = sum(receiving_tds),
-    avg_receiving_tds_per_game = mean(receiving_tds, na.rm = TRUE) %>% round(2),
-  ) %>% 
-  arrange(desc(total_receiving_yards))
-
-kicking_player_week_stats <- dt_nfl_player_stats %>% 
-  filter(position %in% c("K")) %>% 
-  select(
-    position,
-    week,
-    player_id,
-    player_name,
-    team_abbr,
-    team_conf,
-    team_division,
-    fg_made,
-    fg_missed,
-    fg_long,
-    pat_made,
-    pat_missed
-  ) %>%
-  arrange(desc(fg_made))
-
-kicking_player_season_stats <- kicking_player_week_stats %>% 
-  group_by(position, player_id, player_name, team_abbr, team_conf, team_division) %>% 
-  reframe(
-    games_played = n(),
-    total_fg_made = sum(fg_made),
-    max_fg_made = max(fg_long),
-    total_pat_made = sum(pat_made),
-  ) %>% 
-  arrange(desc(total_fg_made))
 
 team_lookupstring_position <- bind_rows(
   dt_nfl_player_stats %>% 
@@ -370,41 +213,21 @@ server <- function(input, output, session) {
   })
 
   output$statistics_weekly <- renderDT({
-    if (stats_dropdown() == "K") {
-      kicking_player_week_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "QB") {
-      qb_player_week_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "RB") {
-      rb_player_week_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "WR") {
-      wr_player_week_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "TE") {
-      te_player_week_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } 
+    player_stats <- get_position_stats(
+      dt_nfl_player_stats, 
+      stats_dropdown(), 
+      summarized_boolean = FALSE, 
+      long_format_boolean = FALSE
+    ) %>% order_cols()
   })
   
   output$statistics_season <- renderDT({
-    if (stats_dropdown() == "K") {
-      kicking_player_season_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "QB") {
-      qb_player_season_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "RB") {
-      rb_player_season_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "WR") {
-      wr_player_season_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } else if (stats_dropdown() == "TE") {
-      te_player_season_stats %>%
-        filter(team_abbr %in% input$selected_teams)
-    } 
+    player_stats <- get_position_stats(
+      dt_nfl_player_stats, 
+      stats_dropdown(), 
+      summarized_boolean = TRUE, 
+      long_format_boolean = FALSE
+    ) %>% order_cols()
   })
   
   observeEvent(

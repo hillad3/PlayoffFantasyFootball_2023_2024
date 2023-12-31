@@ -213,11 +213,15 @@ get_player_stats <- function(teams = dt_nfl_teams){
   )
 }
 
-get_position_stats <- function(dt, pos, summarize_boolean, long_format_boolean){
+get_position_stats <- function(dt, pos, summarized_boolean, long_format_boolean){
   
-  dt1 <- dt[position == pos]
+  if(!(pos %in% c("K","QB","RB","TE","WR"))){
+    print(paste0(pos, " is not a valid position"))
+  }
   
-  if(summarize_boolean){
+  dt <- dt[position == pos]
+  
+  if(summarized_boolean){
 
     grouping_by <- c(
       'position',
@@ -230,21 +234,155 @@ get_position_stats <- function(dt, pos, summarize_boolean, long_format_boolean){
       'stat_label'
     )
     
-    dt1 <- dt1[, week:=NULL]
+    dt <- dt[, week:=NULL]
     
-    dt1[, total_stats := sum(football_value), by = grouping_by]
+    dt <- dt[, by = grouping_by, 
+      .(football_value = sum(football_value), fantasy_points = sum(fantasy_points))
+    ]
+    
+    dt[, stat_label := paste0("total_",stat_label)]
   }
   
   if(long_format_boolean){
     return(dt)
   } else {
-    dt <- dcast(
-      dt,
-      position + week + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
-      value.var = c('football_value', 'fantasy_points'),
-      fill = 0
-    )
-    return(dt)
+    
+    if(summarized_boolean){
+      # does not include the `week` variable when summarized
+      dt <- dcast(
+        dt,
+        position + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
+        value.var = c('football_value', 'fantasy_points'),
+        fill = 0
+      )
+      return(dt)      
+    } else {
+      dt <- dcast(
+        dt,
+        position + week + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
+        value.var = c('football_value', 'fantasy_points'),
+        fill = 0
+      )
+      return(dt)
+    }
   }
+  
+}
+
+order_cols <- function(dt){
+  
+  master_order <- c(
+    'position',
+    'lookup_string',
+    'week',
+    'player_id',
+    'player_name',
+    'team_abbr',
+    'team_conf',
+    'team_division',
+    'passing_yards',
+    'passing_tds',
+    'rushing_yards',
+    'rushing_tds',
+    'receiving_yards',
+    'receiving_tds',
+    'interceptions',
+    'sacks',
+    'fumbles_lost',
+    'two_pt_conversions',
+    'fg_made',
+    'fg_made_40_49',
+    'fg_made_50_',
+    'fg_missed',
+    'fg_missed_list',
+    'fg_blocked',
+    'fg_blocked_list',
+    'pat_made',
+    'pat_missed',
+    'stat_label',
+    'football_value',
+    'fantasy_points',
+    'football_value_total_fumbles_lost',
+		'football_value_total_interceptions',
+		'football_value_total_passing_tds',
+		'football_value_total_passing_yards',
+		'football_value_total_receiving_tds',
+		'football_value_total_receiving_yards',
+		'football_value_total_rushing_tds',
+		'football_value_total_rushing_yards',
+		'football_value_total_sacks',
+		'football_value_total_two_pt_conversions',
+		'football_value_total_fg_blocked',
+		'football_value_total_fg_made',
+		'football_value_total_fg_made_40_49',
+		'football_value_total_fg_made_50_',
+		'football_value_total_fg_missed',
+		'football_value_total_pat_made',
+		'football_value_total_pat_missed',
+		'football_value_fumbles_lost',
+		'football_value_interceptions',
+		'football_value_passing_tds',
+		'football_value_passing_yards',
+		'football_value_receiving_tds',
+		'football_value_receiving_yards',
+		'football_value_rushing_tds',
+		'football_value_rushing_yards',
+		'football_value_sacks',
+		'football_value_two_pt_conversions',
+		'football_value_fg_blocked',
+		'football_value_fg_made',
+		'football_value_fg_made_40_49',
+		'football_value_fg_made_50_',
+		'football_value_fg_missed',
+		'football_value_pat_made',
+		'football_value_pat_missed',
+		'fantasy_points_total_fumbles_lost',
+		'fantasy_points_total_interceptions',
+		'fantasy_points_total_passing_tds',
+		'fantasy_points_total_passing_yards',
+		'fantasy_points_total_receiving_tds',
+		'fantasy_points_total_receiving_yards',
+		'fantasy_points_total_rushing_tds',
+		'fantasy_points_total_rushing_yards',
+		'fantasy_points_total_sacks',
+		'fantasy_points_total_two_pt_conversions',
+		'fantasy_points_total_fg_blocked',
+		'fantasy_points_total_fg_made',
+		'fantasy_points_total_fg_made_40_49',
+		'fantasy_points_total_fg_made_50_',
+		'fantasy_points_total_fg_missed',
+		'fantasy_points_total_pat_made',
+		'fantasy_points_total_pat_missed',
+		'fantasy_points_fumbles_lost',
+		'fantasy_points_interceptions',
+		'fantasy_points_passing_tds',
+		'fantasy_points_passing_yards',
+		'fantasy_points_receiving_tds',
+		'fantasy_points_receiving_yards',
+		'fantasy_points_rushing_tds',
+		'fantasy_points_rushing_yards',
+		'fantasy_points_sacks', 
+		'fantasy_points_two_pt_conversions',
+		'fantasy_points_fg_blocked',
+		'fantasy_points_fg_made',
+		'fantasy_points_fg_made_40_49',
+		'fantasy_points_fg_made_50_',
+		'fantasy_points_fg_missed',
+		'fantasy_points_pat_made', 
+		'fantasy_points_pat_missed'
+  )
+  
+  found_order <- names(dt)
+  
+  unmapped_cols <- found_order[!(found_order %in% master_order)]
+  
+  if(length(unmapped_cols)){
+    print("There are unmapped columns in the dataset")
+    print(paste0(unmapped_cols, collapse = "; "))
+  }
+  
+  preferred_order <- master_order[master_order %in% found_order]
+  
+  return(dt[,..preferred_order])
   
 }
