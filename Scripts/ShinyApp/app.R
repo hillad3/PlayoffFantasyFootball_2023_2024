@@ -7,8 +7,9 @@ library(shiny)
 library(data.table)
 library(DT)
 library(shinyjs)
+library(here)
 
-source('./Scripts/ShinyApp/Fantasy Football Helper Functions.R')
+source(paste0(getwd(),'/Fantasy_Football_Helper_Functions.R'))
 
 season_year <- 2023L
 season_type <- c("REG")
