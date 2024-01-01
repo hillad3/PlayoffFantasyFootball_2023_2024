@@ -8,7 +8,7 @@ library(data.table)
 library(DT)
 library(shinyjs)
 
-source(paste0(getwd(),'/Scripts/Shiny Roster Dashboard/Fantasy Football Helper Functions.R'))
+source('./Scripts/Fantasy Football Helper Functions.R')
 
 season_year <- 2023L
 season_type <- c("REG")
@@ -31,19 +31,8 @@ dt_nfl_player_stats <- dt_nfl_player_stats[abs(fantasy_points) >= 1e-7 | abs(foo
 dt_lookup <- unique(get_player_stats()[,.(position, lookup_string, team_abbr)], by=c('lookup_string'))
 dt_lookup <- setorder(dt_lookup, cols = position, team_abbr, lookup_string)
 
-
-player_stats <- get_position_stats(
-  dt_nfl_player_stats, 
-  "K", 
-  summarized_boolean = FALSE, 
-  long_format_boolean = TRUE
-) %>% order_cols()
-
-
 team_lookupstring_position <- bind_rows(
-  dt_nfl_player_stats %>% 
-    distinct(team_abbr, lookup_string, position) %>% 
-    arrange(lookup_string),
+  dt_lookup,
   dt_nfl_teams %>% 
     mutate(position = "Defense",
            lookup_string = paste0(position,", ",team_abbr," (",team_division,")")) %>% 
@@ -52,30 +41,107 @@ team_lookupstring_position <- bind_rows(
 roster_choices <- team_lookupstring_position %>% distinct(lookup_string) %>% as.list()
 def_teams_choices <- dt_nfl_teams %>% distinct(team_abbr) %>% as.list()
 
-count_positions <- function(x){
-  position_counts <- c(NULL)
-  position_tmp <- c(NULL)
-  for(a in x){
-    if(a %in% c("K","Defense")){
-      position_counts <- c(position_counts,a)
-    } else if((a == "RB" & sum(position_tmp==a)==3L) |
-              (a == "TE" & sum(position_tmp==a)==2L) |
-              (a == "WR" & sum(position_tmp==a)==3L)
-    ){
-      position_tmp <- c(position_tmp,a)
-      position_counts <- c(position_counts,paste0("FLEX (",a,")"))
-    } else {
-      position_counts <- c(position_counts,paste0(a,sum(position_tmp==a)+1L))
-      position_tmp <- c(position_tmp,a)
-    }
-  }
-  return(position_counts)
-}
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
   titlePanel("Playoff Fantasy Football"),
   tabsetPanel(
+    tabPanel(
+      "How to Play",
+      fluidPage(
+        h2("How It Works"),
+        p("Playoff Fantasy Football is an elimination based version of Fantasy Football:"),
+        tags$ul(
+          tags$li("Each contestant will create a diversified roster prior to the start of playoffs."),
+          tags$li("Your roster must include one player from each of the 14 teams in the playoffs."),
+          tags$li("Your roster must include 1 Kicker (K), 3 Quaterbacks (QB), 3 Running Backs (RB), 3 Wide Receivers (WR), 2 Tight Ends (TE), 1 Flex Position (either RB, WR or TE) and 1 Defense / Special Teams."),
+          tags$li("The roster will be locked from changes after submission to the Commissioner. Each week, as teams are eliminated from the playoffs, so does the pool of potential players on your roster who can score points."),
+          tags$li("Therefore, your overall roster success is as dependent on each player's longevity in the playoffs as it is on the player itself."),
+          tags$li("Fantasy scoring is calculated based on each player's performance during a game."),
+          tags$li("The types of statistics converted into Fantasy scores is consistent with typical scoring rules (see details below)"),
+          tags$li("All playoff games, including wildcards and the Super Bowl, will be considered in the scoring."),
+          tags$li("Rosters must be submitted, valid, and paid for by the start of the first wildcard game."),
+          tags$li("Multiple rosters are allowed per Owner, as long as each are paid for in full."),
+          tags$li("Prizes will be awarded to the top 5 scoring entries."),
+          tags$li("Prize purse will be announced after wildcard playoff weekend, since prize purse is dependent on the number of entries."),
+          tags$li("If you think you're going to win, spread the word: The more participants, the larger the prizes."),
+          tags$li("If you think you're going to lose, spread the word: Imagine the commaraderie of shared experience!"),
+          tags$li("The Commissioner will (probably) provide weekly updates on Fantasy Team standings throughout the contest. Final summary of scoring and standings will be provided.")
+        ),
+        h2("How To Use this Dashboard"),
+        p("You can use this dashboard to explore player statistics and create your roster:"),
+        tags$ul(
+          tags$li("Regular season statistics are available on the 'Explore 2023 Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'. Defense / Special Team points are not available here -- but you know, like, google it."),
+          tags$li("Use the 'Select Roster' tab on this dashboard to start creating your roster."),
+          tags$li("Add players to your roster based on the combination you think will score the most points by the end of the Superbowl."),
+          tags$li("When a player is added to your roster, the team associated with that player (and any of its remaining players) will be removed from your next possible selections. For example: if you pick Jalen Hurts as one of your quarterbacks, you no longer be able to select an Eagles player for another other player on your roster."),
+          tags$li("When you've satisified the maximum number of positions on your roster, any player associated with that poisiton will be removed from your next possible selection. For example: if you pick Jalen Hurts as your third quarterback, you no longer be able to select a quarterback from any other team."),
+          tags$li("As needed, you can remove players from your team, which will release that Team and/or Position for your next possible selection."),
+          tags$li("You must include your Name, Email and Fantasy Team Name in the Participant Information Box. Don't forget to confirm that you've paid the Commish."),
+          tags$li("The roster can only be downloaded after all parameters have been satisfied (i.e. a completed roster and all participant information)."),
+          tags$li("You must still email the commissioner your roster. This dashboard does not save your roster.", style="color:red; font-weight:bold;"),
+        ),
+        h2("Scoring"),
+        h4("Passing"),
+        tags$ul(
+          tags$li("TD Pass = 6 points"),
+          tags$li("Every 50 passing yards = 1 point"),
+          tags$li("400+ Yards in a single game = 2 points"),
+          tags$li("40+ Yard Passing TD = 2 points"),
+          tags$li("2pt Passing Conversion = 2 points"),
+          tags$li("Interception Thrown = -2 points"),
+          tags$li("Fumble Lost = -2 points"),
+        ),
+        h4("Rushing"),
+        tags$ul(
+          tags$li("TD Rush = 6 points"),
+          tags$li("Every 10 rushing yards = 1 point"),
+          tags$li("200+ Yards in a single game = 2 points"),
+          tags$li("40+ Yard Passing TD = 2 points"),
+          tags$li("2pt rushing Conversion = 2 points"),
+          tags$li("Fumble Lost = -2 points"),
+        ),
+        h4("Receiving"),
+        tags$ul(
+          tags$li("TD Receiving = 6 points"),
+          tags$li("Every 10 receiving yards = 1 point"),
+          tags$li("200+ Yards in a single game = 2 points"),
+          tags$li("40+ Yard Receiving TD = 2 points"),
+          tags$li("2pt rushing Conversion = 2 points"),
+          tags$li("Fumble Lost = -2 points"),
+        ),
+        h4("Kicking"),
+        tags$ul(
+          tags$li("PAT Made = 1 point"),
+          tags$li("PAT Missed = -1 point"),
+          tags$li("FG Made = 3 points"),
+          tags$li("FG Made (40-49 yards) Bonus = 1 point"),
+          tags$li("FG Made (50+ yards) Bonus = 2 points"),
+          tags$li("FG Missed = -1 point"),
+        ),
+        h4("Defense / Special Teams"),
+        tags$ul(
+          tags$li("Each Sack = 1 point"),
+          tags$li("Each Interception = 2 points"),
+          tags$li("Each Safety = 2 points"),
+          tags$li("Each Fumble Recovery = 2 points"),
+          tags$li("Each Blocked Punt, PAT or FG = 2 points"),
+          tags$li("Interception Return TD = 6 points"),
+          tags$li("Fumble Return TD = 6 points"),
+          tags$li("Kickoff Return TD = 6 points"),
+          tags$li("Punt Return TD = 6 points"),
+          tags$li("Blocked Punt or FG Return TD = 6 points"),
+          tags$li("0 Points Allowed = 10 points"),
+          tags$li("1-6 Points Allowed = 7 points"),
+          tags$li("7-13 Points Allowed = 4 points"),
+          tags$li("14-21 Points Allowed = 1 points"),
+          tags$li("22-27 Points Allowed = -1 points"),
+          tags$li("28-34 Points Allowed = -4 points"),
+          tags$li("35-45 Points Allowed = -7 points"),
+          tags$li("46+ Points Allowed = -10 points"),
+        )
+      )
+    ),
     tabPanel(
       "Select Roster",
       actionButton(
@@ -124,12 +190,13 @@ ui <- fluidPage(
             textOutput(outputId = "teams_on_roster_text"),
             p("", style='margin-bottom:25px'),
             fluidPage(
-              h4("Participant Information", style='font-weight:bold'),
-              textInput("fantasy_owner_name", label = "Name", placeholder = "John Doe"),
-              textInput("fantasy_owner_email", label = "Email", placeholder = "abcd@gmail.com"),
-              textInput("fantasy_team_name", label = "Fantasy Team Name", placeholder = "My Clever Team Name"),
-              p("Note: Fantasy Team Name will be displayed in rankings"),
-              checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent"),
+              h4("Participant Information", style='font-weight:bold; margin-bottom:0px'),
+              p("* required", style = "color:red; margin-top:3px"),
+              textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
+              textInput("fantasy_owner_email", label = "Email * ", placeholder = "myemail@gmail.com"),
+              textInput("fantasy_team_name", label = "Fantasy Team Name * ", placeholder = "Unique Team Name (especially if submitting multiple rosters)"),
+              checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent *"),
+              p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
               style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
             ),
             p("", style='margin-bottom:20px'),
@@ -175,6 +242,12 @@ ui <- fluidPage(
               choices = list("QB", "RB", "WR", "TE", "K"),
               selected = "QB"
             ),
+            selectInput(
+              inputId = "stat_type",
+              label = "Statistic Type:",
+              choices = list("Football Values", "Fantasy Points", "Both"),
+              selected = "Football Value"
+            ),
             p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
             actionButton("select_all_teams", label="All", inline=TRUE),
             actionButton("deselect_all_teams", label="None", inline=TRUE),
@@ -218,7 +291,22 @@ server <- function(input, output, session) {
       stats_dropdown(), 
       summarized_boolean = FALSE, 
       long_format_boolean = FALSE
-    ) %>% order_cols()
+    ) 
+    
+    player_stats <- order_cols(player_stats[team_abbr %in% input$selected_teams])
+    if(input$stat_type == "Football Values"){
+      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name', 
+                'team_abbr', 'team_conf', 'team_division',
+                names(player_stats)[str_detect(names(player_stats),"^football_value")])
+      return(player_stats[, .SD, .SDcols = cols])
+    } else if (input$stat_type == "Fantasy Points"){
+      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name', 
+                'team_abbr', 'team_conf', 'team_division',
+                names(player_stats)[str_detect(names(player_stats),"^fantasy_points")])
+      return(player_stats[, .SD, .SDcols = cols])
+    } else {
+      return(player_stats)
+    }
   })
   
   output$statistics_season <- renderDT({
@@ -228,6 +316,21 @@ server <- function(input, output, session) {
       summarized_boolean = TRUE, 
       long_format_boolean = FALSE
     ) %>% order_cols()
+    
+    player_stats <- order_cols(player_stats[team_abbr %in% input$selected_teams])
+    if(input$stat_type == "Football Values"){
+      cols <- c('position','lookup_string', 'player_id', 'player_name', 
+                'team_abbr', 'team_conf', 'team_division',
+                names(player_stats)[str_detect(names(player_stats),"^football_value")])
+      return(player_stats[, .SD, .SDcols = cols])
+    } else if (input$stat_type == "Fantasy Points"){
+      cols <- c('position','lookup_string', 'player_id', 'player_name', 
+                'team_abbr', 'team_conf', 'team_division',
+                names(player_stats)[str_detect(names(player_stats),"^fantasy_points")])
+      return(player_stats[, .SD, .SDcols = cols])
+    } else {
+      return(player_stats)
+    }
   })
   
   observeEvent(
@@ -264,11 +367,7 @@ server <- function(input, output, session) {
   roster <- reactiveValues(players = c(NULL))
   
   observeEvent(input$add_player,{
-    if(input$roster_selections_made == ""){
-      
-    } else{
       roster$players <- c(roster$players, input$roster_selections_made) %>% sort()
-    }
   })
   
   observeEvent(input$remove_player,{

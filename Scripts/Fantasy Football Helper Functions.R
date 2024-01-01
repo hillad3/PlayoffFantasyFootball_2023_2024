@@ -244,9 +244,10 @@ get_position_stats <- function(dt, pos, summarized_boolean, long_format_boolean)
   }
   
   if(long_format_boolean){
-    return(dt)
+    # do nothing
   } else {
     
+    # cast wider
     if(summarized_boolean){
       # does not include the `week` variable when summarized
       dt <- dcast(
@@ -254,8 +255,7 @@ get_position_stats <- function(dt, pos, summarized_boolean, long_format_boolean)
         position + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
         value.var = c('football_value', 'fantasy_points'),
         fill = 0
-      )
-      return(dt)      
+      )   
     } else {
       dt <- dcast(
         dt,
@@ -263,9 +263,21 @@ get_position_stats <- function(dt, pos, summarized_boolean, long_format_boolean)
         value.var = c('football_value', 'fantasy_points'),
         fill = 0
       )
-      return(dt)
     }
   }
+  
+  # order based on top priority columns
+  if(pos=="K" & "football_value_total_fg_made" %in% names(dt)){
+    setorder(dt, cols = football_value_total_fg_made)
+  } else if(pos=="K" & "fantasy_points_total_fg_made" %in% names(dt)){
+    setorder(dt, cols = fantasy_points_total_fg_made)
+  } else if(pos=="QB" & "football_value_total_total_passing_yards" %in% names(dt)){
+    setorder(dt, cols = fantasy_points_total_fg_made)
+  } else if(pos=="QB" & "fantasy_points_total_total_passing_yards" %in% names(dt)){
+    setorder(dt, cols = fantasy_points_total_fg_made)
+  }
+  
+  return(dt)
   
 }
 
@@ -302,73 +314,73 @@ order_cols <- function(dt){
     'stat_label',
     'football_value',
     'fantasy_points',
+    'football_value_total_passing_tds',
+    'fantasy_points_total_passing_tds',
+    'football_value_total_receiving_tds',
+    'fantasy_points_total_receiving_tds',
+    'football_value_total_rushing_tds',
+    'fantasy_points_total_rushing_tds',
+    'football_value_total_passing_yards',
+    'fantasy_points_total_passing_yards',
+    'football_value_total_receiving_yards',
+    'fantasy_points_total_receiving_yards',
+    'football_value_total_rushing_yards',
+    'fantasy_points_total_rushing_yards',
     'football_value_total_fumbles_lost',
+    'fantasy_points_total_fumbles_lost',
 		'football_value_total_interceptions',
-		'football_value_total_passing_tds',
-		'football_value_total_passing_yards',
-		'football_value_total_receiving_tds',
-		'football_value_total_receiving_yards',
-		'football_value_total_rushing_tds',
-		'football_value_total_rushing_yards',
-		'football_value_total_sacks',
-		'football_value_total_two_pt_conversions',
-		'football_value_total_fg_blocked',
-		'football_value_total_fg_made',
-		'football_value_total_fg_made_40_49',
-		'football_value_total_fg_made_50_',
-		'football_value_total_fg_missed',
-		'football_value_total_pat_made',
-		'football_value_total_pat_missed',
-		'football_value_fumbles_lost',
-		'football_value_interceptions',
-		'football_value_passing_tds',
-		'football_value_passing_yards',
-		'football_value_receiving_tds',
-		'football_value_receiving_yards',
-		'football_value_rushing_tds',
-		'football_value_rushing_yards',
-		'football_value_sacks',
-		'football_value_two_pt_conversions',
-		'football_value_fg_blocked',
-		'football_value_fg_made',
-		'football_value_fg_made_40_49',
-		'football_value_fg_made_50_',
-		'football_value_fg_missed',
-		'football_value_pat_made',
-		'football_value_pat_missed',
-		'fantasy_points_total_fumbles_lost',
 		'fantasy_points_total_interceptions',
-		'fantasy_points_total_passing_tds',
-		'fantasy_points_total_passing_yards',
-		'fantasy_points_total_receiving_tds',
-		'fantasy_points_total_receiving_yards',
-		'fantasy_points_total_rushing_tds',
-		'fantasy_points_total_rushing_yards',
+		'football_value_total_sacks',
 		'fantasy_points_total_sacks',
+		'football_value_total_two_pt_conversions',
 		'fantasy_points_total_two_pt_conversions',
-		'fantasy_points_total_fg_blocked',
+		'football_value_total_fg_made',
 		'fantasy_points_total_fg_made',
+		'football_value_total_fg_made_40_49',
 		'fantasy_points_total_fg_made_40_49',
+		'football_value_total_fg_made_50_',
 		'fantasy_points_total_fg_made_50_',
+		'football_value_total_fg_missed',
 		'fantasy_points_total_fg_missed',
+		'football_value_total_fg_blocked',
+		'fantasy_points_total_fg_blocked',
+		'football_value_total_pat_made',
 		'fantasy_points_total_pat_made',
+		'football_value_total_pat_missed',
 		'fantasy_points_total_pat_missed',
-		'fantasy_points_fumbles_lost',
-		'fantasy_points_interceptions',
+		'football_value_passing_tds',
 		'fantasy_points_passing_tds',
-		'fantasy_points_passing_yards',
+		'football_value_receiving_tds',
 		'fantasy_points_receiving_tds',
-		'fantasy_points_receiving_yards',
+		'football_value_rushing_tds',
 		'fantasy_points_rushing_tds',
+		'football_value_passing_yards',
+		'fantasy_points_passing_yards',
+		'football_value_rushing_yards',
 		'fantasy_points_rushing_yards',
+		'football_value_receiving_yards',
+		'fantasy_points_receiving_yards',
+		'football_value_fumbles_lost',
+		'fantasy_points_fumbles_lost',
+		'football_value_interceptions',
+		'fantasy_points_interceptions',
+		'football_value_sacks',
 		'fantasy_points_sacks', 
+		'football_value_two_pt_conversions',
 		'fantasy_points_two_pt_conversions',
-		'fantasy_points_fg_blocked',
+		'football_value_fg_made',
 		'fantasy_points_fg_made',
+		'football_value_fg_made_40_49',
 		'fantasy_points_fg_made_40_49',
+		'football_value_fg_made_50_',
 		'fantasy_points_fg_made_50_',
+		'football_value_fg_missed',
 		'fantasy_points_fg_missed',
+		'football_value_fg_blocked',
+		'fantasy_points_fg_blocked',
+		'football_value_pat_made',
 		'fantasy_points_pat_made', 
+		'football_value_pat_missed',
 		'fantasy_points_pat_missed'
   )
   
@@ -385,4 +397,25 @@ order_cols <- function(dt){
   
   return(dt[,..preferred_order])
   
+}
+
+
+count_positions <- function(x){
+  position_counts <- c(NULL)
+  position_tmp <- c(NULL)
+  for(a in x){
+    if(a %in% c("K","Defense")){
+      position_counts <- c(position_counts,a)
+    } else if((a == "RB" & sum(position_tmp==a)==3L) |
+              (a == "TE" & sum(position_tmp==a)==2L) |
+              (a == "WR" & sum(position_tmp==a)==3L)
+    ){
+      position_tmp <- c(position_tmp,a)
+      position_counts <- c(position_counts,paste0("FLEX (",a,")"))
+    } else {
+      position_counts <- c(position_counts,paste0(a,sum(position_tmp==a)+1L))
+      position_tmp <- c(position_tmp,a)
+    }
+  }
+  return(position_counts)
 }
