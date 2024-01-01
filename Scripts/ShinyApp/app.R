@@ -7,9 +7,17 @@ library(shiny)
 library(data.table)
 library(DT)
 library(shinyjs)
-library(here)
 
-source(paste0(getwd(),'/Fantasy_Football_Helper_Functions.R'))
+# when pulling the getwd() in the console, it does not include the folders Scripts and ShinyApp
+# However, when shiny::runApp() is called, the getwd() gets updated to include these folders. 
+# therefore this structure will not work unless using runApp()
+tryCatch(
+  expr = source(paste0(getwd(),'/Fantasy Football Helper Functions.R')),
+  warning = function(cond){
+    print("Warning: File not found in the directory path, or directory path does not exist. Trying alternate path")
+    source(paste0(getwd(),'/Scripts/ShinyApp/Fantasy Football Helper Functions.R'))
+  }
+)
 
 season_year <- 2023L
 season_type <- c("REG")
@@ -50,7 +58,7 @@ ui <- fluidPage(
     tabPanel(
       "How to Play",
       fluidPage(
-        h2("How It Works"),
+        h2("Game Overview"),
         p("Playoff Fantasy Football is an elimination based version of Fantasy Football:"),
         tags$ul(
           tags$li("Each contestant will create a diversified roster prior to the start of playoffs."),
@@ -378,6 +386,15 @@ server <- function(input, output, session) {
   roster_slots_remaining <- reactive({
     14-length(roster$players)
   }) 
+  
+  roster_full <- reactive({
+    if(length(roster$players) == 14L){
+      TRUE
+    } else {
+      FALSE
+    }
+  })
+  
   output$roster_slots_remaining_text <- renderText({
       paste0("Roster slot(s) remaining: ", roster_slots_remaining(), " of 14")
   })
@@ -518,6 +535,17 @@ server <- function(input, output, session) {
       )
     })
   
+  observeEvent(
+    roster_full(),
+    {
+      if(roster_full()) {
+        shinyjs::disable("add_player")
+        
+      } else {
+        shinyjs::enable("add_player")
+      }
+    }
+  )
   
 
 
