@@ -90,6 +90,8 @@ ui <- fluidPage(
           tags$li("The roster can only be downloaded after all parameters have been satisfied (i.e. a completed roster and all participant information)."),
           tags$li("You must still email the commissioner your roster. This dashboard does not save your roster.", style="color:red; font-weight:bold;"),
         ),
+        h2("Alternate Roster in Excel"),
+        p("The email sent to you by the Commissioner should contain an Excel file that is equivalent to this dashboard. If you prefer, you can complete that roster template and email the Excel file back to the Commissioner."),
         h2("Scoring"),
         h4("Passing"),
         tags$ul(
@@ -212,7 +214,6 @@ ui <- fluidPage(
             downloadButton(
               outputId = "download_roster", 
               label = "Download Roster",
-              # icon = icon("download-alt", lib = "glyphicon"),
               style = "color: white; background-color: #F62817;"
             ),
             p("Don't forget to email your roster to the Commish!"),
@@ -283,7 +284,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-
+  
   ## this section is for stats exploration
   observeEvent(input$toggleFilterOptions, {
     shinyjs::toggle(id = "filterOptions")
