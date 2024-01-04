@@ -449,13 +449,12 @@ dt_nfl_player_stats <- dt_nfl_player_stats[abs(fantasy_points) >= 1e-7 | abs(foo
 dt_lookup <- unique(get_player_stats()[,.(position, lookup_string, team_abbr)], by=c('lookup_string'))
 dt_lookup <- setorder(dt_lookup, cols = position, team_abbr, lookup_string)
 
-team_lookupstring_position <- bind_rows(
-  dt_lookup,
-  dt_nfl_teams %>% 
-    mutate(position = "Defense",
-           lookup_string = paste0(position,", ",team_abbr," (",team_division,")")) %>% 
-    select(team_abbr, lookup_string, position)
-) %>% as.data.table()
+
+dt_nfl_teams[,position:="Defense"]
+dt_nfl_teams[,lookup_string:=paste0(position,", ",team_abbr," (",team_division,")")]
+
+team_lookupstring_position <- rbindlist(list(dt_lookup, dt_nfl_teams[,.(position, lookup_string, team_abbr)]))
+
 roster_choices <- team_lookupstring_position %>% distinct(lookup_string) %>% as.list()
 def_teams_choices <- dt_nfl_teams %>% distinct(team_abbr) %>% as.list()
 
@@ -473,7 +472,16 @@ ui <- fluidPage(
           tags$li("Each contestant will create a diversified roster prior to the start of playoffs."),
           tags$ul(
             tags$li("Your roster must include one player from each of the 14 teams in the playoffs."),
-            tags$li("Your roster must include 1 Kicker (K), 3 Quaterbacks (QB), 3 Running Backs (RB), 3 Wide Receivers (WR), 2 Tight Ends (TE), 1 Flex Position (either RB, WR or TE) and 1 Defense / Special Teams.")
+            tags$li("Your roster must include:"),
+              tags$ul(
+                tags$li("1 Kicker (K)"),
+                tags$li("3 Quaterbacks (QB)"),
+                tags$li("3 Running Backs (RB)"),
+                tags$li("3 Wide Receivers (WR)"),
+                tags$li("2 Tight Ends (TE)"),
+                tags$li("1 Flex Position (either RB, WR or TE)"),
+                tags$li("1 Defense / Special Teams.")
+              ),
           ),
           tags$li("The roster will be locked from changes after submission to the Commissioner. Each week, as teams are eliminated from the playoffs, so does the pool of potential players on your roster who can score points."),
           tags$ul(
@@ -482,8 +490,8 @@ ui <- fluidPage(
           tags$li("Fantasy scoring is calculated based on each player's performance during a game."),
           tags$li("The types of statistics converted into Fantasy scores is consistent with typical scoring rules (see details below)"),
           tags$li("All playoff games, including wildcards and the Super Bowl, will be considered in the scoring."),
-          tags$li("Rosters must be submitted, valid, and paid for by the start of the first wildcard game."),
-          tags$li("Multiple rosters are allowed per Owner, as long as each are paid for by kickoff of the first wildcard playoff game (1pm Saturday, January 13th, 2023)."),
+          tags$li("Rosters must be submitted, valid, and paid for by kickoff of the first wildcard game (1pm Saturday, January 13th, 2023)."),
+          tags$li("Multiple rosters are allowed per Owner, as long as each are paid for."),
           tags$li("Prizes will be awarded to the top 5 scoring entries."),
           tags$li("Prize purse will be announced after wildcard playoff weekend, since prize purse is dependent on the number of entries."),
           tags$li("If you think you're going to win, spread the word: The more participants, the larger the prizes."),
@@ -718,12 +726,12 @@ server <- function(input, output, session) {
     
     player_stats <- order_cols(player_stats[team_abbr %in% input$selected_teams])
     if(input$stat_type == "Football Values"){
-      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name', 
+      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name',
                 'team_abbr', 'team_conf', 'team_division',
                 names(player_stats)[str_detect(names(player_stats),"^football_value")])
       return(player_stats[, .SD, .SDcols = cols])
     } else if (input$stat_type == "Fantasy Points"){
-      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name', 
+      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name',
                 'team_abbr', 'team_conf', 'team_division',
                 names(player_stats)[str_detect(names(player_stats),"^fantasy_points")])
       return(player_stats[, .SD, .SDcols = cols])
@@ -906,12 +914,14 @@ server <- function(input, output, session) {
   
   output$players_on_roster_DT <- renderDT({
     if(is_empty(roster$players)){
-      DT::datatable(data.table(lookup_string = "Roster is empty"), options = list(pageLength = 25))
+      DT::datatable(
+        data.table(lookup_string = "Roster is empty"), 
+        options = list(pageLength = 25)
+      )
     } else {
       DT::datatable(
-        team_lookupstring_position %>%
-          filter(lookup_string %in% roster$players) %>%
-          select(position, team_abbr, lookup_string),
+        team_lookupstring_position[lookup_string %in% roster$players, 
+                                   .(position, team_abbr, lookup_string)],
         options = list(pageLength = 25)
       )
     }
