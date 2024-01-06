@@ -9,23 +9,36 @@ library(DT)
 library(shinyjs)
 
 season_year <- 2023L
-season_type <- c("REG")
+season_type <- c("REG","POST")
+season_teams <- c(
+  "ARI","ATL","BAL","BUF","CAR",
+  "CHI","CIN","CLE","DAL","DEN",
+  #"DET","GB","HOU","IND","JAX",
+  #"KC","LA","LAC","LV","MIA",
+  #"MIN","NE","NO","NYG","NYJ",
+  "PHI","PIT",#"SEA","SF","TB",
+  "TEN","WAS"
+)
 
 
-get_team_names <- function(){
+get_team_names <- function(season_teams_list = season_teams){
   # create data.table for NFL teams
   dt <- data.table::as.data.table(nflreadr::load_teams(current = TRUE))
+  dt <- dt[team_abbr %in% season_teams_list]
   dt[,team_name_w_abbr := paste0(team_name, ' (', team_abbr, ')')]
   dt <- dt[,.(team_abbr, team_name, team_name_w_abbr, team_conf, team_division, team_logo_espn)]
   return(dt)
 }
 
-get_offensive_player_stats <- function(season_year_int = season_year, season_type_char = season_type){
+get_offensive_player_stats <- function(season_year_int = season_year, 
+                                       season_type_char = season_type, 
+                                       season_teams_list = season_teams){
   # create data.table for players, which is a combination of the offensive scorers plus kickers
   dt <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year_int, stat_type = 'offense'))
   dt <- dt[season_type %in% season_type_char]
   
   setnames(dt, old=c('recent_team'), new=c('team_abbr'))
+  dt <- dt[team_abbr %in% season_teams_list]
   
   # Full Backs are considered running backs for the analysis
   dt <- dt[position %in% c('QB', 'RB', 'FB', 'WR', 'TE')]
@@ -114,12 +127,15 @@ get_offensive_player_stats <- function(season_year_int = season_year, season_typ
   
 }
 
-get_kicker_player_stats <- function(season_year_int = season_year, season_type_char = season_type){
+get_kicker_player_stats <- function(season_year_int = season_year, 
+                                    season_type_char = season_type, 
+                                    season_teams_list = season_teams){
   
   dt <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year_int, stat_type = 'kicking'))
   dt <- dt[season_type %in% season_type_char]
   
   setnames(dt, old=c('team'), new=c('team_abbr'))
+  dt <- dt[team_abbr %in% season_teams_list]
   
   # position is not in the original dataset
   dt[,position := 'K']
@@ -429,7 +445,6 @@ count_positions <- function(x){
   }
   return(position_counts)
 }
-
 
 # create data.table for NFL teams
 dt_nfl_teams <- get_team_names()
