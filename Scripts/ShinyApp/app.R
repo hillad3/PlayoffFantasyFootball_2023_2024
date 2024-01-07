@@ -7,8 +7,9 @@ library(shiny)
 library(data.table)
 library(DT)
 library(shinyjs)
+library(shinythemes)
 
-season_year <- 2023L
+season_year <- 2022L
 season_type <- c("REG","POST")
 season_teams <- c(
   "ARI","ATL","BAL","BUF","CAR",
@@ -41,11 +42,13 @@ get_pbp <- function(season_year_int = season_year,
                     season_teams_list = season_teams){
   dt <- data.table::as.data.table(nflfastR::load_pbp(seasons = season_year_int))
   dt <- dt[season_type %in% season_type_char]
+  dt[,season_type := if_else(season_type=="REG","Regular", if_else(season_type=="POST","Post","Error"))]
   dt <- dt[home_team %in% season_teams_list | away_team %in% season_teams_list]
   cols <- c(
     'game_id',
     'game_date',
     'week',
+    'season_type',
     'home_team',
     'away_team',
     'home_score',
@@ -121,20 +124,20 @@ get_bonus_stats <- function(pbp_dt,
   # offensive bonus for touchdown with pass over 40 yards for qb
   player[["40yd_pass_td_qb_bonus"]] <- pbp_dt[
     pass_touchdown == 1L & passing_yards >= 40, 
-    by = .(week, team_abbr = posteam, player = passer_player_name, player_id = passer_player_id),
+    by = .(week, season_type, team_abbr = posteam, player = passer_player_name, player_id = passer_player_id),
     list(stat_label = "40yd_pass_td_qb_bonus", football_value = .N, fantasy_points=.N*2L)
   ]
   
   player[["40yd_pass_td_receiver_bonus"]] <- pbp_dt[
     pass_touchdown == 1L & passing_yards >= 40, 
-    by = .(week, team_abbr = posteam, player = receiver_player_name, player_id = receiver_player_id),
+    by = .(week, season_type, team_abbr = posteam, player = receiver_player_name, player_id = receiver_player_id),
     list(stat_label = "40yd_pass_td_receiver_bonus", football_value = .N, fantasy_points=.N*2L)
   ]
   
   # offensive bonus for touchdown with rush over 40 yards for qb
   player[["40yd_rush_td_bonus"]] <- pbp_dt[
     rush_touchdown == 1L & rushing_yards >= 40, 
-    by = .(week, team_abbr = posteam, player = rusher_player_name, player_id = rusher_player_id),
+    by = .(week, season_type, team_abbr = posteam, player = rusher_player_name, player_id = rusher_player_id),
     list(stat_label = "40yd_rush_td_bonus", football_value = .N, fantasy_points=.N*2L)
   ]
   
@@ -146,6 +149,7 @@ get_bonus_stats <- function(pbp_dt,
     pbp_dt[
       play_type == "kickoff" & !is.na(kickoff_returner_player_name) & return_touchdown == 1L & return_yards >= 40, 
       by = .(week,
+             season_type, 
              team_abbr = posteam,
              player = kickoff_returner_player_name,
              player_id = kickoff_returner_player_id),
@@ -154,13 +158,14 @@ get_bonus_stats <- function(pbp_dt,
     pbp_dt[
       play_type == "punt" & !is.na(punt_returner_player_name) & return_touchdown == 1L & return_yards >= 40, 
       by = .(week,
+             season_type, 
              team_abbr = defteam,
              player = punt_returner_player_name,
              player_id = punt_returner_player_id),
       list(stat_label = "40yd_return_td_bonus", football_value = .N, fantasy_points=.N*2L)
     ]
   )) 
-  player[["40yd_return_td_bonus"]] <- tmp[,by = .(week,team_abbr,player,player_id,stat_label),
+  player[["40yd_return_td_bonus"]] <- tmp[,by = .(week,season_type,team_abbr,player,player_id,stat_label),
       list(football_value = sum(football_value), fantasy_points = sum(fantasy_points))]
   
   player <- rbindlist(player)
@@ -176,6 +181,7 @@ get_bonus_stats <- function(pbp_dt,
       team_division,
       position,
       week,
+      season_type, 
       player_id,
       player_name,
       stat_label,
@@ -199,21 +205,21 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   # but there was still a sack recorded (seemingly if a fumble happens in the same play)
   def[["def_sack"]] <- pbp_dt[
     sack == 1L,
-    by = .(week, team_abbr = defteam),
+    by = .(week, season_type, team_abbr = defteam),
     list(stat_label="def_sack", football_value = .N, fantasy_points = .N*1L)
   ]
   
   # defensive bonus for safeties
   def[["def_safety"]] <- pbp_dt[
     safety == 1L & !is.na(safety_player_id),
-    by = .(week, team_abbr = defteam),
+    by = .(week, season_type, team_abbr = defteam),
     list(stat_label="def_safety", football_value = .N, fantasy_points = .N*1L)
   ]
   
   # defensive bonus for fumble recovery
   def[["def_fumble_recovery"]] <- pbp_dt[
     fumble == 1L & fumble_lost == 1L & play_type != "punt",
-    by = .(week, team_abbr = defteam),
+    by = .(week, season_type, team_abbr = defteam),
     list(stat_label="def_fumble_recovery", football_value = .N, fantasy_points = .N*2L)
   ]
   
@@ -221,21 +227,21 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   # punts start with the receiving team listed as defteam, so those may need special consideration
   def[["def_fumble_recovery_punt"]] <- pbp_dt[
     fumble == 1L & fumble_lost == 1L & play_type == "punt",
-    by = .(week, team_abbr = posteam),
+    by = .(week, season_type, team_abbr = posteam),
     list(stat_label="def_fumble_recovery_punt", football_value = .N, fantasy_points = .N*2L)
   ]
   
   # defensive bonus for interceptions
   def[["def_interception"]] <- pbp_dt[
     interception == 1L,
-    by = .(week, team_abbr = defteam),
+    by = .(week, season_type, team_abbr = defteam),
     list(stat_label="def_interception", football_value = .N, fantasy_points = .N*2L)
   ]
   
   # def bonus for blocks on punt, fg or extra point
   def[["def_block"]] <- pbp_dt[
     !is.na(blocked_player_name),
-    by = .(week, team_abbr = defteam),
+    by = .(week, season_type, team_abbr = defteam),
     list(stat_label="def_block", football_value = .N, fantasy_points = .N*2L)
   ]
   
@@ -243,7 +249,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   # only for normal possession plays by the opposite team (ie. pass or rush)
   def[["def_td"]] <- pbp_dt[
     return_touchdown == 1L & play_type %in% c("pass", "run"),
-    by = .(week, team_abbr = defteam),
+    by = .(week, season_type, team_abbr = defteam),
     list(stat_label="def_td", football_value = .N, fantasy_points = .N*6L)
   ]
   
@@ -251,7 +257,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   # in a kickoff, the kicking team is listed as the defteam
   def[["def_kickoff_return_td"]] <- pbp_dt[
     return_touchdown == 1L & play_type %in% c("kickoff"),
-    by = .(week, team_abbr = posteam),
+    by = .(week, season_type, team_abbr = posteam),
     list(stat_label="def_kickoff_return_td", football_value = .N, fantasy_points = .N*6L)
   ]
   
@@ -259,17 +265,17 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   # in a punt, the receiving team is listed as the defteam
   def[["def_punt_return_td"]] <- pbp_dt[
     return_touchdown == 1L & play_type %in% c("punt"),
-    by = .(week, team_abbr = posteam),
+    by = .(week, season_type, team_abbr = posteam),
     list(stat_label="def_punt_return_td", football_value = .N, fantasy_points = .N*6L)
   ]
   
   # calculate points allowed for each team
   tmp <- rbindlist(list(
-    unique(pbp_dt[,.(week, team_abbr = home_team, football_value = away_score)]),
-    unique(pbp_dt[,.(week, team_abbr = away_team, football_value = home_score)])
+    unique(pbp_dt[,.(week, season_type, team_abbr = home_team, football_value = away_score)]),
+    unique(pbp_dt[,.(week, season_type, team_abbr = away_team, football_value = home_score)])
   ))
   tmp[, stat_label := "def_points_allowed"]
-  tmp <- tmp[,.(week, team_abbr, stat_label, football_value)]
+  tmp <- tmp[,.(week, season_type, team_abbr, stat_label, football_value)]
   def[["def_points_allowed"]] <- tmp[, 
     fantasy_points := case_when(
       football_value == 0L ~ 10L,
@@ -300,6 +306,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
       team_division,
       position,
       week,
+      season_type, 
       player_id,
       player_name,
       stat_label,
@@ -322,6 +329,7 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
   # create data.table for players, which is a combination of the offensive scorers plus kickers
   dt <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year_int, stat_type = stat_type_char))
   dt <- dt[season_type %in% season_type_char]
+  dt[,season_type := if_else(season_type=="REG","Regular", if_else(season_type=="POST","Post", "Error"))]
   
   if(stat_type_char == 'offense'){setnames(dt, old=c('recent_team'), new=c('team_abbr'))} 
   if(stat_type_char == 'kicking'){setnames(dt, old=c('team'), new=c('team_abbr'))}
@@ -343,6 +351,7 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
   standard_cols <- c(
     'position',
     'week',
+    'season_type',
     'player_id',
     'player_name',
     'team_abbr'
@@ -418,6 +427,7 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
       team_division,
       position,
       week,
+      season_type,
       player_id,
       player_name,
       stat_label,
@@ -430,7 +440,7 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
 }
 
 
-get_combined_stats <- function(teams = dt_nfl_teams){
+get_combined_stats <- function(teams = dt_nfl_teams, playoff_teams = season_teams){
   
   # bind rows
   dt <- rbindlist(list(
@@ -439,6 +449,9 @@ get_combined_stats <- function(teams = dt_nfl_teams){
     get_bonus_stats(get_pbp()),
     get_defense_stats(get_pbp())
   ))
+  
+  # reapply playoff teams filter since defensive / special teams are scored for both home and away teams depending in play type
+  dt <- dt[team_abbr %in% playoff_teams]
   
   # create the lookup_string used in the dashboard filters
   dt[,lookup_string := paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')]
@@ -452,6 +465,7 @@ get_combined_stats <- function(teams = dt_nfl_teams){
     c(
       'position',
       'week',
+      'season_type',
       'lookup_string',
       'player_id',
       'player_name',
@@ -462,17 +476,19 @@ get_combined_stats <- function(teams = dt_nfl_teams){
   )
 }
 
-get_position_stats <- function(dt, pos, summarized_boolean, long_format_boolean){
+get_shiny_stats <- function(dt, pos, type, summarized_boolean, long_format_boolean){
   
   if(!(pos %in% c("K","QB","RB","TE","WR","Defense"))){
     print(paste0(pos, " is not a valid position"))
   }
   
   dt <- dt[position == pos]
+  dt <- dt[season_type == type]
   
   if(summarized_boolean){
     
     grouping_by <- c(
+      'season_type',
       'position',
       'lookup_string',
       'player_id',
@@ -501,14 +517,14 @@ get_position_stats <- function(dt, pos, summarized_boolean, long_format_boolean)
       # does not include the `week` variable when summarized
       dt <- dcast(
         dt,
-        position + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
+        season_type + position + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
         value.var = c('football_value', 'fantasy_points'),
         fill = 0
       )   
     } else {
       dt <- dcast(
         dt,
-        position + week + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
+        season_type + position + week + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
         value.var = c('football_value', 'fantasy_points'),
         fill = 0
       )
@@ -536,6 +552,7 @@ order_cols <- function(dt){
     'position',
     'lookup_string',
     'week',
+    'season_type',
     'player_id',
     'player_name',
     'team_abbr',
@@ -703,7 +720,6 @@ order_cols <- function(dt){
     print("There are unmapped columns in the dataset")
     print(paste0(unmapped_cols, collapse = "; "))
   }
-
   
   preferred_order <- master_order[master_order %in% found_order]
   
@@ -758,13 +774,15 @@ def_teams_choices <- dt_nfl_teams %>% distinct(team_abbr) %>% as.list()
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
+  theme = shinytheme("sandstone"),
+  # tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "www/bootstrap.min.css")),
   titlePanel("Playoff Fantasy Football"),
   tabsetPanel(
     tabPanel(
       "How to Play",
       fluidPage(
-        h2("Game Overview"),
-        p("Playoff Fantasy Football is an elimination based version of Fantasy Football:"),
+        tags$h2("Game Overview"),
+        tags$p("Playoff Fantasy Football is an elimination based version of Fantasy Football:"),
         tags$ul(
           tags$li("Each contestant will create a diversified roster prior to the start of playoffs."),
           tags$ul(
@@ -780,25 +798,30 @@ ui <- fluidPage(
                 tags$li("1 Defense / Special Teams.")
               ),
           ),
-          tags$li("The roster will be locked from changes after submission to the Commissioner. Each week, as teams are eliminated from the playoffs, so does the pool of potential players on your roster who can score points."),
+          tags$li("The roster will be locked from changes after submission to the Commissioner."),
+          tags$ul(
+            tags$li("Rosters must be submitted, valid, and paid for by kickoff of the first wildcard game (1pm Saturday, January 13th, 2023)."),
+            tags$li("Late rosters will not be accepted."),
+            tags$li("Multiple rosters are allowed per Owner, as long as each are paid for.")
+          ),
+          tags$li("Each week, as teams are eliminated from the playoffs, so does the pool of potential players on your roster who can score points."),
           tags$ul(
             tags$li("Therefore, your overall roster success is as dependent on each player's longevity in the playoffs as much as it is on the player's performance.")
           ),
           tags$li("Fantasy scoring is calculated based on each player's performance during a game."),
-          tags$li("The types of statistics converted into Fantasy scores is consistent with typical scoring rules (see details below)"),
-          tags$li("All playoff games, including wildcards and the Super Bowl, will be considered in the scoring."),
-          tags$li("Rosters must be submitted, valid, and paid for by kickoff of the first wildcard game (1pm Saturday, January 13th, 2023)."),
-          tags$li("Multiple rosters are allowed per Owner, as long as each are paid for."),
+          tags$li("The types of statistics converted into Fantasy points is consistent with typical scoring rules (see details below)"),
+          tags$li("Points are cumulative throughout the playoffs (including wildcard games and Super Bowl)."),
+          tags$li("The person with the most points at the end of the playoffs wins the grand prize."),
           tags$li("Prizes will be awarded to the top 5 scoring entries."),
           tags$li("Prize purse will be announced after wildcard playoff weekend, since prize purse is dependent on the number of entries."),
           tags$li("If you think you're going to win, spread the word: The more participants, the larger the prizes."),
           tags$li("If you think you're going to lose, spread the word: Imagine the commaraderie of shared experience!"),
           tags$li("The Commissioner will (probably) provide weekly updates on Fantasy Team standings throughout the contest. Final summary of scoring and standings will be provided.")
         ),
-        h2("How To Use this Dashboard"),
-        p("You can use this dashboard to explore player statistics and create your roster:"),
+        tags$h2("How To Use this Dashboard"),
+        tags$p("You can use this dashboard to explore player statistics and create your roster:"),
         tags$ul(
-          tags$li("Regular season statistics are available on the 'Explore 2023 Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'. Defense / Special Team points are not available here -- but you know, like, google it."),
+          tags$li("Regular season statistics are available on the 'Explore 2023 Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
           tags$li("Use the 'Select Roster' tab on this dashboard to start creating your roster."),
           tags$li("Add players to your roster based on the combination you think will score the most points by the end of the Superbowl."),
           tags$li("When a player is added to your roster, the team associated with that player (and any of its remaining players) will be removed from your next possible selections. For example: if you pick Jalen Hurts as one of your quarterbacks, you no longer be able to select an Eagles player on your roster."),
@@ -808,38 +831,38 @@ ui <- fluidPage(
           tags$li("The roster can only be downloaded after all parameters have been satisfied (that is, a completed roster of 14 players and the Participant Information box is filled in with valid information)."),
           tags$li("You must still email the commissioner your roster downloaded from this website. This website does not save your roster.", style="color:red; font-weight:bold;"),
         ),
-        h2("Alternate Roster in Excel"),
-        p("The email sent to you by the Commissioner should contain an Excel file that is equivalent to this dashboard. If you prefer, you can complete that roster template and email the Excel file back to the Commissioner. I don't know why you would do this, but technically it is possible."),
-        h2("Scoring"),
-        h4("Passing"),
+        tags$h2("Alternate Roster in Excel"),
+        tags$p("The email sent to you by the Commissioner should contain an Excel file that is equivalent to this dashboard. If you prefer, you can complete that roster template and email the Excel file back to the Commissioner. I don't know why you would do this, but technically it is possible."),
+        tags$h2("Scoring"),
+        tags$h4("Passing"),
         tags$ul(
           tags$li("TD Pass = 6 points"),
           tags$li("Every 50 passing yards = 1 point"),
           tags$li("400+ Yards in a single game = 2 points"),
-          tags$li("40+ Yard Passing TD = 2 points"),
+          tags$li("40+ Yard Passing TD Bonus = 2 points"),
           tags$li("2pt Passing Conversion = 2 points"),
           tags$li("Interception Thrown = -2 points"),
           tags$li("Fumble Lost = -2 points"),
         ),
-        h4("Rushing"),
+        tags$h4("Rushing"),
         tags$ul(
           tags$li("TD Rush = 6 points"),
           tags$li("Every 10 rushing yards = 1 point"),
           tags$li("200+ Yards in a single game = 2 points"),
-          tags$li("40+ Yard Passing TD = 2 points"),
+          tags$li("40+ Yard Passing TD Bonus = 2 points"),
           tags$li("2pt rushing Conversion = 2 points"),
           tags$li("Fumble Lost = -2 points"),
         ),
-        h4("Receiving"),
+        tags$h4("Receiving"),
         tags$ul(
           tags$li("TD Receiving = 6 points"),
           tags$li("Every 10 receiving yards = 1 point"),
           tags$li("200+ Yards in a single game = 2 points"),
-          tags$li("40+ Yard Receiving TD = 2 points"),
+          tags$li("40+ Yard Receiving TD Bonus = 2 points"),
           tags$li("2pt rushing Conversion = 2 points"),
           tags$li("Fumble Lost = -2 points"),
         ),
-        h4("Kicking"),
+        tags$h4("Kicking"),
         tags$ul(
           tags$li("PAT Made = 1 point"),
           tags$li("PAT Missed = -1 point"),
@@ -848,13 +871,13 @@ ui <- fluidPage(
           tags$li("FG Made (50+ yards) Bonus = 2 points"),
           tags$li("FG Missed = -1 point"),
         ),
-        h4("Defense / Special Teams"),
+        tags$h4("Defense / Special Teams"),
         tags$ul(
           tags$li("Each Sack = 1 point"),
           tags$li("Each Interception = 2 points"),
           tags$li("Each Safety = 2 points"),
           tags$li("Each Fumble Recovery = 2 points"),
-          tags$li("Each Blocked Punt, PAT or FG = 2 points"),
+          tags$li("Each Blocked Punt/PAT/FG = 2 points"),
           tags$li("Interception Return TD = 6 points"),
           tags$li("Fumble Return TD = 6 points"),
           tags$li("Kickoff Return TD = 6 points"),
@@ -895,13 +918,13 @@ ui <- fluidPage(
               icon = icon("add"),
               style="color: white; background-color: #0086b3; border-color: #2e6da4"
             ),
-            p("", style="margin-top:10px"),
+            tags$p("", style="margin-top:10px"),
             textOutput(outputId = "roster_slots_remaining_text"),
-            p("", style="margin-top:10px"),
+            tags$p("", style="margin-top:10px"),
             textOutput(outputId = "positions_available_text"),
-            p("", style="margin-top:10px"),
+            tags$p("", style="margin-top:10px"),
             textOutput(outputId = "teams_available_text"),
-            h1("", style = 'margin:100px'),
+            tags$h1("", style = 'margin:100px'),
             selectizeInput(
               inputId = "roster_selections_removed",
               label = "Remove Player or Defensive Team",
@@ -914,39 +937,39 @@ ui <- fluidPage(
               icon = icon("trash", lib = "glyphicon"),
               style="color: white; background-color: gray; border-color: black"
             ),
-            p("", style="margin-top:10px"),
+            tags$p("", style="margin-top:10px"),
             textOutput(outputId = "positions_on_roster_text"),
-            p("", style="margin-top:10px"),
+            tags$p("", style="margin-top:10px"),
             textOutput(outputId = "teams_on_roster_text"),
-            p("", style='margin-bottom:25px'),
+            tags$p("", style='margin-bottom:25px'),
             fluidPage(
-              h4("Participant Information", style='font-weight:bold; margin-bottom:0px'),
-              p("* required", style = "color:red; margin-top:3px"),
+              tags$p("Participant Information", style='font-weight:bold; margin-bottom:0px;', inline=TRUE),
+              tags$p("* required", style = "color:red; margin-top:3px", inline=TRUE),
               textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
-              textInput("fantasy_owner_email", label = "Email * ", placeholder = "myemail@gmail.com"),
-              textInput("fantasy_team_name", label = "Fantasy Team Name * ", placeholder = "Unique Team Name (especially if submitting multiple rosters)"),
+              textInput("fantasy_owner_email", label = "Email *", placeholder = "myemail@gmail.com"),
+              textInput("fantasy_team_name", label = "Fantasy Team Name *", placeholder = "Unique Team Name"),
               checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent *"),
-              p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
+              tags$p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
               style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
             ),
-            p("", style='margin-bottom:20px'),
+            tags$p("", style='margin-bottom:20px'),
             downloadButton(
               outputId = "download_roster", 
               label = "Download Roster",
               style = "color: white; background-color: #F62817;"
             ),
-            p("Don't forget to email your roster to the Commish!"),
+            tags$p("Don't forget to email your roster to the Commish!"),
             width = 4
           )
         ),
         mainPanel(
           fluidRow(
-            h3("Current Roster"),
+            tags$h3("Current Roster"),
             DTOutput(outputId = "players_on_roster_DT"),
             style="margin-left:2px"
           ),
           fluidRow(
-            h3("Valid Player Selections Remaining", style="margin-top:100px"),
+            tags$h3("Valid Player Selections Remaining", style="margin-top:100px"),
             DTOutput(outputId = "players_remaining_DT"),
             style="margin-left:2px"
           )
@@ -954,7 +977,7 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
-      "Explore 2023 Stats",
+      "Explore Stats",
       actionButton(
         inputId = "toggleFilterOptions", 
         label = "Toggle Filter Options",
@@ -972,12 +995,18 @@ ui <- fluidPage(
               selected = "QB"
             ),
             selectInput(
+              inputId = "reg_or_post",
+              label = "Regular or Post Season:",
+              choices = list("Regular","Post"),
+              selected = "Regular"
+            ),
+            selectInput(
               inputId = "stat_type",
               label = "Statistic Type:",
               choices = list("Football Values", "Fantasy Points", "Both"),
               selected = "Football Value"
             ),
-            p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
+            tags$p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
             actionButton("select_all_teams", label="All", inline=TRUE),
             actionButton("deselect_all_teams", label="None", inline=TRUE),
             checkboxGroupInput(
@@ -986,15 +1015,13 @@ ui <- fluidPage(
               choiceNames = as.list(dt_nfl_teams$team_name_w_abbr),
               choiceValues = as.list(dt_nfl_teams$team_abbr),
               selected = as.list(dt_nfl_teams$team_abbr)
-            ),
-            width = 2
+            )
           )
         ),
         mainPanel(
           tabsetPanel(
-            p("", style="margin-top:10px"),
-            tabPanel("Regular Season Totals", DTOutput("statistics_season")),
-            tabPanel("Weekly Totals", DTOutput("statistics_weekly"))
+            tabPanel(paste0(season_year," Season Totals"), br(), DTOutput("statistics_season")),
+            tabPanel(paste0(season_year," by Week"), br(), DTOutput("statistics_weekly"))
           )
         )
       )
@@ -1010,14 +1037,18 @@ server <- function(input, output, session) {
   })
   
   
-  stats_dropdown <- reactive({
-    input$selected_position
+  stats <- reactive({
+    data.table(
+      'pos' = input$selected_position,
+      'type' = input$reg_or_post
+    )
   })
 
   output$statistics_weekly <- renderDT({
-    player_stats <- get_position_stats(
+    player_stats <- get_shiny_stats(
       dt_nfl_player_stats, 
-      stats_dropdown(), 
+      stats()$pos, 
+      stats()$type,
       summarized_boolean = FALSE, 
       long_format_boolean = FALSE
     ) 
@@ -1039,9 +1070,10 @@ server <- function(input, output, session) {
   })
   
   output$statistics_season <- renderDT({
-    player_stats <- get_position_stats(
+    player_stats <- get_shiny_stats(
       dt_nfl_player_stats, 
-      stats_dropdown(), 
+      stats()$pos,
+      stats()$type,
       summarized_boolean = TRUE, 
       long_format_boolean = FALSE
     ) %>% order_cols()
