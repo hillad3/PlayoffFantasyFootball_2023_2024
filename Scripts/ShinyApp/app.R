@@ -531,17 +531,6 @@ get_shiny_stats <- function(dt, pos, type, summarized_boolean, long_format_boole
     }
   }
   
-  # order based on top priority columns
-  if(pos=="K" & "football_value_total_fg_made" %in% names(dt)){
-    setorder(dt, cols = football_value_total_fg_made)
-  } else if(pos=="K" & "fantasy_points_total_fg_made" %in% names(dt)){
-    setorder(dt, cols = fantasy_points_total_fg_made)
-  } else if(pos=="QB" & "football_value_total_total_passing_yards" %in% names(dt)){
-    setorder(dt, cols = fantasy_points_total_fg_made)
-  } else if(pos=="QB" & "fantasy_points_total_total_passing_yards" %in% names(dt)){
-    setorder(dt, cols = fantasy_points_total_fg_made)
-  }
-  
   return(dt)
   
 }
@@ -651,59 +640,58 @@ order_cols <- function(dt){
     'football_value_total_40yd_pass_td_qb_bonus',
     'fantasy_points_total_40yd_pass_td_qb_bonus',
     'football_value_total_def_block',
-    'football_value_total_def_points_allowed',
-    'football_value_total_def_td',
-    'football_value_total_def_fumble_recovery',
-    'football_value_total_def_fumble_recovery_punt',
-    'football_value_total_def_interception',
-    'football_value_total_def_kickoff_return_td',
-    'football_value_total_def_punt_return_td',
-    'football_value_total_def_sack',
-    'football_value_total_def_safety',
     'fantasy_points_total_def_block',
+    'football_value_total_def_points_allowed',
     'fantasy_points_total_def_points_allowed',
+    'football_value_total_def_td',
     'fantasy_points_total_def_td',
+    'football_value_total_def_fumble_recovery',
     'fantasy_points_total_def_fumble_recovery',
+    'football_value_total_def_fumble_recovery_punt',
     'fantasy_points_total_def_fumble_recovery_punt',
+    'football_value_total_def_interception',
     'fantasy_points_total_def_interception',
+    'football_value_total_def_kickoff_return_td',
     'fantasy_points_total_def_kickoff_return_td',
+    'football_value_total_def_punt_return_td',
     'fantasy_points_total_def_punt_return_td',
+    'football_value_total_def_sack',
     'fantasy_points_total_def_sack',
+    'football_value_total_def_safety',
     'fantasy_points_total_def_safety',
     'football_value_total_40yd_pass_td_receiver_bonus',
+    'fantasy_points_total_40yd_pass_td_receiver_bonus',
 		'football_value_total_40yd_return_td_bonus',
-		'fantasy_points_total_40yd_pass_td_receiver_bonus',
 		'fantasy_points_total_40yd_return_td_bonus',
-		'fantasy_points_total_40yd_rush_td_bonus;football_value_40yd_pass_td_receiver_bonus',
 		'football_value_40yd_return_td_bonus',
-		'football_value_40yd_rush_td_bonus',
-		'fantasy_points_40yd_pass_td_receiver_bonus',
 		'fantasy_points_40yd_return_td_bonus',
+		'football_value_40yd_rush_td_bonus',
 		'fantasy_points_40yd_rush_td_bonus',
+		'football_value_40yd_pass_td_receiver_bonus',
+		'fantasy_points_40yd_pass_td_receiver_bonus',
 		'football_value_total_40yd_rush_td_bonus',
 		'fantasy_points_total_40yd_rush_td_bonus',
-		'football_value_40yd_pass_td_receiver_bonus',
 		'football_value_40yd_pass_td_qb_bonus',
 		'fantasy_points_40yd_pass_td_qb_bonus',
 		'football_value_def_block',
-		'football_value_def_fumble_recovery',
-		'football_value_def_fumble_recovery_punt',
-		'football_value_def_interception',
-		'football_value_def_kickoff_return_td',
-		'football_value_def_points_allowed',
-		'football_value_def_punt_return_td',
-		'football_value_def_sack',
-		'football_value_def_safety',
-		'football_value_def_td',
 		'fantasy_points_def_block',
+		'football_value_def_fumble_recovery',
 		'fantasy_points_def_fumble_recovery',
+		'football_value_def_fumble_recovery_punt',
 		'fantasy_points_def_fumble_recovery_punt',
+		'football_value_def_interception',
 		'fantasy_points_def_interception',
+		'football_value_def_kickoff_return_td',
 		'fantasy_points_def_kickoff_return_td',
+		'football_value_def_points_allowed',
 		'fantasy_points_def_points_allowed',
+		'football_value_def_punt_return_td',
 		'fantasy_points_def_punt_return_td',
+		'football_value_def_sack',
 		'fantasy_points_def_sack',
+		'football_value_def_safety',
 		'fantasy_points_def_safety', 
+		'football_value_def_td',
 		'fantasy_points_def_td'
   )
   
