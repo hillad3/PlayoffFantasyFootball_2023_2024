@@ -9,7 +9,7 @@ library(DT)
 library(shinyjs)
 library(shinythemes)
 
-season_year <- 2022L
+season_year <- 2023L
 season_type <- c("REG","POST")
 season_teams <- c(
   "ARI","ATL","BAL","BUF","CAR",
@@ -27,6 +27,8 @@ get_team_info <- function(season_year_int = season_year){
   dt <- data.table::as.data.table(nflreadr::load_teams(current = TRUE))
   dt[,team_name_w_abbr := paste0(team_name, ' (', team_abbr, ')')]
   dt <- dt[,.(team_abbr, team_name, team_name_w_abbr, team_conf, team_division, team_logo_espn)]
+  dt[,position:="Defense"]
+  dt[,lookup_string:=paste0(position,", ",team_abbr," (",team_division,")")]
   return(dt)
 }
 
@@ -36,6 +38,11 @@ dt_nfl_teams <- get_team_info()
 dt_roster <- data.table::as.data.table(nflreadr::load_rosters(season_year))
 dt_roster[,player_name:=paste0(str_sub(first_name,1,1),".",last_name)]
 dt_roster <- unique(dt_roster[,.(position, player_id = gsis_id, player_name, team_abbr = team)])
+dt_roster <- dt_roster[,position:=if_else(position=="FB","RB",position)]
+dt_roster <- dt_roster[position %in% c('QB', 'RB', 'WR', 'TE','K')]
+dt_roster <- dt_roster[!is.na(position)]
+dt_roster <- merge(dt_roster, dt_nfl_teams[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
+dt_roster[,lookup_string:=paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')]
 
 get_pbp <- function(season_year_int = season_year,
                     season_type_char = season_type, 
@@ -125,20 +132,20 @@ get_bonus_stats <- function(pbp_dt,
   player[["40yd_pass_td_qb_bonus"]] <- pbp_dt[
     pass_touchdown == 1L & passing_yards >= 40, 
     by = .(week, season_type, team_abbr = posteam, player = passer_player_name, player_id = passer_player_id),
-    list(stat_label = "40yd_pass_td_qb_bonus", football_value = .N, fantasy_points=.N*2L)
+    list(stat_label = "40yd_pass_td_qb_bonus", football_values = .N, fantasy_points=.N*2L)
   ]
   
   player[["40yd_pass_td_receiver_bonus"]] <- pbp_dt[
     pass_touchdown == 1L & passing_yards >= 40, 
     by = .(week, season_type, team_abbr = posteam, player = receiver_player_name, player_id = receiver_player_id),
-    list(stat_label = "40yd_pass_td_receiver_bonus", football_value = .N, fantasy_points=.N*2L)
+    list(stat_label = "40yd_pass_td_receiver_bonus", football_values = .N, fantasy_points=.N*2L)
   ]
   
   # offensive bonus for touchdown with rush over 40 yards for qb
   player[["40yd_rush_td_bonus"]] <- pbp_dt[
     rush_touchdown == 1L & rushing_yards >= 40, 
     by = .(week, season_type, team_abbr = posteam, player = rusher_player_name, player_id = rusher_player_id),
-    list(stat_label = "40yd_rush_td_bonus", football_value = .N, fantasy_points=.N*2L)
+    list(stat_label = "40yd_rush_td_bonus", football_values = .N, fantasy_points=.N*2L)
   ]
   
   # player bonus for returning a td
@@ -153,7 +160,7 @@ get_bonus_stats <- function(pbp_dt,
              team_abbr = posteam,
              player = kickoff_returner_player_name,
              player_id = kickoff_returner_player_id),
-      list(stat_label = "40yd_return_td_bonus", football_value = .N, fantasy_points=.N*2L)
+      list(stat_label = "40yd_return_td_bonus", football_values = .N, fantasy_points=.N*2L)
     ],
     pbp_dt[
       play_type == "punt" & !is.na(punt_returner_player_name) & return_touchdown == 1L & return_yards >= 40, 
@@ -162,15 +169,29 @@ get_bonus_stats <- function(pbp_dt,
              team_abbr = defteam,
              player = punt_returner_player_name,
              player_id = punt_returner_player_id),
-      list(stat_label = "40yd_return_td_bonus", football_value = .N, fantasy_points=.N*2L)
+      list(stat_label = "40yd_return_td_bonus", football_values = .N, fantasy_points=.N*2L)
     ]
   )) 
   player[["40yd_return_td_bonus"]] <- tmp[,by = .(week,season_type,team_abbr,player,player_id,stat_label),
-      list(football_value = sum(football_value), fantasy_points = sum(fantasy_points))]
+      list(football_values = sum(football_values), fantasy_points = sum(fantasy_points))]
   
   player <- rbindlist(player)
   
   player <- merge(player, player_data[,.(player_id, player_name, team_abbr, position)], all.x = TRUE, by = c("player_id", "team_abbr"))
+  
+  if(any(is.na(player$position))){
+    print(paste0("There were ", length(player$position[is.na(player$position)]), " rows removed because of NAs in position"))
+    player <- player[!is.na(position)]
+  }
+
+  # rename Fullback to Running Back
+  player <- rbindlist(list(player[position=="FB",position:="RB"],player[position!="FB"]))
+  
+  if(any(!(player$position %in% c('QB', 'RB', 'WR', 'TE')))){
+    print(paste0("There were ", dim(player[!(position %in% c('QB', 'RB', 'FB', 'WR', 'TE'))])[1], 
+                 " rows removed because of position is out of scope"))
+    player <- player[position %in% c('QB', 'RB', 'WR', 'TE')]
+  }
   
   player <- merge(player, team_data[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
   
@@ -185,7 +206,7 @@ get_bonus_stats <- function(pbp_dt,
       player_id,
       player_name,
       stat_label,
-      football_value,
+      football_values,
       fantasy_points
     )]
   
@@ -206,21 +227,21 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   def[["def_sack"]] <- pbp_dt[
     sack == 1L,
     by = .(week, season_type, team_abbr = defteam),
-    list(stat_label="def_sack", football_value = .N, fantasy_points = .N*1L)
+    list(stat_label="def_sack", football_values = .N, fantasy_points = .N*1L)
   ]
   
   # defensive bonus for safeties
   def[["def_safety"]] <- pbp_dt[
     safety == 1L & !is.na(safety_player_id),
     by = .(week, season_type, team_abbr = defteam),
-    list(stat_label="def_safety", football_value = .N, fantasy_points = .N*1L)
+    list(stat_label="def_safety", football_values = .N, fantasy_points = .N*1L)
   ]
   
   # defensive bonus for fumble recovery
   def[["def_fumble_recovery"]] <- pbp_dt[
     fumble == 1L & fumble_lost == 1L & play_type != "punt",
     by = .(week, season_type, team_abbr = defteam),
-    list(stat_label="def_fumble_recovery", football_value = .N, fantasy_points = .N*2L)
+    list(stat_label="def_fumble_recovery", football_values = .N, fantasy_points = .N*2L)
   ]
   
   # defensive bonus for fumble recovery for a punt
@@ -228,21 +249,21 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   def[["def_fumble_recovery_punt"]] <- pbp_dt[
     fumble == 1L & fumble_lost == 1L & play_type == "punt",
     by = .(week, season_type, team_abbr = posteam),
-    list(stat_label="def_fumble_recovery_punt", football_value = .N, fantasy_points = .N*2L)
+    list(stat_label="def_fumble_recovery_punt", football_values = .N, fantasy_points = .N*2L)
   ]
   
   # defensive bonus for interceptions
   def[["def_interception"]] <- pbp_dt[
     interception == 1L,
     by = .(week, season_type, team_abbr = defteam),
-    list(stat_label="def_interception", football_value = .N, fantasy_points = .N*2L)
+    list(stat_label="def_interception", football_values = .N, fantasy_points = .N*2L)
   ]
   
   # def bonus for blocks on punt, fg or extra point
   def[["def_block"]] <- pbp_dt[
     !is.na(blocked_player_name),
     by = .(week, season_type, team_abbr = defteam),
-    list(stat_label="def_block", football_value = .N, fantasy_points = .N*2L)
+    list(stat_label="def_block", football_values = .N, fantasy_points = .N*2L)
   ]
   
   # def bonus for def td for any reason or cause (block, fumble, interception, etc)
@@ -250,7 +271,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   def[["def_td"]] <- pbp_dt[
     return_touchdown == 1L & play_type %in% c("pass", "run"),
     by = .(week, season_type, team_abbr = defteam),
-    list(stat_label="def_td", football_value = .N, fantasy_points = .N*6L)
+    list(stat_label="def_td", football_values = .N, fantasy_points = .N*6L)
   ]
   
   # special teams bonus for a return td
@@ -258,7 +279,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   def[["def_kickoff_return_td"]] <- pbp_dt[
     return_touchdown == 1L & play_type %in% c("kickoff"),
     by = .(week, season_type, team_abbr = posteam),
-    list(stat_label="def_kickoff_return_td", football_value = .N, fantasy_points = .N*6L)
+    list(stat_label="def_kickoff_return_td", football_values = .N, fantasy_points = .N*6L)
   ]
   
   # special teams bonus for a return td
@@ -266,27 +287,27 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   def[["def_punt_return_td"]] <- pbp_dt[
     return_touchdown == 1L & play_type %in% c("punt"),
     by = .(week, season_type, team_abbr = posteam),
-    list(stat_label="def_punt_return_td", football_value = .N, fantasy_points = .N*6L)
+    list(stat_label="def_punt_return_td", football_values = .N, fantasy_points = .N*6L)
   ]
   
   # calculate points allowed for each team
   tmp <- rbindlist(list(
-    unique(pbp_dt[,.(week, season_type, team_abbr = home_team, football_value = away_score)]),
-    unique(pbp_dt[,.(week, season_type, team_abbr = away_team, football_value = home_score)])
+    unique(pbp_dt[,.(week, season_type, team_abbr = home_team, football_values = away_score)]),
+    unique(pbp_dt[,.(week, season_type, team_abbr = away_team, football_values = home_score)])
   ))
   tmp[, stat_label := "def_points_allowed"]
-  tmp <- tmp[,.(week, season_type, team_abbr, stat_label, football_value)]
+  tmp <- tmp[,.(week, season_type, team_abbr, stat_label, football_values)]
   def[["def_points_allowed"]] <- tmp[, 
     fantasy_points := case_when(
-      football_value == 0L ~ 10L,
-      football_value >= 1L & football_value <= 6 ~ 7L,
-      football_value >= 7L & football_value <= 13 ~ 4L,
-      football_value >= 14L & football_value <= 17 ~ 1L,
-      football_value >= 18L & football_value <= 21 ~ 0L,
-      football_value >= 22L & football_value <= 27 ~ -1L,
-      football_value >= 28L & football_value <= 34 ~ -4L,
-      football_value >= 35L & football_value <= 45 ~ -7L,
-      football_value >= 46L ~ -10L,
+      football_values == 0L ~ 10L,
+      football_values >= 1L & football_values <= 6 ~ 7L,
+      football_values >= 7L & football_values <= 13 ~ 4L,
+      football_values >= 14L & football_values <= 17 ~ 1L,
+      football_values >= 18L & football_values <= 21 ~ 0L,
+      football_values >= 22L & football_values <= 27 ~ -1L,
+      football_values >= 28L & football_values <= 34 ~ -4L,
+      football_values >= 35L & football_values <= 45 ~ -7L,
+      football_values >= 46L ~ -10L,
       .default = 0L
     )
   ]
@@ -310,7 +331,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
       player_id,
       player_name,
       stat_label,
-      football_value,
+      football_values,
       fantasy_points
     )]
   
@@ -321,32 +342,27 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
 }
 
 
-get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
+get_player_stats <- function(player_type_char, # either 'offense' or 'kicking'
                              season_year_int = season_year, 
                              season_type_char = season_type, 
                              season_teams_list = season_teams,
                              team_data = dt_nfl_teams){
   # create data.table for players, which is a combination of the offensive scorers plus kickers
-  dt <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year_int, stat_type = stat_type_char))
+  dt <- data.table::as.data.table(nflreadr::load_player_stats(seasons = season_year_int, stat_type = player_type_char))
   dt <- dt[season_type %in% season_type_char]
   dt[,season_type := if_else(season_type=="REG","Regular", if_else(season_type=="POST","Post", "Error"))]
   
-  if(stat_type_char == 'offense'){setnames(dt, old=c('recent_team'), new=c('team_abbr'))} 
-  if(stat_type_char == 'kicking'){setnames(dt, old=c('team'), new=c('team_abbr'))}
+  if(player_type_char == 'offense'){setnames(dt, old=c('recent_team'), new=c('team_abbr'))} 
+  if(player_type_char == 'kicking'){setnames(dt, old=c('team'), new=c('team_abbr'))}
   dt <- dt[team_abbr %in% season_teams_list]
   
-  if(stat_type_char=='offense'){
+  if(player_type_char=='offense'){
     dt <- dt[position %in% c('QB', 'RB', 'FB', 'WR', 'TE')]
     dt[,position := if_else(position == 'FB', 'RB', position)]
   }
-  if(stat_type_char=='kicking'){dt[,position := 'K']}# position is not in the original dataset
+  if(player_type_char=='kicking'){dt[,position := 'K']}# position is not in the original dataset
   
-  if(stat_type_char=='offense'){
-    # consolidate fumbles lost and 2pt conversions into one statistic
-    dt[,fumbles_lost := sack_fumbles_lost + rushing_fumbles_lost + receiving_fumbles_lost]
-    dt[,two_pt_conversions := passing_2pt_conversions + rushing_2pt_conversions + receiving_2pt_conversions]
-  }
-  if(stat_type_char=='kicking'){dt[,fg_made_50_ := fg_made_50_59 + fg_made_60_]}
+  if(player_type_char=='kicking'){dt[,fg_made_50_ := fg_made_50_59 + fg_made_60_]}
   
   standard_cols <- c(
     'position',
@@ -357,7 +373,7 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
     'team_abbr'
   )
   
-  if(stat_type_char=='offense'){
+  if(player_type_char=='offense'){
     stat_cols <- c(
       'passing_yards',
       'passing_tds',
@@ -366,11 +382,14 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
       'receiving_yards',
       'receiving_tds',
       'interceptions',
-      'sacks',
-      'fumbles_lost',
-      'two_pt_conversions'
+      'sack_fumbles_lost',
+      'rushing_fumbles_lost',
+      'receiving_fumbles_lost',
+      'passing_2pt_conversions',
+      'rushing_2pt_conversions',
+      'receiving_2pt_conversions'
     ) 
-  } else if(stat_type_char=='kicking'){
+  } else if(player_type_char=='kicking'){
     stat_cols <- c(
       'fg_made',
       'fg_made_40_49',
@@ -393,30 +412,29 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
     measure.vars = stat_cols,
     variable.factor = FALSE,
     variable.name = 'stat_label',
-    value.name = 'football_value'
+    value.name = 'football_values'
   )
   
   # calculate fantasy football points
   dt[,fantasy_points := case_when(
-    stat_label == 'passing_yards' & football_value >= 400 ~ as.integer(football_value/50) + 2L,
-    stat_label == 'passing_yards' & football_value < 400 ~ as.integer(football_value/50),
-    stat_label == 'rushing_yards' & football_value >= 200 ~ as.integer(football_value/10L) + 2L,
-    stat_label == 'rushing_yards' & football_value < 200 ~ as.integer(football_value/10L),
-    stat_label == 'receiving_yards' & football_value >= 200 ~ as.integer(football_value/10L) + 2L,
-    stat_label == 'receiving_yards' & football_value < 200 ~ as.integer(football_value/10L),
-    stat_label %in% c('passing_tds', 'rushing_tds','receiving_tds') ~ as.integer(football_value) * 6L,
-    stat_label %in% c('passing_2pt_conversions', 'rushing_2pt_conversions','receiving_2pt_conversions') ~ as.integer(football_value) * 2L,
-    stat_label == 'interceptions' ~ as.integer(football_value) * -2L,
-    stat_label %in% c('sack_fumbles_lost', 'rushing_fumbles_lost', 'receiving_fumbles_lost') ~ as.integer(football_value) * -2L,
-    stat_label == 'fg_made' ~ as.integer(football_value) * 3L,
-    stat_label == 'fg_made_40_49' ~ as.integer(football_value) * 1L, # this is a bonus
-    stat_label == 'fg_made_50_' ~ as.integer(football_value) * 2L, # this is a bonus
-    stat_label == 'fg_missed' ~ as.integer(football_value) * -1L,
-    stat_label == 'pat_made' ~ as.integer(football_value) * 1L,
-    stat_label == 'pat_missed' ~ as.integer(football_value) * -1L,
+    stat_label == 'passing_yards' & football_values >= 400 ~ as.integer(football_values/50) + 2L,
+    stat_label == 'passing_yards' & football_values < 400 ~ as.integer(football_values/50),
+    stat_label == 'rushing_yards' & football_values >= 200 ~ as.integer(football_values/10L) + 2L,
+    stat_label == 'rushing_yards' & football_values < 200 ~ as.integer(football_values/10L),
+    stat_label == 'receiving_yards' & football_values >= 200 ~ as.integer(football_values/10L) + 2L,
+    stat_label == 'receiving_yards' & football_values < 200 ~ as.integer(football_values/10L),
+    stat_label %in% c('passing_tds', 'rushing_tds','receiving_tds') ~ as.integer(football_values) * 6L,
+    stat_label %in% c('passing_2pt_conversions', 'rushing_2pt_conversions','receiving_2pt_conversions') ~ as.integer(football_values) * 2L,
+    stat_label == 'interceptions' ~ as.integer(football_values) * -2L,
+    stat_label %in% c('sack_fumbles_lost', 'rushing_fumbles_lost', 'receiving_fumbles_lost') ~ as.integer(football_values) * -2L,
+    stat_label == 'fg_made' ~ as.integer(football_values) * 3L,
+    stat_label == 'fg_made_40_49' ~ as.integer(football_values) * 1L, # this is a bonus
+    stat_label == 'fg_made_50_' ~ as.integer(football_values) * 2L, # this is a bonus
+    stat_label == 'fg_missed' ~ as.integer(football_values) * -1L,
+    stat_label == 'pat_made' ~ as.integer(football_values) * 1L,
+    stat_label == 'pat_missed' ~ as.integer(football_values) * -1L,
     .default = 0L
-  )
-  ]
+  )]
   
   dt <- merge(dt, team_data[,.(team_abbr, team_conf, team_division)], all.x = TRUE)
   
@@ -431,7 +449,7 @@ get_player_stats <- function(stat_type_char, # either 'offense' or 'kicking'
       player_id,
       player_name,
       stat_label,
-      football_value,
+      football_values,
       fantasy_points
     )]
   
@@ -444,8 +462,8 @@ get_combined_stats <- function(teams = dt_nfl_teams, playoff_teams = season_team
   
   # bind rows
   dt <- rbindlist(list(
-    get_player_stats(stat_type_char='offense'), 
-    get_player_stats(stat_type_char='kicking'),
+    get_player_stats(player_type_char='offense'), 
+    get_player_stats(player_type_char='kicking'),
     get_bonus_stats(get_pbp()),
     get_defense_stats(get_pbp())
   ))
@@ -453,8 +471,44 @@ get_combined_stats <- function(teams = dt_nfl_teams, playoff_teams = season_team
   # reapply playoff teams filter since defensive / special teams are scored for both home and away teams depending in play type
   dt <- dt[team_abbr %in% playoff_teams]
   
-  # create the lookup_string used in the dashboard filters
-  dt[,lookup_string := paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')]
+  # stack stat_types into long format
+  tmp1 <- dt[,.(
+    team_abbr,
+    team_conf,
+    team_division,
+    position,
+    week,
+    season_type,
+    player_id,
+    player_name,
+    stat_label,
+    football_values
+  )]
+  setnames(tmp1, old = c("football_values"), new = c("stat_values"))
+  tmp1[,stat_type:="football_values"]
+  
+  tmp2 <- dt[,.(
+    team_abbr,
+    team_conf,
+    team_division,
+    position,
+    week,
+    season_type,
+    player_id,
+    player_name,
+    stat_label,
+    fantasy_points
+  )]
+  setnames(tmp2, old = c("fantasy_points"), new = c("stat_values"))
+  tmp2[,stat_type:="fantasy_points"]
+  
+  dt <- rbindlist(list(tmp1, tmp2))
+  
+  # create the lookup_string that will be used in the dashboard filters
+  dt <- rbindlist(list(
+    dt[position!="Defense",lookup_string := paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')],
+    dt[position=="Defense",lookup_string:=paste0(position,", ",team_abbr," (",team_division,")")]
+  ))
   
   # sort columns
   setorder(dt, cols = position, player_name, week)
@@ -471,73 +525,16 @@ get_combined_stats <- function(teams = dt_nfl_teams, playoff_teams = season_team
       'player_name',
       'team_abbr',
       'team_conf',
-      'team_division'
+      'team_division',
+      'stat_type',
+      'stat_label'
     )
   )
 }
 
-get_shiny_stats <- function(dt, pos, type, summarized_boolean, long_format_boolean){
+order_cols <- function(dt, pos){
   
-  if(!(pos %in% c("K","QB","RB","TE","WR","Defense"))){
-    print(paste0(pos, " is not a valid position"))
-  }
-  
-  dt <- dt[position == pos]
-  dt <- dt[season_type == type]
-  
-  if(summarized_boolean){
-    
-    grouping_by <- c(
-      'season_type',
-      'position',
-      'lookup_string',
-      'player_id',
-      'player_name',
-      'team_abbr',
-      'team_conf',
-      'team_division',
-      'stat_label'
-    )
-    
-    dt <- dt[, week:=NULL]
-    
-    dt <- dt[, by = grouping_by, 
-             .(football_value = sum(football_value), fantasy_points = sum(fantasy_points))
-    ]
-    
-    dt[, stat_label := paste0("total_",stat_label)]
-  }
-  
-  if(long_format_boolean){
-    # do nothing
-  } else {
-    
-    # cast wider
-    if(summarized_boolean){
-      # does not include the `week` variable when summarized
-      dt <- dcast(
-        dt,
-        season_type + position + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
-        value.var = c('football_value', 'fantasy_points'),
-        fill = 0
-      )   
-    } else {
-      dt <- dcast(
-        dt,
-        season_type + position + week + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
-        value.var = c('football_value', 'fantasy_points'),
-        fill = 0
-      )
-    }
-  }
-  
-  return(dt)
-  
-}
-
-order_cols <- function(dt){
-  
-  master_order <- c(
+  basic_order <- c(
     'position',
     'lookup_string',
     'week',
@@ -547,165 +544,224 @@ order_cols <- function(dt){
     'team_abbr',
     'team_conf',
     'team_division',
-    'passing_yards',
-    'passing_tds',
-    'rushing_yards',
-    'rushing_tds',
-    'receiving_yards',
-    'receiving_tds',
-    'interceptions',
-    'sacks',
-    'fumbles_lost',
-    'two_pt_conversions',
-    'fg_made',
-    'fg_made_40_49',
-    'fg_made_50_',
-    'fg_missed',
-    'fg_missed_list',
-    'fg_blocked',
-    'fg_blocked_list',
-    'pat_made',
-    'pat_missed',
+    'stat_type',
     'stat_label',
-    'football_value',
-    'fantasy_points',
-    'football_value_total_passing_tds',
-    'fantasy_points_total_passing_tds',
-    'football_value_total_receiving_tds',
-    'fantasy_points_total_receiving_tds',
-    'football_value_total_rushing_tds',
-    'fantasy_points_total_rushing_tds',
-    'football_value_total_passing_yards',
-    'fantasy_points_total_passing_yards',
-    'football_value_total_receiving_yards',
-    'fantasy_points_total_receiving_yards',
-    'football_value_total_rushing_yards',
-    'fantasy_points_total_rushing_yards',
-    'football_value_total_fumbles_lost',
-    'fantasy_points_total_fumbles_lost',
-    'football_value_total_interceptions',
-    'fantasy_points_total_interceptions',
-    'football_value_total_sacks',
-    'fantasy_points_total_sacks',
-    'football_value_total_two_pt_conversions',
-    'fantasy_points_total_two_pt_conversions',
-    'football_value_total_fg_made',
-    'fantasy_points_total_fg_made',
-    'football_value_total_fg_made_40_49',
-    'fantasy_points_total_fg_made_40_49',
-    'football_value_total_fg_made_50_',
-    'fantasy_points_total_fg_made_50_',
-    'football_value_total_fg_missed',
-    'fantasy_points_total_fg_missed',
-    'football_value_total_fg_blocked',
-    'fantasy_points_total_fg_blocked',
-    'football_value_total_pat_made',
-    'fantasy_points_total_pat_made',
-    'football_value_total_pat_missed',
-    'fantasy_points_total_pat_missed',
-    'football_value_passing_tds',
-    'fantasy_points_passing_tds',
-    'football_value_receiving_tds',
-    'fantasy_points_receiving_tds',
-    'football_value_rushing_tds',
-    'fantasy_points_rushing_tds',
-    'football_value_passing_yards',
-    'fantasy_points_passing_yards',
-    'football_value_rushing_yards',
-    'fantasy_points_rushing_yards',
-    'football_value_receiving_yards',
-    'fantasy_points_receiving_yards',
-    'football_value_fumbles_lost',
-    'fantasy_points_fumbles_lost',
-    'football_value_interceptions',
-    'fantasy_points_interceptions',
-    'football_value_sacks',
-    'fantasy_points_sacks',
-    'football_value_two_pt_conversions',
-    'fantasy_points_two_pt_conversions',
-    'football_value_fg_made',
-    'fantasy_points_fg_made',
-    'football_value_fg_made_40_49',
-    'fantasy_points_fg_made_40_49',
-    'football_value_fg_made_50_',
-    'fantasy_points_fg_made_50_',
-    'football_value_fg_missed',
-    'fantasy_points_fg_missed',
-    'football_value_fg_blocked',
-    'fantasy_points_fg_blocked',
-    'football_value_pat_made',
-    'fantasy_points_pat_made',
-    'football_value_pat_missed',
-    'fantasy_points_pat_missed',
-    'football_value_total_40yd_pass_td_qb_bonus',
-    'fantasy_points_total_40yd_pass_td_qb_bonus',
-    'football_value_total_def_block',
-    'fantasy_points_total_def_block',
-    'football_value_total_def_points_allowed',
-    'fantasy_points_total_def_points_allowed',
-    'football_value_total_def_td',
-    'fantasy_points_total_def_td',
-    'football_value_total_def_fumble_recovery',
-    'fantasy_points_total_def_fumble_recovery',
-    'football_value_total_def_fumble_recovery_punt',
-    'fantasy_points_total_def_fumble_recovery_punt',
-    'football_value_total_def_interception',
-    'fantasy_points_total_def_interception',
-    'football_value_total_def_kickoff_return_td',
-    'fantasy_points_total_def_kickoff_return_td',
-    'football_value_total_def_punt_return_td',
-    'fantasy_points_total_def_punt_return_td',
-    'football_value_total_def_sack',
-    'fantasy_points_total_def_sack',
-    'football_value_total_def_safety',
-    'fantasy_points_total_def_safety',
-    'football_value_total_40yd_pass_td_receiver_bonus',
-    'fantasy_points_total_40yd_pass_td_receiver_bonus',
-		'football_value_total_40yd_return_td_bonus',
-		'fantasy_points_total_40yd_return_td_bonus',
-		'football_value_40yd_return_td_bonus',
-		'fantasy_points_40yd_return_td_bonus',
-		'football_value_40yd_rush_td_bonus',
-		'fantasy_points_40yd_rush_td_bonus',
-		'football_value_40yd_pass_td_receiver_bonus',
-		'fantasy_points_40yd_pass_td_receiver_bonus',
-		'football_value_total_40yd_rush_td_bonus',
-		'fantasy_points_total_40yd_rush_td_bonus',
-		'football_value_40yd_pass_td_qb_bonus',
-		'fantasy_points_40yd_pass_td_qb_bonus',
-		'football_value_def_block',
-		'fantasy_points_def_block',
-		'football_value_def_fumble_recovery',
-		'fantasy_points_def_fumble_recovery',
-		'football_value_def_fumble_recovery_punt',
-		'fantasy_points_def_fumble_recovery_punt',
-		'football_value_def_interception',
-		'fantasy_points_def_interception',
-		'football_value_def_kickoff_return_td',
-		'fantasy_points_def_kickoff_return_td',
-		'football_value_def_points_allowed',
-		'fantasy_points_def_points_allowed',
-		'football_value_def_punt_return_td',
-		'fantasy_points_def_punt_return_td',
-		'football_value_def_sack',
-		'fantasy_points_def_sack',
-		'football_value_def_safety',
-		'fantasy_points_def_safety', 
-		'football_value_def_td',
-		'fantasy_points_def_td'
+    'stat_values'
   )
   
+  qb_order <- c(
+    'passing_tds__fantasy_points',
+    'passing_tds__football_values',
+    'passing_yards__fantasy_points',
+    'passing_yards__football_values',
+    'rushing_tds__fantasy_points',
+    'rushing_tds__football_values',
+    'rushing_yards__fantasy_points',
+    'rushing_yards__football_values',
+    'interceptions__fantasy_points',
+    'interceptions__football_values',
+    'sack_fumbles_lost__fantasy_points',
+    'sack_fumbles_lost__football_values',
+    'rushing_fumbles_lost__fantasy_points',
+    'rushing_fumbles_lost__football_values',
+    'passing_2pt_conversions__fantasy_points',
+    'passing_2pt_conversions__football_values',
+    'receiving_tds__fantasy_points',
+    'receiving_tds__football_values',
+    'receiving_yards__fantasy_points',
+    'receiving_yards__football_values',
+		'receiving_2pt_conversions__fantasy_points',
+		'receiving_2pt_conversions__football_values',
+		'receiving_fumbles_lost__fantasy_points',
+		'receiving_fumbles_lost__football_values',
+		'rushing_2pt_conversions__fantasy_points',
+		'rushing_2pt_conversions__football_values',
+    '40yd_pass_td_qb_bonus__fantasy_points',
+    '40yd_pass_td_qb_bonus__football_values',
+    '40yd_pass_td_receiver_bonus__fantasy_points',
+    '40yd_pass_td_receiver_bonus__football_values',
+    '40yd_rush_td_bonus__fantasy_points',
+    '40yd_rush_td_bonus__football_values'
+  )
+
+  rb_order <- c(
+    'rushing_tds__fantasy_points',
+    'rushing_tds__football_values',
+    'rushing_yards__fantasy_points',
+    'rushing_yards__football_values',
+    'rushing_2pt_conversions__fantasy_points',
+    'rushing_2pt_conversions__football_values',
+    'rushing_fumbles_lost__fantasy_points',
+    'rushing_fumbles_lost__football_values',
+    'passing_tds__fantasy_points',
+    'passing_tds__football_values',
+    'receiving_tds__fantasy_points',
+    'receiving_tds__football_values',
+    'passing_yards__fantasy_points',
+    'passing_yards__football_values',
+    'receiving_yards__fantasy_points',
+    'receiving_yards__football_values',    
+    'passing_2pt_conversions__fantasy_points',
+    'passing_2pt_conversions__football_values',
+    'receiving_2pt_conversions__fantasy_points',
+    'receiving_2pt_conversions__football_values',
+    'receiving_fumbles_lost__fantasy_points',
+    'receiving_fumbles_lost__football_values',
+    'sack_fumbles_lost__fantasy_points',
+    'sack_fumbles_lost__football_values',
+    'interceptions__fantasy_points',
+    'interceptions__football_values',
+    '40yd_pass_td_qb_bonus__fantasy_points',
+    '40yd_pass_td_qb_bonus__football_values',
+    '40yd_pass_td_receiver_bonus__fantasy_points',
+    '40yd_pass_td_receiver_bonus__football_values',
+    '40yd_rush_td_bonus__fantasy_points',
+    '40yd_rush_td_bonus__football_values',
+    '40yd_return_td_bonus__fantasy_points',
+    '40yd_return_td_bonus__football_values'
+  )
+
+  te_order <- c(
+    'receiving_tds__fantasy_points',
+    'receiving_tds__football_values',
+    'receiving_yards__fantasy_points',
+    'receiving_yards__football_values',
+    'receiving_2pt_conversions__fantasy_points',
+    'receiving_2pt_conversions__football_values',
+    'receiving_fumbles_lost__fantasy_points',
+    'receiving_fumbles_lost__football_values',
+    'passing_tds__fantasy_points',
+    'passing_tds__football_values',
+    'rushing_tds__fantasy_points',
+    'rushing_tds__football_values',
+    'passing_yards__fantasy_points',
+    'passing_yards__football_values',
+    'rushing_yards__fantasy_points',
+    'rushing_yards__football_values',    
+    'passing_2pt_conversions__fantasy_points',
+    'passing_2pt_conversions__football_values',
+    'rushing_2pt_conversions__fantasy_points',
+    'rushing_2pt_conversions__football_values',
+    'rushing_fumbles_lost__fantasy_points',
+    'rushing_fumbles_lost__football_values',
+    'sack_fumbles_lost__fantasy_points',
+    'sack_fumbles_lost__football_values',
+    'interceptions__fantasy_points',
+    'interceptions__football_values',
+    '40yd_pass_td_qb_bonus__fantasy_points',
+    '40yd_pass_td_qb_bonus__football_values',
+    '40yd_pass_td_receiver_bonus__fantasy_points',
+    '40yd_pass_td_receiver_bonus__football_values',
+    '40yd_rush_td_bonus__fantasy_points',
+    '40yd_rush_td_bonus__football_values',
+    '40yd_return_td_bonus__fantasy_points',
+    '40yd_return_td_bonus__football_values'
+  )
+  
+  wr_order <- c(
+    'receiving_tds__fantasy_points',
+    'receiving_tds__football_values',
+    'receiving_yards__fantasy_points',
+    'receiving_yards__football_values',
+    'receiving_fumbles_lost__fantasy_points',
+    'receiving_fumbles_lost__football_values',
+    'receiving_2pt_conversions__fantasy_points',
+    'receiving_2pt_conversions__football_values',
+    'passing_tds__fantasy_points',
+    'passing_tds__football_values',
+    'rushing_tds__fantasy_points',
+    'rushing_tds__football_values',
+    'passing_yards__fantasy_points',
+    'passing_yards__football_values',
+    'rushing_yards__fantasy_points',
+    'rushing_yards__football_values',
+    'passing_2pt_conversions__fantasy_points',
+    'passing_2pt_conversions__football_values',
+    'rushing_2pt_conversions__fantasy_points',
+    'rushing_2pt_conversions__football_values',
+    'rushing_fumbles_lost__fantasy_points',
+    'rushing_fumbles_lost__football_values',
+    'sack_fumbles_lost__fantasy_points',
+    'sack_fumbles_lost__football_values',
+    'interceptions__fantasy_points',
+    'interceptions__football_values',
+    '40yd_pass_td_qb_bonus__fantasy_points',
+    '40yd_pass_td_qb_bonus__football_values',
+    '40yd_pass_td_receiver_bonus__fantasy_points',
+    '40yd_pass_td_receiver_bonus__football_values',
+    '40yd_rush_td_bonus__fantasy_points',
+    '40yd_rush_td_bonus__football_values',
+    '40yd_return_td_bonus__fantasy_points',
+    '40yd_return_td_bonus__football_values'
+  )
+  
+  k_order <- c(
+    'fg_made__fantasy_points',
+    'fg_made__football_values',
+    'fg_missed__fantasy_points',
+    'fg_missed__football_values',
+    'fg_made_40_49__fantasy_points',
+    'fg_made_40_49__football_values',
+    'fg_made_50___fantasy_points',
+    'fg_made_50___football_values',
+    'fg_blocked__fantasy_points',
+    'fg_blocked__football_values',
+    'pat_made__fantasy_points',
+    'pat_made__football_values',
+    'pat_missed__fantasy_points',
+    'pat_missed__football_values'
+  )
+  
+  defense_order <- c(
+    'def_points_allowed__fantasy_points',
+    'def_points_allowed__football_values',
+    'def_td__fantasy_points',
+    'def_td__football_values',
+    'def_kickoff_return_td__fantasy_points',
+    'def_kickoff_return_td__football_values',
+    'def_punt_return_td__fantasy_points',
+    'def_punt_return_td__football_values',
+    'def_sack__fantasy_points',
+    'def_sack__football_values',
+    'def_fumble_recovery__fantasy_points',
+    'def_fumble_recovery__football_values',
+    'def_fumble_recovery_punt__fantasy_points',
+    'def_fumble_recovery_punt__football_values',
+    'def_interception__fantasy_points',
+    'def_interception__football_values',
+    'def_safety__fantasy_points',
+    'def_safety__football_values',
+    'def_block__fantasy_points',
+    'def_block__football_values'
+  )
+    
+  if(pos == "QB"){
+    master_order <- c(basic_order, qb_order)
+  } else if(pos == "RB"){
+    master_order <- c(basic_order, rb_order)
+  } else if(pos == "TE"){
+    master_order <- c(basic_order, te_order)
+  } else if(pos == "WR"){
+    master_order <- c(basic_order, wr_order)
+  } else if(pos == "K"){
+    master_order <- c(basic_order, k_order)
+  } else if(pos == "Defense"){
+    master_order <- c(basic_order, defense_order)
+  } else {
+    print("Error: pos did not evaluate to a valid value")
+  }
+  
   if(any(duplicated(master_order))){
-    print("There are duplicated columns in the master_order")
+    print(paste0("There are duplicated columns in the ", str_lower(pos),"_order"))
     print(paste0(master_order[duplicated(master_order)], collapse = "; "))
   }  
   
   found_order <- names(dt)
   
-  unmapped_cols <- found_order[!(found_order %in% master_order)]
+  unmapped_cols <- found_order[!(found_order %in% master_order)] |> sort()
   
   if(length(unmapped_cols)){
-    print("There are unmapped columns in the dataset")
+    print(paste0("There are unmapped ", pos, " columns in the dataset"))
     print(paste0(unmapped_cols, collapse = "; "))
   }
   
@@ -714,6 +770,114 @@ order_cols <- function(dt){
   return(dt[,..preferred_order])
   
 }
+
+sort_cols <- function(dt, pos, stat_type){
+  
+  if(pos == "QB" & stat_type == "Fantasy Points"){
+    setorder(dt, -passing_tds__fantasy_points)
+  } else if(pos == "QB" & stat_type == "Football Values"){
+    setorder(dt, -passing_tds__football_values)
+  } else if(pos == "RB" & stat_type == "Fantasy Points"){
+    setorder(dt, -rushing_tds__fantasy_points)
+  } else if(pos == "RB" & stat_type == "Football Values"){
+    setorder(dt, -rushing_tds__football_values)
+  } else if(pos == "WR" & stat_type == "Fantasy Points"){
+    setorder(dt, -receiving_tds__fantasy_points)
+  } else if(pos == "WR" & stat_type == "Football Values"){
+    setorder(dt, -receiving_tds__football_values)
+  } else if(pos == "TE" & stat_type == "Fantasy Points"){
+    setorder(dt, -receiving_tds__fantasy_points)
+  } else if(pos == "TE" & stat_type == "Football Values"){
+    setorder(dt, -receiving_tds__football_values)
+  } else if(pos == "K" & stat_type == "Fantasy Points"){
+    setorder(dt, -fg_made__fantasy_points)
+  } else if(pos == "K" & stat_type == "Football Values"){
+    setorder(dt, -fg_made__football_values)
+  } else if(pos == "Defense" & stat_type == "Fantasy Points"){
+    setorder(dt, -def_points_allowed__fantasy_points)
+  } else if(pos == "Defense" & stat_type == "Football Values"){
+    setorder(dt, -def_points_allowed__football_values)
+  }
+  
+  return(dt)
+  
+}
+
+update_app_stats <- function(dt, pos, reg_or_post, stat_type, summarized_boolean, long_format_boolean){
+  
+  if(!(pos %in% c("K","QB","RB","TE","WR","Defense"))){
+    print(paste0(pos, " is not a valid position"))
+  }
+  
+  dt <- dt[position == pos]
+  dt <- dt[season_type == reg_or_post]
+  
+  # this returns an empty data.table if there are no stats, which avoids an error when casting
+  if(dim(dt)[1]==0L){
+    return(dt)
+  }
+  
+  if(stat_type == "Football Values"){
+    dt <- dt[stat_type=="football_values"]
+  } else if (stat_type == "Fantasy Points"){
+    dt <- dt[stat_type=="fantasy_points"]
+  }
+  
+  if(summarized_boolean){
+    
+    dt <- dt[, week:=NULL]
+    
+    grouping_by <- c(
+      'position',
+      'season_type',
+      'lookup_string',
+      'player_id',
+      'player_name',
+      'team_abbr',
+      'team_conf',
+      'team_division',
+      'stat_type',
+      'stat_label'
+    )
+    
+    dt <- dt[, by = grouping_by, .(stat_values = sum(stat_values))]
+    
+  }
+  
+  dt[,stat_label := paste0(stat_label,"__",stat_type)]
+  
+  if(long_format_boolean){
+    # do nothing
+  } else {
+    
+    # cast wider
+    if(summarized_boolean){
+      # does not include the `week` variable when summarized
+      # value.var is unspecified since football_values and fantasy_points may or may not be presents
+      dt <- dcast(
+        dt,
+        position + season_type + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
+        value.var = c("stat_values"),
+        fill = 0
+      )
+    } else {
+      dt <- dcast(
+        dt,
+        position + week + season_type + lookup_string + player_id + player_name + team_abbr + team_conf + team_division ~ stat_label,
+        value.var = c("stat_values"),
+        fill = 0
+      )
+    }
+  }
+  
+  dt <- order_cols(dt, pos)
+  dt <- sort_cols(dt, pos, stat_type)
+  
+  return(dt)
+  
+}
+
+
 
 count_positions <- function(x){
   position_counts <- c(NULL)
@@ -735,29 +899,18 @@ count_positions <- function(x){
   return(position_counts)
 }
 
-# TODO currently I do not have functionality set up for team points calculated on pbp data
-# create data.table for play-by-play data for scoring defensive points for each team
-# dt_nfl_team_stats <- data.table::as.data.table(nflfastR::load_pbp(seasons = season_year))
-# dt_nfl_team_stats[season_type %in% season_type]
-
+## create master data tables
 # create data.table for players, which is a combination of the offensive scorers plus kickers
 dt_nfl_player_stats <- get_combined_stats()
 
 # remove zero value statistics
-dt_nfl_player_stats <- dt_nfl_player_stats[abs(fantasy_points) >= 1e-7 | abs(football_value) >= 1e-7]
+# dt_nfl_player_stats <- dt_nfl_player_stats[abs(stat_values) >= 1e-7]
 
-# get a list of unique players for the lookup
-dt_lookup <- unique(get_combined_stats()[,.(position, lookup_string, team_abbr)], by=c('lookup_string'))
-dt_lookup <- setorder(dt_lookup, cols = position, team_abbr, lookup_string)
-
-
-dt_nfl_teams[,position:="Defense"]
-dt_nfl_teams[,lookup_string:=paste0(position,", ",team_abbr," (",team_division,")")]
-
-team_lookupstring_position <- rbindlist(list(dt_lookup, dt_nfl_teams[,.(position, lookup_string, team_abbr)]))
-
-roster_choices <- team_lookupstring_position %>% distinct(lookup_string) %>% as.list()
-def_teams_choices <- dt_nfl_teams %>% distinct(team_abbr) %>% as.list()
+# get a list of unique players and teams for the lookup
+team_lookupstring_position <- rbindlist(list(
+  setorder(dt_roster[,.(position, lookup_string, team_abbr)], lookup_string),
+  dt_nfl_teams[,.(position, lookup_string, team_abbr)]
+))
 
 
 ui <- fluidPage(
@@ -897,7 +1050,7 @@ ui <- fluidPage(
             selectizeInput(
               inputId = "roster_selections_made",
               label = "Select Player or Defensive Team",
-              choices = roster_choices,
+              choices = unique(team_lookupstring_position[,.(lookup_string)]) |> as.list(),
               options = list(maxItems = 1)
             ),
             actionButton(
@@ -1025,60 +1178,47 @@ server <- function(input, output, session) {
   })
   
   
-  stats <- reactive({
+  stat_filters <- reactive({
     data.table(
       'pos' = input$selected_position,
-      'type' = input$reg_or_post
+      'season_type' = input$reg_or_post,
+      'stat_type' = input$stat_type
     )
   })
 
   output$statistics_weekly <- renderDT({
-    player_stats <- get_shiny_stats(
-      dt_nfl_player_stats, 
-      stats()$pos, 
-      stats()$type,
-      summarized_boolean = FALSE, 
-      long_format_boolean = FALSE
-    ) 
-    
-    player_stats <- order_cols(player_stats[team_abbr %in% input$selected_teams])
-    if(input$stat_type == "Football Values"){
-      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name',
-                'team_abbr', 'team_conf', 'team_division',
-                names(player_stats)[str_detect(names(player_stats),"^football_value")])
-      return(player_stats[, .SD, .SDcols = cols])
-    } else if (input$stat_type == "Fantasy Points"){
-      cols <- c('position','lookup_string', 'week', 'player_id', 'player_name',
-                'team_abbr', 'team_conf', 'team_division',
-                names(player_stats)[str_detect(names(player_stats),"^fantasy_points")])
-      return(player_stats[, .SD, .SDcols = cols])
+
+    if(is_empty(dt)){
+      DT::datatable(
+        data.table(lookup_string = "No data to display")
+      )
     } else {
-      return(player_stats)
+      update_app_stats(
+        dt_nfl_player_stats, 
+        stat_filters()$pos, 
+        stat_filters()$season_type,
+        stat_filters()$stat_type,
+        summarized_boolean = FALSE, 
+        long_format_boolean = FALSE
+      )
     }
   })
-  
+
   output$statistics_season <- renderDT({
-    player_stats <- get_shiny_stats(
-      dt_nfl_player_stats, 
-      stats()$pos,
-      stats()$type,
-      summarized_boolean = TRUE, 
-      long_format_boolean = FALSE
-    ) %>% order_cols()
     
-    player_stats <- order_cols(player_stats[team_abbr %in% input$selected_teams])
-    if(input$stat_type == "Football Values"){
-      cols <- c('position','lookup_string', 'player_id', 'player_name', 
-                'team_abbr', 'team_conf', 'team_division',
-                names(player_stats)[str_detect(names(player_stats),"^football_value")])
-      return(player_stats[, .SD, .SDcols = cols])
-    } else if (input$stat_type == "Fantasy Points"){
-      cols <- c('position','lookup_string', 'player_id', 'player_name', 
-                'team_abbr', 'team_conf', 'team_division',
-                names(player_stats)[str_detect(names(player_stats),"^fantasy_points")])
-      return(player_stats[, .SD, .SDcols = cols])
+    if(is_empty(dt)){
+      DT::datatable(
+        data.table(lookup_string = "No data to display")
+      )
     } else {
-      return(player_stats)
+      update_app_stats(
+        dt_nfl_player_stats, 
+        stat_filters()$pos, 
+        stat_filters()$season_type,
+        stat_filters()$stat_type,
+        summarized_boolean = TRUE, 
+        long_format_boolean = FALSE
+      )
     }
   })
   
@@ -1116,50 +1256,46 @@ server <- function(input, output, session) {
   roster <- reactiveValues(players = c(NULL))
   
   observeEvent(input$add_player,{
-      roster$players <- c(roster$players, input$roster_selections_made) %>% sort()
+    roster$players <- c(roster$players, input$roster_selections_made) |> sort()
   })
   
   observeEvent(input$remove_player,{
     roster$players <- roster$players[!(roster$players %in% input$roster_selections_removed)]
   })
   
-  roster_slots_remaining <- reactive({
-    14-length(roster$players)
+  roster_reactive <- reactive({
+    remaining <- 14-length(roster$players)
+    roster_full <- if(length(roster$players) == 14L){TRUE} else {FALSE}
+    data.table(
+      'slots_remaining' = remaining,
+      'roster_full' = roster_full
+    )
   }) 
   
-  roster_full <- reactive({
-    if(length(roster$players) == 14L){
-      TRUE
-    } else {
-      FALSE
-    }
-  })
-  
   output$roster_slots_remaining_text <- renderText({
-      paste0("Roster slot(s) remaining: ", roster_slots_remaining(), " of 14")
+      paste0("Roster slot(s) remaining: ", roster_reactive()$slots_remaining, " of 14")
   })
 
   
   # keep track of teams selected on the roster
   teams_on_roster <- reactive({
-    team_lookupstring_position[lookup_string %in% roster$players, team_abbr] %>% 
-      unique() %>% 
-      sort()
+    unique(team_lookupstring_position[lookup_string %in% roster$players, .(team_abbr)])
   })
+  
   output$teams_on_roster_text <- renderText({
     if(is_empty(teams_on_roster())){
       "Teams on roster: None"
     } else {
-      paste0("Teams on roster: ", paste0(teams_on_roster(), collapse = ",  "))
+      paste0("Teams on roster: ", paste0(teams_on_roster() |> unlist(), collapse = ",  "))
     }
   })
   
   # keep track of unselected teams
   teams_available <- reactive({
-    team_lookupstring_position[!(team_abbr %in% teams_on_roster()), team_abbr] %>% unique() %>% sort()
+    team_lookupstring_position[!(team_abbr %in% teams_on_roster()), team_abbr] |> unique() |> sort()
   }) 
   output$teams_available_text <- renderText({
-    paste0("Teams remaining: ", paste0(teams_available() %>% unlist(), collapse = ",  "))
+    paste0("Teams remaining: ", paste0(teams_available() |> unlist(), collapse = ",  "))
   })
   
   # keep track of positions on the roster
@@ -1170,7 +1306,7 @@ server <- function(input, output, session) {
     if(is_empty(positions_selected())){
       "Positions Filled: None"
     } else {
-      paste0("Positions Filled: ", paste0(count_positions(positions_selected()) %>% unlist(), collapse = ",  "))
+      paste0("Positions Filled: ", paste0(count_positions(positions_selected()) |> unlist(), collapse = ",  "))
     }
   })
   
@@ -1182,53 +1318,48 @@ server <- function(input, output, session) {
       current_positions <- count_positions(positions_selected())
       current_positions <- str_remove(current_positions," .[:alpha:]{2}.")
       remaining_positions <- all_positions[!(all_positions %in% current_positions)]
-      paste0("Positions Remaining: ", paste0(remaining_positions %>% unlist(), collapse = ",  "))
+      paste0("Positions Remaining: ", paste0(remaining_positions |> unlist(), collapse = ",  "))
     }
   })
   
   players_remaining <- reactive({
 
-    players_remaining <- team_lookupstring_position %>%
-      filter(!(team_abbr %in% teams_on_roster()))
+    players_remaining <- team_lookupstring_position[!(team_abbr %in% teams_on_roster())]
     
-    if(length(positions_selected()[positions_selected() == "Defense"])>=1L){
-      players_remaining <- players_remaining %>%
-        filter(position != "Defense")
+    if("Defense" %in% positions_selected()){
+      players_remaining <- players_remaining[position != "Defense"]
     }   
-    if(length(positions_selected()[positions_selected() == "K"])>=1L){
-      players_remaining <- players_remaining %>%
-        filter(position != "K")
+    if("K" %in% positions_selected()){
+      players_remaining <- players_remaining[position != "K"]
     }
     if(length(positions_selected()[positions_selected() == "QB"])>=3L){
-      players_remaining <- players_remaining %>%
-        filter(position != "QB")
+      players_remaining <- players_remaining[position != "QB"]
     }
     # for RB, TE and WR, need to consider the flex position when filtering
     if((length(positions_selected()[positions_selected() == "RB"])==3L & 
        (length(positions_selected()[positions_selected() == "TE"])==3L |
         length(positions_selected()[positions_selected() == "WR"])==4L) )|
        (length(positions_selected()[positions_selected() == "RB"])>=4L)){
-      players_remaining <- players_remaining %>%
-        filter(position != "RB")
+      players_remaining <- players_remaining[position != "RB"]
     }
     if((length(positions_selected()[positions_selected() == "TE"])==2L & 
         (length(positions_selected()[positions_selected() == "RB"])==4L |
          length(positions_selected()[positions_selected() == "WR"])==4L) )|
        (length(positions_selected()[positions_selected() == "TE"])>=3L)){
-      players_remaining <- players_remaining %>%
-        filter(position != "TE")
+      players_remaining <- players_remaining[position != "TE"]
     }
     if((length(positions_selected()[positions_selected() == "WR"])==3L & 
         (length(positions_selected()[positions_selected() == "TE"])==3L |
          length(positions_selected()[positions_selected() == "RB"])==4L) )|
        (length(positions_selected()[positions_selected() == "WR"])>=4L)){
-      players_remaining <- players_remaining %>%
-        filter(position != "WR")
+      players_remaining <- players_remaining[position != "WR"]
     }
     
-    players_remaining <- players_remaining %>% select(position, team_abbr, lookup_string)
+    players_remaining
     
   })
+  
+  output$players_remaining_DT <- renderDT({players_remaining()})
   
   output$players_on_roster_DT <- renderDT({
     if(is_empty(roster$players)){
@@ -1238,21 +1369,19 @@ server <- function(input, output, session) {
       )
     } else {
       DT::datatable(
-        team_lookupstring_position[lookup_string %in% roster$players, 
-                                   .(position, team_abbr, lookup_string)],
+        team_lookupstring_position[lookup_string %in% roster$players],
         options = list(pageLength = 25)
       )
     }
   })
   
-  output$players_remaining_DT <- renderDT({players_remaining()})
   
   observeEvent(
     input$add_player,{
     updateSelectizeInput(
       session,
       inputId = "roster_selections_made",
-      choices = players_remaining()$lookup_string
+      choices = players_remaining()[,.(lookup_string)] |> as.list()
     )
       
     updateSelectizeInput(
@@ -1278,9 +1407,9 @@ server <- function(input, output, session) {
     })
   
   observeEvent(
-    roster_full(),
+    roster_reactive()$roster_full,
     {
-      if(roster_full()) {
+      if(roster_reactive()$roster_full) {
         shinyjs::disable("add_player")
         
       } else {
@@ -1292,7 +1421,7 @@ server <- function(input, output, session) {
 
 
   # reactive boolean for activating download button
-  participant_info <- reactive({
+  participant_reactive <- reactive({
     fantasy_owner_name <- input$fantasy_owner_name
     fantasy_owner_email <- input$fantasy_owner_email
     fantasy_team_name <- input$fantasy_team_name
@@ -1305,10 +1434,10 @@ server <- function(input, output, session) {
   
   download_btn_status <- reactive({
     all(
-      participant_info()$fantasy_owner_name!="",
-      str_detect(participant_info()$fantasy_owner_email,"[:graph:]{3,}@[:alnum:]{1,}\\.[:alnum:]{2,}"),
-      participant_info()$fantasy_team_name!="",
-      participant_info()$paid,
+      participant_reactive()$fantasy_owner_name!="",
+      str_detect(participant_reactive()$fantasy_owner_email,"[:graph:]{3,}@[:alnum:]{1,}\\.[:alnum:]{2,}"),
+      participant_reactive()$fantasy_team_name!="",
+      participant_reactive()$paid,
       length(positions_selected()) == 14L
     )
   })
@@ -1327,13 +1456,13 @@ server <- function(input, output, session) {
   
   # create final roster for downloadHandler
   roster_data <- reactive({
-    team_lookupstring_position %>%
-      filter(lookup_string %in% roster$players) %>%
-      select(position, team_abbr, lookup_string) %>% 
+    team_lookupstring_position |>
+      filter(lookup_string %in% roster$players) |>
+      select(position, team_abbr, lookup_string) |> 
       mutate(
-        `Fantasy Owner` = rep(participant_info()$fantasy_owner_name,14),
-        `Fantasy Owner Email` = rep(participant_info()$fantasy_owner_email,14),
-        `Fantasy Team Name` = rep(participant_info()$fantasy_team_name,14),
+        `Fantasy Owner` = rep(participant_reactive()$fantasy_owner_name,14),
+        `Fantasy Owner Email` = rep(participant_reactive()$fantasy_owner_email,14),
+        `Fantasy Team Name` = rep(participant_reactive()$fantasy_team_name,14),
         `Roster` = 1:14,
         `Position Type` = if_else(position == "Defense", "Defense / Special teams", "Player"),
         `Automation Mapping` = if_else(
@@ -1343,27 +1472,27 @@ server <- function(input, output, session) {
         ),
         `Check 1 - Selection is Unique` = TRUE,
         `Check 2 - Team is Unique` = TRUE
-      ) %>% 
+      ) |> 
       group_by(
         position
-      ) %>% 
+      ) |> 
       mutate(
         `Position Code` = if_else(position %in% c("QB","WR","TE","RB"), paste0(position,1:n()), 
                           if_else(position == "Defense", "D", position))
-      ) %>% 
-      ungroup() %>% 
+      ) |> 
+      ungroup() |> 
       rename(
         `Position Group` = position,
         `Team Abbr.` = team_abbr,
         `Selection` = lookup_string
-      ) %>%
+      ) |>
       mutate(
         `Position Group` = case_when(
           `Position Code` == "K" ~ "SPEC", 
           `Position Code` %in% c("RB4","WR4","TE3") ~ "FLEX", 
           `Position Code` == "D" ~ "D", 
           .default = `Position Group`)
-      ) %>% 
+      ) |> 
       select(
         `Fantasy Owner`,
         `Fantasy Owner Email`,
