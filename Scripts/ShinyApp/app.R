@@ -20,6 +20,7 @@ season_teams <- c(
   "PHI","PIT","SEA","SF","TB",
   "TEN","WAS"
 )
+playoff_teams <- c("BAL","BUF","KC","HOU","CLE","MIA","PIT","SF","DAL","DET","TB","PHI","LA","GB")
 
 
 get_team_info <- function(season_year_int = playoff_year){
@@ -948,11 +949,12 @@ dt_nfl_player_stats <- get_combined_stats()
 # remove zero value statistics
 # TODO this may or may not be a good idea for the stats but increases load time
 dt_nfl_player_stats <- dt_nfl_player_stats[abs(stat_values) >= 1e-7]
+dt_nfl_player_stats <- dt_nfl_player_stats[team_abbr %in% playoff_teams]
 
 # get a list of unique players and teams for the lookup
 team_lookupstring_position <- rbindlist(list(
-  setorder(dt_roster[,.(position, lookup_string, team_abbr)], lookup_string),
-  dt_nfl_teams[,.(position, lookup_string, team_abbr)]
+  setorder(dt_roster[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)], lookup_string),
+  dt_nfl_teams[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)]
 ))
 
 
@@ -1208,9 +1210,9 @@ ui <- fluidPage(
             checkboxGroupInput(
               "selected_teams",
               label = "",
-              choiceNames = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_name_w_abbr]),
-              choiceValues = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr]),
-              selected = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr])
+              choiceNames = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_name_w_abbr]),
+              choiceValues = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr]),
+              selected = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr])
             )
           )
         ),
