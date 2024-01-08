@@ -173,7 +173,7 @@ get_bonus_stats <- function(pbp_dt,
     ]
   )) 
   player[["40yd_return_td_bonus"]] <- tmp[,by = .(week,season_type,team_abbr,player,player_id,stat_label),
-                                          list(football_values = sum(football_values), fantasy_points = sum(fantasy_points))]
+      list(football_values = sum(football_values), fantasy_points = sum(fantasy_points))]
   
   player <- rbindlist(player)
   
@@ -183,7 +183,7 @@ get_bonus_stats <- function(pbp_dt,
     print(paste0("There were ", length(player$position[is.na(player$position)]), " rows removed because of NAs in position"))
     player <- player[!is.na(position)]
   }
-  
+
   # rename Fullback to Running Back
   player <- rbindlist(list(player[position=="FB",position:="RB"],player[position!="FB"]))
   
@@ -213,7 +213,7 @@ get_bonus_stats <- function(pbp_dt,
   setorder(player, cols = week, position)
   
   return(player)
-  
+
 }
 
 get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
@@ -298,18 +298,18 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   tmp[, stat_label := "def_points_allowed"]
   tmp <- tmp[,.(week, season_type, team_abbr, stat_label, football_values)]
   def[["def_points_allowed"]] <- tmp[, 
-                                     fantasy_points := case_when(
-                                       football_values == 0L ~ 10L,
-                                       football_values >= 1L & football_values <= 6 ~ 7L,
-                                       football_values >= 7L & football_values <= 13 ~ 4L,
-                                       football_values >= 14L & football_values <= 17 ~ 1L,
-                                       football_values >= 18L & football_values <= 21 ~ 0L,
-                                       football_values >= 22L & football_values <= 27 ~ -1L,
-                                       football_values >= 28L & football_values <= 34 ~ -4L,
-                                       football_values >= 35L & football_values <= 45 ~ -7L,
-                                       football_values >= 46L ~ -10L,
-                                       .default = 0L
-                                     )
+    fantasy_points := case_when(
+      football_values == 0L ~ 10L,
+      football_values >= 1L & football_values <= 6 ~ 7L,
+      football_values >= 7L & football_values <= 13 ~ 4L,
+      football_values >= 14L & football_values <= 17 ~ 1L,
+      football_values >= 18L & football_values <= 21 ~ 0L,
+      football_values >= 22L & football_values <= 27 ~ -1L,
+      football_values >= 28L & football_values <= 34 ~ -4L,
+      football_values >= 35L & football_values <= 45 ~ -7L,
+      football_values >= 46L ~ -10L,
+      .default = 0L
+    )
   ]
   
   def <- rbindlist(def)
@@ -570,12 +570,12 @@ order_cols <- function(dt, pos){
     'receiving_tds__football_values',
     'receiving_yards__fantasy_points',
     'receiving_yards__football_values',
-    'receiving_2pt_conversions__fantasy_points',
-    'receiving_2pt_conversions__football_values',
-    'receiving_fumbles_lost__fantasy_points',
-    'receiving_fumbles_lost__football_values',
-    'rushing_2pt_conversions__fantasy_points',
-    'rushing_2pt_conversions__football_values',
+		'receiving_2pt_conversions__fantasy_points',
+		'receiving_2pt_conversions__football_values',
+		'receiving_fumbles_lost__fantasy_points',
+		'receiving_fumbles_lost__football_values',
+		'rushing_2pt_conversions__fantasy_points',
+		'rushing_2pt_conversions__football_values',
     '40yd_pass_td_qb_bonus__fantasy_points',
     '40yd_pass_td_qb_bonus__football_values',
     '40yd_pass_td_receiver_bonus__fantasy_points',
@@ -583,7 +583,7 @@ order_cols <- function(dt, pos){
     '40yd_rush_td_bonus__fantasy_points',
     '40yd_rush_td_bonus__football_values'
   )
-  
+
   rb_order <- c(
     'rushing_tds__fantasy_points',
     'rushing_tds__football_values',
@@ -620,7 +620,7 @@ order_cols <- function(dt, pos){
     '40yd_return_td_bonus__fantasy_points',
     '40yd_return_td_bonus__football_values'
   )
-  
+
   te_order <- c(
     'receiving_tds__fantasy_points',
     'receiving_tds__football_values',
@@ -734,7 +734,7 @@ order_cols <- function(dt, pos){
     'def_block__fantasy_points',
     'def_block__football_values'
   )
-  
+    
   if(pos == "QB"){
     master_order <- c(basic_order, qb_order)
   } else if(pos == "RB"){
@@ -958,7 +958,6 @@ team_lookupstring_position <- rbindlist(list(
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
-  theme = shinytheme("sandstone"),
   tags$head(
     # tags$link(rel = "stylesheet", type = "text/css", href = "styles.freelancer.css"),
     tags$title("Playoff Fantasy Football League")
@@ -975,15 +974,15 @@ ui <- fluidPage(
           tags$ul(
             tags$li("Your roster must include one player from each of the 14 teams in the playoffs."),
             tags$li("Your roster must include:"),
-            tags$ul(
-              tags$li("1 Kicker (K)"),
-              tags$li("3 Quaterbacks (QB)"),
-              tags$li("3 Running Backs (RB)"),
-              tags$li("3 Wide Receivers (WR)"),
-              tags$li("2 Tight Ends (TE)"),
-              tags$li("1 Flex Position (either RB, WR or TE)"),
-              tags$li("1 Defense / Special Teams.")
-            ),
+              tags$ul(
+                tags$li("1 Kicker (K)"),
+                tags$li("3 Quaterbacks (QB)"),
+                tags$li("3 Running Backs (RB)"),
+                tags$li("3 Wide Receivers (WR)"),
+                tags$li("2 Tight Ends (TE)"),
+                tags$li("1 Flex Position (either RB, WR or TE)"),
+                tags$li("1 Defense / Special Teams.")
+              ),
           ),
           tags$li("The roster will be locked from changes after submission to the Commissioner."),
           tags$ul(
@@ -1008,11 +1007,11 @@ ui <- fluidPage(
         tags$h2("How To Use this Dashboard"),
         tags$p("You can use this dashboard to explore player statistics and create your roster:"),
         tags$ul(
-          tags$li("Regular season statistics are available on the 'Explore 2023 Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
+          tags$li("Regular season statistics are available on the 'Explore Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
           tags$li("Use the 'Build Roster' tab on this dashboard to start creating your roster."),
           tags$li("Add players to your roster based on the combination you think will score the most points by the end of the Superbowl."),
           tags$li("When a player is added to your roster, the team associated with that player (and any of its remaining players) will be removed from your next possible selections. For example: if you pick Jalen Hurts as one of your quarterbacks, you no longer be able to select an Eagles player on your roster."),
-          tags$li("When you've satisified the maximum number of positions on your roster, any player associated with that poisiton will be removed from your next possible selection. For example: if you pick Jalen Hurts as your third (and last) quarterback, you no longer be able to select a quarterback."),
+          tags$li("When you've satisified the maximum number of positions on your roster, any player associated with that position will be removed from your next possible selection. For example: if you pick Jalen Hurts as your third (and last) quarterback, you no longer be able to select a quarterback."),
           tags$li("As needed, you can remove players from your team, which will release that Team and/or Position as a next possible selection."),
           tags$li("You must include your Name, Email and Fantasy Team Name in the Participant Information Box. Don't forget to confirm that you've paid the Commish."),
           tags$li("The roster can only be downloaded after all parameters have been satisfied (that is, a completed roster of 14 players and the Participant Information box is filled in with valid information)."),
@@ -1093,64 +1092,64 @@ ui <- fluidPage(
       ),
       sidebarLayout(
         div(id = "rosterSelector",
-            sidebarPanel(
-              selectizeInput(
-                inputId = "roster_selections_made",
-                label = "Select Player or Defensive Team",
-                choices = unique(team_lookupstring_position[,.(lookup_string)]) |> as.list(),
-                options = list(maxItems = 1)
-              ),
-              actionButton(
-                inputId = "add_player",
-                label = "Add to Roster",
-                icon = icon("add"),
-                style="color: white; background-color: #0086b3; border-color: #2e6da4"
-              ),
-              tags$p("", style="margin-top:10px"),
-              textOutput(outputId = "roster_slots_remaining_text"),
-              tags$p("", style="margin-top:10px"),
-              textOutput(outputId = "positions_available_text"),
-              tags$p("", style="margin-top:10px"),
-              textOutput(outputId = "teams_available_text"),
-              tags$h1("", style = 'margin:100px'),
-              selectizeInput(
-                inputId = "roster_selections_removed",
-                label = "Remove Player or Defensive Team",
-                choices = NULL,
-                options = list(maxItems = 1),
-              ),
-              actionButton(
-                inputId = "remove_player",
-                label = "Remove",
-                icon = icon("trash", lib = "glyphicon"),
-                style="color: white; background-color: gray; border-color: black"
-              ),
-              tags$p("", style="margin-top:10px"),
-              textOutput(outputId = "positions_on_roster_text"),
-              tags$p("", style="margin-top:10px"),
-              textOutput(outputId = "teams_on_roster_text"),
-              tags$p("", style='margin-bottom:25px'),
-              fluidPage(
-                tags$p("", style="margin:8px"),
-                tags$span("Participant Information", style='font-weight:bold; font-size:16px; margin-right: 3px'),
-                tags$span("* required", style = "color:red;"),
-                tags$p("", style="margin:8px"),
-                textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
-                textInput("fantasy_owner_email", label = "Email *", placeholder = "myemail@gmail.com"),
-                textInput("fantasy_team_name", label = "Fantasy Team Name *", placeholder = "Unique Team Name"),
-                checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent *"),
-                tags$p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
-                style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
-              ),
-              tags$p("", style='margin-bottom:20px'),
-              downloadButton(
-                outputId = "download_roster", 
-                label = "Download Roster",
-                style = "color: white; background-color: #F62817;"
-              ),
-              tags$p("Don't forget to email your roster to the Commish!"),
-              width = 3
-            )
+          sidebarPanel(
+            selectizeInput(
+              inputId = "roster_selections_made",
+              label = "Select Player or Defensive Team",
+              choices = unique(team_lookupstring_position[,.(lookup_string)]) |> as.list(),
+              options = list(maxItems = 1)
+            ),
+            actionButton(
+              inputId = "add_player",
+              label = "Add to Roster",
+              icon = icon("add"),
+              style="color: white; background-color: #0086b3; border-color: #2e6da4"
+            ),
+            tags$p("", style="margin-top:10px"),
+            textOutput(outputId = "roster_slots_remaining_text"),
+            tags$p("", style="margin-top:10px"),
+            textOutput(outputId = "positions_available_text"),
+            tags$p("", style="margin-top:10px"),
+            textOutput(outputId = "teams_available_text"),
+            tags$h1("", style = 'margin:100px'),
+            selectizeInput(
+              inputId = "roster_selections_removed",
+              label = "Remove Player or Defensive Team",
+              choices = NULL,
+              options = list(maxItems = 1),
+            ),
+            actionButton(
+              inputId = "remove_player",
+              label = "Remove",
+              icon = icon("trash", lib = "glyphicon"),
+              style="color: white; background-color: gray; border-color: black"
+            ),
+            tags$p("", style="margin-top:10px"),
+            textOutput(outputId = "positions_on_roster_text"),
+            tags$p("", style="margin-top:10px"),
+            textOutput(outputId = "teams_on_roster_text"),
+            tags$p("", style='margin-bottom:25px'),
+            fluidPage(
+              tags$p("", style="margin:8px"),
+              tags$span("Participant Information", style='font-weight:bold; font-size:16px; margin-right: 3px'),
+              tags$span("* required", style = "color:red;"),
+              tags$p("", style="margin:8px"),
+              textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
+              textInput("fantasy_owner_email", label = "Email *", placeholder = "myemail@gmail.com"),
+              textInput("fantasy_team_name", label = "Fantasy Team Name *", placeholder = "Unique Team Name"),
+              checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent *"),
+              tags$p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
+              style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
+            ),
+            tags$p("", style='margin-bottom:20px'),
+            downloadButton(
+              outputId = "download_roster", 
+              label = "Download Roster",
+              style = "color: white; background-color: #F62817;"
+            ),
+            tags$p("Don't forget to email your roster to the Commish!"),
+            width = 3
+          )
         ),
         mainPanel(
           fluidRow(
@@ -1183,37 +1182,37 @@ ui <- fluidPage(
       ),
       sidebarLayout(
         div(id = "filterMenu",
-            sidebarPanel(
-              width = 2,
-              selectInput(
-                inputId = "selected_position",
-                label = "Position:",
-                choices = list("QB", "RB", "WR", "TE", "K", "Defense"),
-                selected = "QB"
-              ),
-              selectInput(
-                inputId = "reg_or_post",
-                label = "Regular or Post Season:",
-                choices = list("Regular","Post"),
-                selected = "Regular"
-              ),
-              selectInput(
-                inputId = "stat_type",
-                label = "Statistic Type:",
-                choices = list("Fantasy Points", "Football Values", "Both"),
-                selected = "Fantasy Points"
-              ),
-              tags$p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
-              actionButton("select_all_teams", label="All", inline=TRUE),
-              actionButton("deselect_all_teams", label="None", inline=TRUE),
-              checkboxGroupInput(
-                "selected_teams",
-                label = "",
-                choiceNames = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_name_w_abbr]),
-                choiceValues = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr]),
-                selected = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr])
-              )
+          sidebarPanel(
+            width = 2,
+            selectInput(
+              inputId = "selected_position",
+              label = "Position:",
+              choices = list("QB", "RB", "WR", "TE", "K", "Defense"),
+              selected = "QB"
+            ),
+            selectInput(
+              inputId = "reg_or_post",
+              label = "Regular or Post Season:",
+              choices = list("Regular","Post"),
+              selected = "Regular"
+            ),
+            selectInput(
+              inputId = "stat_type",
+              label = "Statistic Type:",
+              choices = list("Fantasy Points", "Football Values", "Both"),
+              selected = "Fantasy Points"
+            ),
+            tags$p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
+            actionButton("select_all_teams", label="All", inline=TRUE),
+            actionButton("deselect_all_teams", label="None", inline=TRUE),
+            checkboxGroupInput(
+              "selected_teams",
+              label = "",
+              choiceNames = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_name_w_abbr]),
+              choiceValues = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr]),
+              selected = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr])
             )
+          )
         ),
         mainPanel(
           tabsetPanel(
@@ -1269,9 +1268,9 @@ server <- function(input, output, session) {
   }) 
   
   output$roster_slots_remaining_text <- renderText({
-    paste0("Roster slot(s) remaining: ", roster_reactive()$slots_remaining, " of 14")
+      paste0("Roster slot(s) remaining: ", roster_reactive()$slots_remaining, " of 14")
   })
-  
+
   
   # keep track of teams selected on the roster
   teams_on_roster <- reactive({
@@ -1319,7 +1318,7 @@ server <- function(input, output, session) {
   })
   
   players_remaining <- reactive({
-    
+
     players_remaining <- team_lookupstring_position[!(team_abbr %in% teams_on_roster())]
     
     if("Defense" %in% positions_selected()){
@@ -1333,8 +1332,8 @@ server <- function(input, output, session) {
     }
     # for RB, TE and WR, need to consider the flex position when filtering
     if((length(positions_selected()[positions_selected() == "RB"])==3L & 
-        (length(positions_selected()[positions_selected() == "TE"])==3L |
-         length(positions_selected()[positions_selected() == "WR"])==4L) )|
+       (length(positions_selected()[positions_selected() == "TE"])==3L |
+        length(positions_selected()[positions_selected() == "WR"])==4L) )|
        (length(positions_selected()[positions_selected() == "RB"])>=4L)){
       players_remaining <- players_remaining[position != "RB"]
     }
@@ -1374,18 +1373,18 @@ server <- function(input, output, session) {
   
   observeEvent(
     input$add_player,{
-      updateSelectizeInput(
-        session,
-        inputId = "roster_selections_made",
-        choices = players_remaining()[,.(lookup_string)] |> as.list()
-      )
+    updateSelectizeInput(
+      session,
+      inputId = "roster_selections_made",
+      choices = players_remaining()[,.(lookup_string)] |> as.list()
+    )
       
-      updateSelectizeInput(
-        session,
-        inputId = "roster_selections_removed",
-        choices = roster$players
-      )
-    })
+    updateSelectizeInput(
+      session,
+      inputId = "roster_selections_removed",
+      choices = roster$players
+    )
+  })
   
   observeEvent(
     input$remove_player,{
@@ -1414,8 +1413,8 @@ server <- function(input, output, session) {
     }
   )
   
-  
-  
+
+
   # reactive boolean for activating download button
   participant_reactive <- reactive({
     fantasy_owner_name <- input$fantasy_owner_name
@@ -1423,9 +1422,9 @@ server <- function(input, output, session) {
     fantasy_team_name <- input$fantasy_team_name
     paid <- input$paid_checkbox
     data.table("fantasy_owner_name" = fantasy_owner_name, 
-               "fantasy_owner_email" = fantasy_owner_email, 
-               "fantasy_team_name" = fantasy_team_name,
-               "paid_checkbox" = paid)
+      "fantasy_owner_email" = fantasy_owner_email, 
+      "fantasy_team_name" = fantasy_team_name,
+      "paid_checkbox" = paid)
   })
   
   download_btn_status <- reactive({
@@ -1437,13 +1436,13 @@ server <- function(input, output, session) {
       length(positions_selected()) == 14L
     )
   })
-  
+
   observeEvent(
     download_btn_status(),
     {
       if(download_btn_status()) {
         shinyjs::enable("download_roster")
-        
+
       } else {
         shinyjs::disable("download_roster")
       }
@@ -1474,7 +1473,7 @@ server <- function(input, output, session) {
       ) |> 
       mutate(
         `Position Code` = if_else(position %in% c("QB","WR","TE","RB"), paste0(position,1:n()), 
-                                  if_else(position == "Defense", "D", position))
+                          if_else(position == "Defense", "D", position))
       ) |> 
       ungroup() |> 
       rename(
