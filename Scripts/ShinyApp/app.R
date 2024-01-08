@@ -11,15 +11,7 @@ library(shinythemes)
 
 playoff_year <- 2023L
 season_type <- c("REG","POST")
-season_teams <- c(
-  "ARI","ATL","BAL","BUF","CAR",
-  "CHI","CIN","CLE","DAL","DEN",
-  "DET","GB","HOU","IND","JAX",
-  "KC","LA","LAC","LV","MIA",
-  "MIN","NE","NO","NYG","NYJ",
-  "PHI","PIT","SEA","SF","TB",
-  "TEN","WAS"
-)
+season_teams <- c("BAL","BUF","KC","HOU","CLE","MIA","PIT","SF","DAL","DET","TB","PHI","LA","GB")
 
 
 get_team_info <- function(season_year_int = playoff_year){
@@ -50,7 +42,6 @@ get_pbp <- function(season_year_int = playoff_year,
   dt <- data.table::as.data.table(nflfastR::load_pbp(seasons = season_year_int))
   dt <- dt[season_type %in% season_type_char]
   dt[,season_type := if_else(season_type=="REG","Regular", if_else(season_type=="POST","Post","Error"))]
-  dt <- dt[home_team %in% season_teams_list | away_team %in% season_teams_list]
   cols <- c(
     'game_id',
     'game_date',
@@ -1008,11 +999,11 @@ ui <- fluidPage(
         tags$h2("How To Use this Dashboard"),
         tags$p("You can use this dashboard to explore player statistics and create your roster:"),
         tags$ul(
-          tags$li("Regular season statistics are available on the 'Explore 2023 Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
+          tags$li("Regular season statistics are available on the 'Explore Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
           tags$li("Use the 'Build Roster' tab on this dashboard to start creating your roster."),
           tags$li("Add players to your roster based on the combination you think will score the most points by the end of the Superbowl."),
           tags$li("When a player is added to your roster, the team associated with that player (and any of its remaining players) will be removed from your next possible selections. For example: if you pick Jalen Hurts as one of your quarterbacks, you no longer be able to select an Eagles player on your roster."),
-          tags$li("When you've satisified the maximum number of positions on your roster, any player associated with that poisiton will be removed from your next possible selection. For example: if you pick Jalen Hurts as your third (and last) quarterback, you no longer be able to select a quarterback."),
+          tags$li("When you've satisified the maximum number of positions on your roster, any player associated with that position will be removed from your next possible selection. For example: if you pick Jalen Hurts as your third (and last) quarterback, you no longer be able to select a quarterback."),
           tags$li("As needed, you can remove players from your team, which will release that Team and/or Position as a next possible selection."),
           tags$li("You must include your Name, Email and Fantasy Team Name in the Participant Information Box. Don't forget to confirm that you've paid the Commish."),
           tags$li("The roster can only be downloaded after all parameters have been satisfied (that is, a completed roster of 14 players and the Participant Information box is filled in with valid information)."),
@@ -1097,7 +1088,7 @@ ui <- fluidPage(
             selectizeInput(
               inputId = "roster_selections_made",
               label = "Select Player or Defensive Team",
-              choices = unique(team_lookupstring_position[,.(lookup_string)]) |> as.list(),
+              choices = as.list(unique(team_lookupstring_position[team_abbr %in% season_teams,lookup_string])),
               options = list(maxItems = 1)
             ),
             actionButton(
@@ -1377,7 +1368,7 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session,
       inputId = "roster_selections_made",
-      choices = players_remaining()[,.(lookup_string)] |> as.list()
+      choices = players_remaining()[team_abbr %in% season_teams,lookup_string] |> as.list()
     )
       
     updateSelectizeInput(
@@ -1392,7 +1383,7 @@ server <- function(input, output, session) {
       updateSelectizeInput(
         session,
         inputId = "roster_selections_made",
-        choices = players_remaining()$lookup_string
+        choices = players_remaining()[team_abbr %in% season_teams,lookup_string] |> as.list()
       )
       
       updateSelectizeInput(
