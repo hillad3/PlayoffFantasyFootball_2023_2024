@@ -1383,7 +1383,7 @@ server <- function(input, output, session) {
       updateSelectizeInput(
         session,
         inputId = "roster_selections_made",
-        choices = players_remaining()[team_abbr %in% season_teams,lookup_string] |> as.list()
+        choices = players_remaining()$lookup_string
       )
       
       updateSelectizeInput(
