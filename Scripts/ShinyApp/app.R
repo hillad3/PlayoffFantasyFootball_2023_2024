@@ -946,7 +946,8 @@ count_positions <- function(x){
 dt_nfl_player_stats <- get_combined_stats()
 
 # remove zero value statistics
-# dt_nfl_player_stats <- dt_nfl_player_stats[abs(stat_values) >= 1e-7]
+# TODO this may or may not be a good idea for the stats but increases load time
+dt_nfl_player_stats <- dt_nfl_player_stats[abs(stat_values) >= 1e-7]
 
 # get a list of unique players and teams for the lookup
 team_lookupstring_position <- rbindlist(list(
@@ -957,12 +958,12 @@ team_lookupstring_position <- rbindlist(list(
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
-  theme = shinytheme("paper"),
+  theme = shinytheme("sandstone"),
   tags$head(
     # tags$link(rel = "stylesheet", type = "text/css", href = "styles.freelancer.css"),
-    tags$title("Fantasy Glory: A Playoff Fantasy Football League")
+    tags$title("Playoff Fantasy Football League")
   ),
-  tags$h1("Fantasy Glory: A Playoff Fantasy Football League", style = "text-align:center"),
+  tags$h1("Playoff Fantasy Football League", style = "text-align:center"),
   tabsetPanel(
     tabPanel(
       "How to Play",
@@ -1130,8 +1131,10 @@ ui <- fluidPage(
             textOutput(outputId = "teams_on_roster_text"),
             tags$p("", style='margin-bottom:25px'),
             fluidPage(
-              tags$p("Participant Information", style='font-weight:bold; margin-bottom:0px;', inline=TRUE),
-              tags$p("* required", style = "color:red; margin-top:3px", inline=TRUE),
+              tags$p("", style="margin:8px"),
+              tags$span("Participant Information", style='font-weight:bold; font-size:16px; margin-right: 3px'),
+              tags$span("* required", style = "color:red;"),
+              tags$p("", style="margin:8px"),
               textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
               textInput("fantasy_owner_email", label = "Email *", placeholder = "myemail@gmail.com"),
               textInput("fantasy_team_name", label = "Fantasy Team Name *", placeholder = "Unique Team Name"),
