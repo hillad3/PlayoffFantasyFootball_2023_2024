@@ -957,10 +957,10 @@ team_lookupstring_position <- rbindlist(list(
   dt_nfl_teams[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)]
 ))
 
-fwrite(dt_nfl_player_stats, file = paste0("data/player_stats_",as.integer(Sys.time()),".csv"))
-fwrite(dt_nfl_teams, file = paste0("data/nfl_teams_",as.integer(Sys.time()),".csv"))
-fwrite(dt_roster, file = paste0("data/nfl_rosters_",as.integer(Sys.time()),".csv"))
-fwrite(team_lookupstring_position, file = paste0("data/lookups_",as.integer(Sys.time()),".csv"))
+fwrite(dt_nfl_player_stats, file = paste0("./Scripts/ShinyApp/data/player_stats_",as.integer(Sys.time()),".csv"))
+fwrite(dt_nfl_teams, file = paste0("./Scripts/ShinyApp/data/nfl_teams_",as.integer(Sys.time()),".csv"))
+fwrite(dt_roster, file = paste0("./Scripts/ShinyApp/data/nfl_rosters_",as.integer(Sys.time()),".csv"))
+fwrite(team_lookupstring_position, file = paste0("./Scripts/ShinyApp/data/lookups_",as.integer(Sys.time()),".csv"))
 
 
 
