@@ -1577,9 +1577,9 @@ server <- function(input, output, session) {
         session,
         "selected_teams",
         label = "",
-        choiceNames = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_name_w_abbr]),
-        choiceValues = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr]),
-        selected = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr])
+        choiceNames = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_name_w_abbr]),
+        choiceValues = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr]),
+        selected = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr])
       )
     })
   
@@ -1589,8 +1589,8 @@ server <- function(input, output, session) {
         session,
         "selected_teams",
         label = "",
-        choiceNames = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_name_w_abbr]),
-        choiceValues = as.list(dt_nfl_teams[team_abbr %in% season_teams, team_abbr]),
+        choiceNames = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_name_w_abbr]),
+        choiceValues = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr]),
         selected = NULL
       )
     })
