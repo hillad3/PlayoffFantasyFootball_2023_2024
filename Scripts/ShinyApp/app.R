@@ -21,7 +21,7 @@ season_teams <- c(
   "TEN","WAS"
 )
 
-playoff_teams <- c("BAL","BUF","KC","HOU","CLE","MIA","PIT","SF","DAL","DET","TB","PHI","LA","GB")
+playoff_teams <- c("BAL","BUF","CLE","DAL","DET","GB","HOU","KC","LA","MIA","PHI","PIT","SF","TB")
 
 
 get_last_csv <- function(key){
@@ -42,12 +42,6 @@ dt_nfl_player_stats <- fread(get_last_csv("player_stats"))
 team_lookupstring_position <- fread(get_last_csv("lookups"))
 
 source("helper_funcs.R")
-
-# how to play module. there is only a UI side to this module
-howToPlayUI <- function(id){
-  tagList()
-}
-
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
