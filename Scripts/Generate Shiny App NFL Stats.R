@@ -10,7 +10,7 @@ library(shinyjs)
 library(shinythemes)
 
 playoff_year <- 2023L
-season_type <- c("REG","POST")
+season_type <- c("POST")
 season_teams <- c(
   "ARI","ATL","BAL","BUF","CAR",
   "CHI","CIN","CLE","DAL","DEN",
@@ -42,7 +42,7 @@ dt_roster <- unique(dt_roster[,.(position, player_id = gsis_id, player_name, tea
 dt_roster <- dt_roster[,position:=if_else(position=="FB","RB",position)]
 dt_roster <- dt_roster[position %in% c('QB', 'RB', 'WR', 'TE','K')]
 dt_roster <- dt_roster[!is.na(position)]
-dt_roster <- merge(dt_roster, dt_nfl_teams[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
+dt_roster <- merge.data.table(dt_roster, dt_nfl_teams[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
 dt_roster[,lookup_string:=paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')]
 
 get_pbp <- function(season_year_int = playoff_year,
@@ -178,7 +178,7 @@ get_bonus_stats <- function(pbp_dt,
   
   player <- rbindlist(player)
   
-  player <- merge(player, player_data[,.(player_id, player_name, team_abbr, position)], all.x = TRUE, by = c("player_id", "team_abbr"))
+  player <- merge.data.table(player, player_data[,.(player_id, player_name, team_abbr, position)], all.x = TRUE, by = c("player_id", "team_abbr"))
   
   if(any(is.na(player$position))){
     print(paste0("There were ", length(player$position[is.na(player$position)]), " rows removed because of NAs in position"))
@@ -194,7 +194,7 @@ get_bonus_stats <- function(pbp_dt,
     player <- player[position %in% c('QB', 'RB', 'WR', 'TE')]
   }
   
-  player <- merge(player, team_data[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
+  player <- merge.data.table(player, team_data[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
   
   player <-
     player[, .(
@@ -319,7 +319,7 @@ get_defense_stats <- function(pbp_dt, team_data = dt_nfl_teams){
   
   def[,.('position','week','player_id','team_abbr')]
   
-  def <- merge(def, team_data[,.(team_abbr, player_name = team_name, team_conf, team_division)], all.x = TRUE)
+  def <- merge.data.table(def, team_data[,.(team_abbr, player_name = team_name, team_conf, team_division)], all.x = TRUE)
   
   def <-
     def[, .(
@@ -437,7 +437,7 @@ get_player_stats <- function(player_type_char, # either 'offense' or 'kicking'
     .default = 0L
   )]
   
-  dt <- merge(dt, team_data[,.(team_abbr, team_conf, team_division)], all.x = TRUE)
+  dt <- merge.data.table(dt, team_data[,.(team_abbr, team_conf, team_division)], all.x = TRUE)
   
   dt <-
     dt[, .(
@@ -957,10 +957,10 @@ team_lookupstring_position <- rbindlist(list(
   dt_nfl_teams[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)]
 ))
 
-fwrite(dt_nfl_player_stats, file = paste0("./Scripts/ShinyApp/data/player_stats_",as.integer(Sys.time()),".csv"))
-fwrite(dt_nfl_teams, file = paste0("./Scripts/ShinyApp/data/nfl_teams_",as.integer(Sys.time()),".csv"))
-fwrite(dt_roster, file = paste0("./Scripts/ShinyApp/data/nfl_rosters_",as.integer(Sys.time()),".csv"))
-fwrite(team_lookupstring_position, file = paste0("./Scripts/ShinyApp/data/lookups_",as.integer(Sys.time()),".csv"))
+fwrite(dt_nfl_player_stats, file = paste0("./Output/NFL Stats/player_stats_",as.integer(Sys.time()),".csv"))
+fwrite(dt_nfl_teams, file = paste0("./Output/NFL Stats/nfl_teams_",as.integer(Sys.time()),".csv"))
+fwrite(dt_roster, file = paste0("./Output/NFL Stats/nfl_rosters_",as.integer(Sys.time()),".csv"))
+fwrite(team_lookupstring_position, file = paste0("./Output/NFL Stats/lookups_",as.integer(Sys.time()),".csv"))
 
 
 
