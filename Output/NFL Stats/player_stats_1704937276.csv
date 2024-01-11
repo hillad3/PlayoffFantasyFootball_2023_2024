@@ -1,0 +1,1343 @@
+position,week,season_type,lookup_string,player_id,player_name,team_abbr,team_conf,team_division,stat_type,stat_label,stat_values
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,football_values,def_sack,4
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,football_values,def_fumble_recovery,1
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,football_values,def_points_allowed,24
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,fantasy_points,def_sack,4
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,fantasy_points,def_fumble_recovery,2
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,fantasy_points,def_points_allowed,-1
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,football_values,def_sack,4
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,football_values,def_fumble_recovery,1
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,football_values,def_points_allowed,24
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,fantasy_points,def_sack,4
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,fantasy_points,def_fumble_recovery,2
+Defense,19,Post,"Defense, BAL (AFC North)",N/A,Baltimore Ravens,BAL,AFC,AFC North,fantasy_points,def_points_allowed,-1
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_sack,4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_interception,2
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_points_allowed,31
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_sack,4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_interception,4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_points_allowed,-4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_sack,4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_interception,2
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_points_allowed,31
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_sack,4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_interception,4
+Defense,19,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_points_allowed,-4
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_sack,1
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_points_allowed,27
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_sack,1
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_points_allowed,-1
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_sack,1
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,football_values,def_points_allowed,27
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_sack,1
+Defense,20,Post,"Defense, BUF (AFC East)",N/A,Buffalo Bills,BUF,AFC,AFC East,fantasy_points,def_points_allowed,-1
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_sack,2
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_interception,1
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_points_allowed,14
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_sack,2
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_interception,2
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_points_allowed,1
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_sack,2
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_interception,1
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_points_allowed,14
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_sack,2
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_interception,2
+Defense,19,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_points_allowed,1
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_sack,2
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_fumble_recovery_punt,1
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_points_allowed,19
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_sack,2
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_fumble_recovery_punt,2
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_sack,2
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_fumble_recovery_punt,1
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,football_values,def_points_allowed,19
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_sack,2
+Defense,20,Post,"Defense, DAL (NFC East)",N/A,Dallas Cowboys,DAL,NFC,NFC East,fantasy_points,def_fumble_recovery_punt,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_sack,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_fumble_recovery,1
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_interception,1
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_points_allowed,20
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_sack,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_fumble_recovery,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_interception,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_sack,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_fumble_recovery,1
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_interception,1
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_points_allowed,20
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_sack,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_fumble_recovery,2
+Defense,20,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_interception,2
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_sack,5
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_interception,2
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_points_allowed,20
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_sack,5
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_interception,4
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_sack,5
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_interception,2
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_points_allowed,20
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_sack,5
+Defense,21,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_interception,4
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_sack,2
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_fumble_recovery,1
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_td,1
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_points_allowed,35
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_sack,2
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_fumble_recovery,2
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_td,6
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_points_allowed,-7
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_sack,2
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_fumble_recovery,1
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_td,1
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,football_values,def_points_allowed,35
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_sack,2
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_fumble_recovery,2
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_td,6
+Defense,22,Post,"Defense, KC (AFC West)",N/A,Kansas City Chiefs,KC,AFC,AFC West,fantasy_points,def_points_allowed,-7
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_sack,7
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_fumble_recovery,1
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_interception,2
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_td,1
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_points_allowed,34
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_sack,7
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_fumble_recovery,2
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_interception,4
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_td,6
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_points_allowed,-4
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_sack,7
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_fumble_recovery,1
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_interception,2
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_td,1
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,football_values,def_points_allowed,34
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_sack,7
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_fumble_recovery,2
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_interception,4
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_td,6
+Defense,19,Post,"Defense, MIA (AFC East)",N/A,Miami Dolphins,MIA,AFC,AFC East,fantasy_points,def_points_allowed,-4
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_sack,5
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_interception,1
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_points_allowed,7
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_sack,5
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_interception,2
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_points_allowed,4
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_sack,5
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_interception,1
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_points_allowed,7
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_sack,5
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_interception,2
+Defense,20,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_points_allowed,4
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_sack,3
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_fumble_recovery,3
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_points_allowed,7
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_sack,3
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_fumble_recovery,6
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_points_allowed,4
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_sack,3
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_fumble_recovery,3
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_points_allowed,7
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_sack,3
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_fumble_recovery,6
+Defense,21,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_points_allowed,4
+Defense,22,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_points_allowed,38
+Defense,22,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_points_allowed,-7
+Defense,22,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,football_values,def_points_allowed,38
+Defense,22,Post,"Defense, PHI (NFC East)",N/A,Philadelphia Eagles,PHI,NFC,NFC East,fantasy_points,def_points_allowed,-7
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_sack,3
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_fumble_recovery,1
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_interception,1
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_points_allowed,23
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_sack,3
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_fumble_recovery,2
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_interception,2
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_points_allowed,-1
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_sack,3
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_fumble_recovery,1
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_interception,1
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_points_allowed,23
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_sack,3
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_fumble_recovery,2
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_interception,2
+Defense,19,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_points_allowed,-1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_sack,1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_interception,2
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_block,1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_points_allowed,12
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_sack,1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_interception,4
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_block,2
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_points_allowed,4
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_sack,1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_interception,2
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_block,1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_points_allowed,12
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_sack,1
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_interception,4
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_block,2
+Defense,20,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_points_allowed,4
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_sack,1
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_points_allowed,31
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_sack,1
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_points_allowed,-4
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_sack,1
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,football_values,def_points_allowed,31
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_sack,1
+Defense,21,Post,"Defense, SF (NFC West)",N/A,San Francisco 49ers,SF,NFC,NFC West,fantasy_points,def_points_allowed,-4
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,football_values,def_sack,1
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,football_values,def_points_allowed,31
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,fantasy_points,def_sack,1
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,fantasy_points,def_points_allowed,-4
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,football_values,def_sack,1
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,football_values,def_points_allowed,31
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,fantasy_points,def_sack,1
+Defense,19,Post,"Defense, TB (NFC South)",N/A,Tampa Bay Buccaneers,TB,NFC,NFC South,fantasy_points,def_points_allowed,-4
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,pat_made,1
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,pat_missed,4
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,pat_made,1
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,pat_missed,-4
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,pat_made,1
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,pat_missed,4
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,pat_made,1
+K,19,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,pat_missed,-4
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,fg_made,2
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,fg_made_40_49,1
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,fg_made,6
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,fg_made_40_49,1
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,fg_made,2
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,football_values,fg_made_40_49,1
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,fg_made,6
+K,20,Post,"K, DAL: B.Maher (NFC East, ID: 00-0030332)",00-0030332,B.Maher,DAL,NFC,NFC East,fantasy_points,fg_made_40_49,1
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made,2
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made_50_,2
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,pat_made,3
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made,6
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made_50_,4
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,pat_made,3
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made,2
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made_50_,2
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,pat_made,3
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made,6
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made_50_,4
+K,20,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,pat_made,3
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made,3
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made_40_49,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,pat_made,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made,9
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made_40_49,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,pat_made,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made,3
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made_40_49,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,pat_made,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made,9
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made_40_49,2
+K,21,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,pat_made,2
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made,1
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_missed,1
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,pat_made,5
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made,3
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_missed,-1
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,pat_made,5
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_made,1
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,fg_missed,1
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,football_values,pat_made,5
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_made,3
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,fg_missed,-1
+K,22,Post,"K, KC: H.Butker (AFC West, ID: 00-0033303)",00-0033303,H.Butker,KC,AFC,AFC West,fantasy_points,pat_made,5
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,fg_made,1
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,pat_made,5
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,fg_made,3
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,pat_made,5
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,fg_made,1
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,pat_made,5
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,fg_made,3
+K,20,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,pat_made,5
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,fg_made,1
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,pat_made,4
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,fg_made,3
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,pat_made,4
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,fg_made,1
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,pat_made,4
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,fg_made,3
+K,21,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,pat_made,4
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,fg_made,2
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,pat_made,3
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,fg_made,6
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,pat_made,3
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,fg_made,2
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,football_values,pat_made,3
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,fg_made,6
+K,22,Post,"K, PHI: J.Elliott (NFC East, ID: 00-0033787)",00-0033787,J.Elliott,PHI,NFC,NFC East,fantasy_points,pat_made,3
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,football_values,fg_made,3
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,football_values,fg_made_40_49,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,football_values,pat_made,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,fantasy_points,fg_made,9
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,fantasy_points,fg_made_40_49,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,fantasy_points,pat_made,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,football_values,fg_made,3
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,football_values,fg_made_40_49,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,football_values,pat_made,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,fantasy_points,fg_made,9
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,fantasy_points,fg_made_40_49,2
+K,19,Post,"K, MIA: J.Sanders (AFC East, ID: 00-0034794)",00-0034794,J.Sanders,MIA,AFC,AFC East,fantasy_points,pat_made,2
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,football_values,fg_made,1
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,football_values,pat_made,2
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,fantasy_points,fg_made,3
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,fantasy_points,pat_made,2
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,football_values,fg_made,1
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,football_values,pat_made,2
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,fantasy_points,fg_made,3
+K,19,Post,"K, BAL: J.Tucker (AFC North, ID: 00-0029597)",00-0029597,J.Tucker,BAL,AFC,AFC North,fantasy_points,pat_made,2
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made,4
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made_40_49,1
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,pat_made,3
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made,12
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made_40_49,1
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,pat_made,3
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made,4
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made_40_49,1
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,pat_made,3
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made,12
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made_40_49,1
+K,19,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,pat_made,3
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made,4
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made_40_49,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made_50_,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,pat_made,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made,12
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made_40_49,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made_50_,2
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,pat_made,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made,4
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made_40_49,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,fg_made_50_,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,pat_made,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made,12
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made_40_49,1
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,fg_made_50_,2
+K,20,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,pat_made,1
+K,21,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,pat_made,1
+K,21,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,pat_made,1
+K,21,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,football_values,pat_made,1
+K,21,Post,"K, SF: R.Gould (NFC West, ID: 00-0023252)",00-0023252,R.Gould,SF,NFC,NFC West,fantasy_points,pat_made,1
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,fg_made,2
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,pat_made,4
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,fg_made,6
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,pat_made,4
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,fg_made,2
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,pat_made,4
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,fg_made,6
+K,19,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,pat_made,4
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,fg_made,1
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,pat_made,1
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,fg_made,3
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,pat_made,1
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,fg_made,1
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,football_values,pat_made,1
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,fg_made,3
+K,20,Post,"K, BUF: T.Bass (AFC East, ID: 00-0036162)",00-0036162,T.Bass,BUF,AFC,AFC East,fantasy_points,pat_made,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_yards,332
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_tds,3
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,rushing_yards,16
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,rushing_tds,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_2pt_conversions,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_yards,6
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_tds,18
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,rushing_yards,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,rushing_tds,6
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_2pt_conversions,2
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_yards,332
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_tds,3
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,rushing_yards,16
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,rushing_tds,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_2pt_conversions,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_yards,6
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_tds,18
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,rushing_yards,1
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,rushing_tds,6
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_2pt_conversions,2
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,19,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,20,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_yards,214
+QB,20,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,rushing_yards,8
+QB,20,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_yards,4
+QB,20,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_yards,214
+QB,20,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,rushing_yards,8
+QB,20,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,passing_yards,4
+QB,21,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_yards,23
+QB,21,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,sack_fumbles_lost,1
+QB,21,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,sack_fumbles_lost,-2
+QB,21,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,passing_yards,23
+QB,21,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,football_values,sack_fumbles_lost,1
+QB,21,Post,"QB, SF: B.Purdy (NFC West, ID: 00-0037834)",00-0037834,B.Purdy,SF,NFC,NFC West,fantasy_points,sack_fumbles_lost,-2
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,football_values,passing_yards,23
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,football_values,passing_tds,1
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,football_values,rushing_yards,-1
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,fantasy_points,passing_tds,6
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,football_values,passing_yards,23
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,football_values,passing_tds,1
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,football_values,rushing_yards,-1
+QB,20,Post,"QB, KC: C.Henne (AFC West, ID: 00-0026197)",00-0026197,C.Henne,KC,AFC,AFC West,fantasy_points,passing_tds,6
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_yards,305
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_tds,4
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,rushing_yards,24
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,rushing_tds,1
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_yards,6
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_tds,24
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,rushing_tds,6
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_yards,305
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_tds,4
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,rushing_yards,24
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,rushing_tds,1
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_yards,6
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_tds,24
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+QB,19,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,rushing_tds,6
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_yards,206
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_tds,1
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,rushing_yards,22
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,interceptions,2
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_yards,4
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_tds,6
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,interceptions,-4
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_yards,206
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,passing_tds,1
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,rushing_yards,22
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,football_values,interceptions,2
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_yards,4
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,passing_tds,6
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+QB,20,Post,"QB, DAL: D.Prescott (NFC East, ID: 00-0033077)",00-0033077,D.Prescott,DAL,NFC,NFC East,fantasy_points,interceptions,-4
+QB,21,Post,"QB, PHI: G.Minshew (NFC East, ID: 00-0035289)",00-0035289,G.Minshew,PHI,NFC,NFC East,football_values,rushing_yards,-2
+QB,21,Post,"QB, PHI: G.Minshew (NFC East, ID: 00-0035289)",00-0035289,G.Minshew,PHI,NFC,NFC East,football_values,rushing_yards,-2
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,passing_yards,352
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,passing_tds,3
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,rushing_yards,20
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,interceptions,2
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,sack_fumbles_lost,1
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,passing_yards,7
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,passing_tds,18
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,rushing_yards,2
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,interceptions,-4
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,sack_fumbles_lost,-2
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,passing_yards,352
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,passing_tds,3
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,rushing_yards,20
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,interceptions,2
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,sack_fumbles_lost,1
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,passing_yards,7
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,passing_tds,18
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,rushing_yards,2
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,interceptions,-4
+QB,19,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,sack_fumbles_lost,-2
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,passing_yards,265
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,rushing_yards,26
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,rushing_tds,1
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,interceptions,1
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,passing_yards,5
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,rushing_yards,2
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,rushing_tds,6
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,interceptions,-2
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,passing_yards,265
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,rushing_yards,26
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,rushing_tds,1
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,football_values,interceptions,1
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,passing_yards,5
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,rushing_yards,2
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,rushing_tds,6
+QB,20,Post,"QB, BUF: J.Allen (AFC East, ID: 00-0034857)",00-0034857,J.Allen,BUF,AFC,AFC East,fantasy_points,interceptions,-2
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_yards,154
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_tds,2
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_yards,34
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_tds,1
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_yards,3
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_tds,12
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_yards,3
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_yards,154
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_tds,2
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_yards,34
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_tds,1
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_yards,3
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_tds,12
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_yards,3
+QB,20,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_yards,121
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_yards,39
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_tds,1
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_yards,2
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_yards,3
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_yards,121
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_yards,39
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_tds,1
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_yards,2
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_yards,3
+QB,21,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_yards,304
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_tds,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_yards,70
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_tds,3
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_fumbles_lost,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_2pt_conversions,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,40yd_pass_td_qb_bonus,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,40yd_pass_td_qb_bonus,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_yards,6
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_tds,6
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_yards,7
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_tds,18
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_fumbles_lost,-2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_2pt_conversions,2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_yards,304
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,passing_tds,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_yards,70
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_tds,3
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_fumbles_lost,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,rushing_2pt_conversions,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,40yd_pass_td_qb_bonus,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,football_values,40yd_pass_td_qb_bonus,1
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_yards,6
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,passing_tds,6
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_yards,7
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_tds,18
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_fumbles_lost,-2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,rushing_2pt_conversions,2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,22,Post,"QB, PHI: J.Hurts (NFC East, ID: 00-0036389)",00-0036389,J.Hurts,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,football_values,passing_yards,74
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,football_values,rushing_yards,2
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,football_values,rushing_fumbles_lost,1
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,fantasy_points,passing_yards,1
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,fantasy_points,rushing_fumbles_lost,-2
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,football_values,passing_yards,74
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,football_values,rushing_yards,2
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,football_values,rushing_fumbles_lost,1
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,fantasy_points,passing_yards,1
+QB,21,Post,"QB, SF: J.Johnson (NFC West, ID: 00-0026300)",00-0026300,J.Johnson,SF,NFC,NFC West,fantasy_points,rushing_fumbles_lost,-2
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_yards,195
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_tds,2
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,rushing_yards,8
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_yards,3
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_tds,12
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_yards,195
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_tds,2
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,rushing_yards,8
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_yards,3
+QB,20,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_tds,12
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_yards,326
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_tds,2
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,rushing_yards,8
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,sack_fumbles_lost,1
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_yards,6
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_tds,12
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,sack_fumbles_lost,-2
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_yards,326
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_tds,2
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,rushing_yards,8
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,sack_fumbles_lost,1
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_yards,6
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_tds,12
+QB,21,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,sack_fumbles_lost,-2
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_yards,182
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_tds,3
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,rushing_yards,44
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_yards,3
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_tds,18
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,rushing_yards,4
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_yards,182
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,passing_tds,3
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,football_values,rushing_yards,44
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_yards,3
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,passing_tds,18
+QB,22,Post,"QB, KC: P.Mahomes (AFC West, ID: 00-0033873)",00-0033873,P.Mahomes,KC,AFC,AFC West,fantasy_points,rushing_yards,4
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,passing_yards,220
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,passing_tds,1
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,rushing_yards,3
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,interceptions,2
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,passing_2pt_conversions,1
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,passing_yards,4
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,passing_tds,6
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,interceptions,-4
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,passing_2pt_conversions,2
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,passing_yards,220
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,passing_tds,1
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,rushing_yards,3
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,interceptions,2
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,football_values,passing_2pt_conversions,1
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,passing_yards,4
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,passing_tds,6
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,interceptions,-4
+QB,19,Post,"QB, MIA: S.Thompson (AFC East, ID: 00-0037327)",00-0037327,S.Thompson,MIA,AFC,AFC East,fantasy_points,passing_2pt_conversions,2
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,passing_yards,351
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,passing_tds,2
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,interceptions,1
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,passing_2pt_conversions,1
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,passing_yards,7
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,passing_tds,12
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,interceptions,-2
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,passing_2pt_conversions,2
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,passing_yards,351
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,passing_tds,2
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,interceptions,1
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,football_values,passing_2pt_conversions,1
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,passing_yards,7
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,passing_tds,12
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,interceptions,-2
+QB,19,Post,"QB, TB: T.Brady (NFC South, ID: 00-0019596)",00-0019596,T.Brady,TB,NFC,NFC South,fantasy_points,passing_2pt_conversions,2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,passing_yards,226
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,passing_tds,2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,rushing_yards,54
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,interceptions,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,rushing_fumbles_lost,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,passing_yards,4
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,passing_tds,12
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,rushing_yards,5
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,interceptions,-2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,rushing_fumbles_lost,-2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,passing_yards,226
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,passing_tds,2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,rushing_yards,54
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,interceptions,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,rushing_fumbles_lost,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,football_values,40yd_pass_td_qb_bonus,1
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,passing_yards,4
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,passing_tds,12
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,rushing_yards,5
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,interceptions,-2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,rushing_fumbles_lost,-2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_qb_bonus,2
+QB,19,Post,"QB, BAL: T.Huntley (AFC North, ID: 00-0035993)",00-0035993,T.Huntley,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_qb_bonus,2
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_yards,32
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_tds,1
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_yards,3
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_yards,32
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_tds,1
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_yards,3
+RB,20,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_yards,21
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_tds,1
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_yards,21
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_tds,1
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,21,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+RB,22,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_yards,8
+RB,22,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,receiving_yards,9
+RB,22,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,rushing_yards,8
+RB,22,Post,"RB, PHI: B.Scott (NFC East, ID: 00-0034414)",00-0034414,B.Scott,PHI,NFC,NFC East,football_values,receiving_yards,9
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_yards,119
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_yards,17
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_tds,1
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_yards,11
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_tds,6
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_yards,119
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_yards,17
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_tds,1
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_yards,11
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_tds,6
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_yards,35
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_tds,1
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_yards,22
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_yards,3
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_tds,6
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_yards,35
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_tds,1
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_yards,22
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_yards,3
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_tds,6
+RB,20,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_yards,84
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_tds,1
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_yards,22
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_yards,8
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_tds,6
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_yards,84
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,rushing_tds,1
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,football_values,receiving_yards,22
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_yards,8
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,rushing_tds,6
+RB,21,Post,"RB, SF: C.McCaffrey (NFC West, ID: 00-0033280)",00-0033280,C.McCaffrey,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+RB,19,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,football_values,rushing_yards,48
+RB,19,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,fantasy_points,rushing_yards,4
+RB,19,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,football_values,rushing_yards,48
+RB,19,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,fantasy_points,rushing_yards,4
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,football_values,rushing_yards,24
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,football_values,receiving_yards,38
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,football_values,rushing_yards,24
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,football_values,receiving_yards,38
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, BUF: D.Singletary (AFC East, ID: 00-0035250)",00-0035250,D.Singletary,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+RB,19,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,rushing_yards,27
+RB,19,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,receiving_yards,9
+RB,19,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,19,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,rushing_yards,27
+RB,19,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,receiving_yards,9
+RB,19,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,rushing_yards,26
+RB,20,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,receiving_yards,7
+RB,20,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,rushing_yards,26
+RB,20,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,football_values,receiving_yards,7
+RB,20,Post,"RB, DAL: E.Elliott (NFC East, ID: 00-0033045)",00-0033045,E.Elliott,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,rushing_yards,2
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,receiving_yards,25
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,receiving_tds,1
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,fantasy_points,receiving_tds,6
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,rushing_yards,2
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,receiving_yards,25
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,receiving_tds,1
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+RB,19,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,fantasy_points,receiving_tds,6
+RB,20,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,rushing_yards,51
+RB,20,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,fantasy_points,rushing_yards,5
+RB,20,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,football_values,rushing_yards,51
+RB,20,Post,"RB, SF: E.Mitchell (NFC West, ID: 00-0036567)",00-0036567,E.Mitchell,SF,NFC,NFC West,fantasy_points,rushing_yards,5
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,football_values,rushing_yards,39
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,football_values,receiving_yards,13
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,fantasy_points,rushing_yards,3
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,football_values,rushing_yards,39
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,football_values,receiving_yards,13
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,fantasy_points,rushing_yards,3
+RB,19,Post,"RB, BAL: G.Edwards (AFC North, ID: 00-0034184)",00-0034184,G.Edwards,BAL,AFC,AFC North,fantasy_points,receiving_yards,1
+RB,20,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,rushing_yards,95
+RB,20,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,receiving_yards,6
+RB,20,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,fantasy_points,rushing_yards,9
+RB,20,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,rushing_yards,95
+RB,20,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,receiving_yards,6
+RB,20,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,fantasy_points,rushing_yards,9
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,rushing_yards,26
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,receiving_yards,59
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,fantasy_points,rushing_yards,2
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,fantasy_points,receiving_yards,5
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,rushing_yards,26
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,football_values,receiving_yards,59
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,fantasy_points,rushing_yards,2
+RB,21,Post,"RB, KC: I.Pacheco (AFC West, ID: 00-0037197)",00-0037197,I.Pacheco,KC,AFC,AFC West,fantasy_points,receiving_yards,5
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,football_values,rushing_yards,39
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,football_values,rushing_tds,1
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,fantasy_points,rushing_yards,3
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,fantasy_points,rushing_tds,6
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,football_values,rushing_yards,39
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,football_values,rushing_tds,1
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,fantasy_points,rushing_yards,3
+RB,19,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,fantasy_points,rushing_tds,6
+RB,20,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,football_values,rushing_yards,13
+RB,20,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,fantasy_points,rushing_yards,1
+RB,20,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,football_values,rushing_yards,13
+RB,20,Post,"RB, BUF: J.Cook (AFC East, ID: 00-0037248)",00-0037248,J.Cook,BUF,AFC,AFC East,fantasy_points,rushing_yards,1
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,football_values,rushing_yards,62
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,football_values,receiving_yards,43
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,football_values,receiving_tds,1
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,fantasy_points,rushing_yards,6
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,fantasy_points,receiving_yards,4
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,fantasy_points,receiving_tds,6
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,football_values,rushing_yards,62
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,football_values,receiving_yards,43
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,football_values,receiving_tds,1
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,fantasy_points,rushing_yards,6
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,fantasy_points,receiving_yards,4
+RB,19,Post,"RB, BAL: J.Dobbins (AFC North, ID: 00-0036158)",00-0036158,J.Dobbins,BAL,AFC,AFC North,fantasy_points,receiving_tds,6
+RB,19,Post,"RB, BAL: J.Hill (AFC North, ID: 00-0034975)",00-0034975,J.Hill,BAL,AFC,AFC North,football_values,receiving_yards,10
+RB,19,Post,"RB, BAL: J.Hill (AFC North, ID: 00-0034975)",00-0034975,J.Hill,BAL,AFC,AFC North,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, BAL: J.Hill (AFC North, ID: 00-0034975)",00-0034975,J.Hill,BAL,AFC,AFC North,football_values,receiving_yards,10
+RB,19,Post,"RB, BAL: J.Hill (AFC North, ID: 00-0034975)",00-0034975,J.Hill,BAL,AFC,AFC North,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, SF: J.Mason (NFC West, ID: 00-0037525)",00-0037525,J.Mason,SF,NFC,NFC West,football_values,rushing_yards,12
+RB,19,Post,"RB, SF: J.Mason (NFC West, ID: 00-0037525)",00-0037525,J.Mason,SF,NFC,NFC West,fantasy_points,rushing_yards,1
+RB,19,Post,"RB, SF: J.Mason (NFC West, ID: 00-0037525)",00-0037525,J.Mason,SF,NFC,NFC West,football_values,rushing_yards,12
+RB,19,Post,"RB, SF: J.Mason (NFC West, ID: 00-0037525)",00-0037525,J.Mason,SF,NFC,NFC West,fantasy_points,rushing_yards,1
+RB,20,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,rushing_yards,25
+RB,20,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,rushing_yards,25
+RB,20,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,rushing_yards,2
+RB,21,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,rushing_yards,1
+RB,21,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,receiving_yards,17
+RB,21,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+RB,21,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,rushing_yards,1
+RB,21,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,receiving_yards,17
+RB,21,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,rushing_yards,35
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,receiving_yards,15
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,rushing_yards,3
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,rushing_yards,35
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,football_values,receiving_yards,15
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,rushing_yards,3
+RB,22,Post,"RB, KC: J.McKinnon (AFC West, ID: 00-0031376)",00-0031376,J.McKinnon,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,football_values,rushing_yards,23
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,football_values,rushing_tds,1
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,football_values,receiving_yards,13
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,fantasy_points,rushing_yards,2
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,fantasy_points,rushing_tds,6
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,football_values,rushing_yards,23
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,football_values,rushing_tds,1
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,football_values,receiving_yards,13
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,fantasy_points,rushing_yards,2
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,fantasy_points,rushing_tds,6
+RB,19,Post,"RB, MIA: J.Wilson (AFC East, ID: 00-0034115)",00-0034115,J.Wilson,MIA,AFC,AFC East,fantasy_points,receiving_yards,1
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_yards,112
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_tds,1
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,receiving_yards,9
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_yards,11
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_yards,112
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_tds,1
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,receiving_yards,9
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_yards,11
+RB,20,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_tds,6
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_yards,48
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,receiving_yards,26
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_yards,4
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_yards,48
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,receiving_yards,26
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_yards,4
+RB,21,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_yards,21
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,receiving_yards,20
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,rushing_yards,21
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,football_values,receiving_yards,20
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,22,Post,"RB, PHI: K.Gainwell (NFC East, ID: 00-0036919)",00-0036919,K.Gainwell,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+RB,19,Post,"RB, SF: K.Juszczyk (NFC West, ID: 00-0029892)",00-0029892,K.Juszczyk,SF,NFC,NFC West,football_values,receiving_yards,6
+RB,19,Post,"RB, SF: K.Juszczyk (NFC West, ID: 00-0029892)",00-0029892,K.Juszczyk,SF,NFC,NFC West,football_values,receiving_yards,6
+RB,20,Post,"RB, SF: K.Juszczyk (NFC West, ID: 00-0029892)",00-0029892,K.Juszczyk,SF,NFC,NFC West,football_values,rushing_yards,8
+RB,20,Post,"RB, SF: K.Juszczyk (NFC West, ID: 00-0029892)",00-0029892,K.Juszczyk,SF,NFC,NFC West,football_values,rushing_yards,8
+RB,19,Post,"RB, TB: L.Fournette (NFC South, ID: 00-0033856)",00-0033856,L.Fournette,TB,NFC,NFC South,football_values,rushing_yards,11
+RB,19,Post,"RB, TB: L.Fournette (NFC South, ID: 00-0033856)",00-0033856,L.Fournette,TB,NFC,NFC South,football_values,receiving_yards,6
+RB,19,Post,"RB, TB: L.Fournette (NFC South, ID: 00-0033856)",00-0033856,L.Fournette,TB,NFC,NFC South,fantasy_points,rushing_yards,1
+RB,19,Post,"RB, TB: L.Fournette (NFC South, ID: 00-0033856)",00-0033856,L.Fournette,TB,NFC,NFC South,football_values,rushing_yards,11
+RB,19,Post,"RB, TB: L.Fournette (NFC South, ID: 00-0033856)",00-0033856,L.Fournette,TB,NFC,NFC South,football_values,receiving_yards,6
+RB,19,Post,"RB, TB: L.Fournette (NFC South, ID: 00-0033856)",00-0033856,L.Fournette,TB,NFC,NFC South,fantasy_points,rushing_yards,1
+RB,20,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_yards,90
+RB,20,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_yards,9
+RB,20,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_yards,90
+RB,20,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_yards,9
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_yards,42
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_tds,2
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,receiving_yards,3
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_yards,4
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_tds,12
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_yards,42
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_tds,2
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,receiving_yards,3
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_yards,4
+RB,21,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_tds,12
+RB,22,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_yards,16
+RB,22,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_yards,1
+RB,22,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,football_values,rushing_yards,16
+RB,22,Post,"RB, PHI: M.Sanders (NFC East, ID: 00-0035243)",00-0035243,M.Sanders,PHI,NFC,NFC East,fantasy_points,rushing_yards,1
+RB,19,Post,"RB, BUF: N.Hines (AFC East, ID: 00-0034367)",00-0034367,N.Hines,BUF,AFC,AFC East,football_values,receiving_yards,7
+RB,19,Post,"RB, BUF: N.Hines (AFC East, ID: 00-0034367)",00-0034367,N.Hines,BUF,AFC,AFC East,football_values,receiving_yards,7
+RB,20,Post,"RB, BUF: N.Hines (AFC East, ID: 00-0034367)",00-0034367,N.Hines,BUF,AFC,AFC East,football_values,receiving_yards,4
+RB,20,Post,"RB, BUF: N.Hines (AFC East, ID: 00-0034367)",00-0034367,N.Hines,BUF,AFC,AFC East,football_values,receiving_yards,4
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,football_values,rushing_yards,41
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,football_values,receiving_yards,36
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,fantasy_points,rushing_yards,4
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,fantasy_points,receiving_yards,3
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,football_values,rushing_yards,41
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,football_values,receiving_yards,36
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,fantasy_points,rushing_yards,4
+RB,19,Post,"RB, TB: R.White (NFC South, ID: 00-0037256)",00-0037256,R.White,TB,NFC,NFC South,fantasy_points,receiving_yards,3
+RB,19,Post,"RB, MIA: S.Ahmed (AFC East, ID: 00-0036020)",00-0036020,S.Ahmed,MIA,AFC,AFC East,football_values,rushing_yards,3
+RB,19,Post,"RB, MIA: S.Ahmed (AFC East, ID: 00-0036020)",00-0036020,S.Ahmed,MIA,AFC,AFC East,football_values,receiving_yards,45
+RB,19,Post,"RB, MIA: S.Ahmed (AFC East, ID: 00-0036020)",00-0036020,S.Ahmed,MIA,AFC,AFC East,fantasy_points,receiving_yards,4
+RB,19,Post,"RB, MIA: S.Ahmed (AFC East, ID: 00-0036020)",00-0036020,S.Ahmed,MIA,AFC,AFC East,football_values,rushing_yards,3
+RB,19,Post,"RB, MIA: S.Ahmed (AFC East, ID: 00-0036020)",00-0036020,S.Ahmed,MIA,AFC,AFC East,football_values,receiving_yards,45
+RB,19,Post,"RB, MIA: S.Ahmed (AFC East, ID: 00-0036020)",00-0036020,S.Ahmed,MIA,AFC,AFC East,fantasy_points,receiving_yards,4
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,rushing_yards,77
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,receiving_yards,12
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,rushing_yards,7
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,rushing_yards,77
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,receiving_yards,12
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,rushing_yards,7
+RB,19,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,rushing_yards,22
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,receiving_yards,11
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,rushing_yards,22
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,football_values,receiving_yards,11
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,rushing_yards,2
+RB,20,Post,"RB, DAL: T.Pollard (NFC East, ID: 00-0035261)",00-0035261,T.Pollard,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+TE,20,Post,"TE, KC: B.Bell (AFC West, ID: 00-0032062)",00-0032062,B.Bell,KC,AFC,AFC West,football_values,receiving_yards,4
+TE,20,Post,"TE, KC: B.Bell (AFC West, ID: 00-0032062)",00-0032062,B.Bell,KC,AFC,AFC West,football_values,receiving_yards,4
+TE,19,Post,"TE, TB: C.Brate (NFC South, ID: 00-0031273)",00-0031273,C.Brate,TB,NFC,NFC South,football_values,receiving_yards,8
+TE,19,Post,"TE, TB: C.Brate (NFC South, ID: 00-0031273)",00-0031273,C.Brate,TB,NFC,NFC South,football_values,receiving_tds,1
+TE,19,Post,"TE, TB: C.Brate (NFC South, ID: 00-0031273)",00-0031273,C.Brate,TB,NFC,NFC South,fantasy_points,receiving_tds,6
+TE,19,Post,"TE, TB: C.Brate (NFC South, ID: 00-0031273)",00-0031273,C.Brate,TB,NFC,NFC South,football_values,receiving_yards,8
+TE,19,Post,"TE, TB: C.Brate (NFC South, ID: 00-0031273)",00-0031273,C.Brate,TB,NFC,NFC South,football_values,receiving_tds,1
+TE,19,Post,"TE, TB: C.Brate (NFC South, ID: 00-0031273)",00-0031273,C.Brate,TB,NFC,NFC South,fantasy_points,receiving_tds,6
+TE,19,Post,"TE, TB: C.Otton (NFC South, ID: 00-0038129)",00-0038129,C.Otton,TB,NFC,NFC South,football_values,receiving_yards,58
+TE,19,Post,"TE, TB: C.Otton (NFC South, ID: 00-0038129)",00-0038129,C.Otton,TB,NFC,NFC South,fantasy_points,receiving_yards,5
+TE,19,Post,"TE, TB: C.Otton (NFC South, ID: 00-0038129)",00-0038129,C.Otton,TB,NFC,NFC South,football_values,receiving_yards,58
+TE,19,Post,"TE, TB: C.Otton (NFC South, ID: 00-0038129)",00-0038129,C.Otton,TB,NFC,NFC South,fantasy_points,receiving_yards,5
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_yards,58
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_tds,1
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_yards,5
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_tds,6
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_yards,58
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_tds,1
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_yards,5
+TE,20,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_tds,6
+TE,21,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_yards,23
+TE,21,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+TE,21,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_yards,23
+TE,21,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+TE,22,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_yards,60
+TE,22,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_yards,6
+TE,22,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,football_values,receiving_yards,60
+TE,22,Post,"TE, PHI: D.Goedert (NFC East, ID: 00-0034351)",00-0034351,D.Goedert,PHI,NFC,NFC East,fantasy_points,receiving_yards,6
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,football_values,receiving_yards,20
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,football_values,receiving_tds,1
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,fantasy_points,receiving_yards,2
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,fantasy_points,receiving_tds,6
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,football_values,receiving_yards,20
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,football_values,receiving_tds,1
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,fantasy_points,receiving_yards,2
+TE,19,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,fantasy_points,receiving_tds,6
+TE,20,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,football_values,receiving_yards,65
+TE,20,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,fantasy_points,receiving_yards,6
+TE,20,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,football_values,receiving_yards,65
+TE,20,Post,"TE, BUF: D.Knox (AFC East, ID: 00-0035689)",00-0035689,D.Knox,BUF,AFC,AFC East,fantasy_points,receiving_yards,6
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_yards,95
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_tds,2
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_yards,9
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_tds,12
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_yards,95
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_tds,2
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_yards,9
+TE,19,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_tds,12
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_yards,27
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_tds,1
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_yards,2
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_tds,6
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_yards,27
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,football_values,receiving_tds,1
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_yards,2
+TE,20,Post,"TE, DAL: D.Schultz (NFC East, ID: 00-0034383)",00-0034383,D.Schultz,DAL,NFC,NFC East,fantasy_points,receiving_tds,6
+TE,19,Post,"TE, MIA: D.Smythe (AFC East, ID: 00-0034798)",00-0034798,D.Smythe,MIA,AFC,AFC East,football_values,receiving_yards,20
+TE,19,Post,"TE, MIA: D.Smythe (AFC East, ID: 00-0034798)",00-0034798,D.Smythe,MIA,AFC,AFC East,fantasy_points,receiving_yards,2
+TE,19,Post,"TE, MIA: D.Smythe (AFC East, ID: 00-0034798)",00-0034798,D.Smythe,MIA,AFC,AFC East,football_values,receiving_yards,20
+TE,19,Post,"TE, MIA: D.Smythe (AFC East, ID: 00-0034798)",00-0034798,D.Smythe,MIA,AFC,AFC East,fantasy_points,receiving_yards,2
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_yards,37
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_2pt_conversions,1
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_yards,3
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_2pt_conversions,2
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_yards,37
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_2pt_conversions,1
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_yards,3
+TE,19,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_2pt_conversions,2
+TE,20,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_yards,95
+TE,20,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_yards,9
+TE,20,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_yards,95
+TE,20,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_yards,9
+TE,21,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,rushing_yards,4
+TE,21,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_yards,32
+TE,21,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_yards,3
+TE,21,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,rushing_yards,4
+TE,21,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,football_values,receiving_yards,32
+TE,21,Post,"TE, SF: G.Kittle (NFC West, ID: 00-0033288)",00-0033288,G.Kittle,SF,NFC,NFC West,fantasy_points,receiving_yards,3
+TE,19,Post,"TE, DAL: J.Ferguson (NFC East, ID: 00-0038041)",00-0038041,J.Ferguson,DAL,NFC,NFC East,football_values,receiving_yards,34
+TE,19,Post,"TE, DAL: J.Ferguson (NFC East, ID: 00-0038041)",00-0038041,J.Ferguson,DAL,NFC,NFC East,fantasy_points,receiving_yards,3
+TE,19,Post,"TE, DAL: J.Ferguson (NFC East, ID: 00-0038041)",00-0038041,J.Ferguson,DAL,NFC,NFC East,football_values,receiving_yards,34
+TE,19,Post,"TE, DAL: J.Ferguson (NFC East, ID: 00-0038041)",00-0038041,J.Ferguson,DAL,NFC,NFC East,fantasy_points,receiving_yards,3
+TE,19,Post,"TE, BAL: J.Oliver (AFC North, ID: 00-0035249)",00-0035249,J.Oliver,BAL,AFC,AFC North,football_values,receiving_yards,26
+TE,19,Post,"TE, BAL: J.Oliver (AFC North, ID: 00-0035249)",00-0035249,J.Oliver,BAL,AFC,AFC North,fantasy_points,receiving_yards,2
+TE,19,Post,"TE, BAL: J.Oliver (AFC North, ID: 00-0035249)",00-0035249,J.Oliver,BAL,AFC,AFC North,football_values,receiving_yards,26
+TE,19,Post,"TE, BAL: J.Oliver (AFC North, ID: 00-0035249)",00-0035249,J.Oliver,BAL,AFC,AFC North,fantasy_points,receiving_yards,2
+TE,21,Post,"TE, PHI: J.Stoll (NFC East, ID: 00-0036741)",00-0036741,J.Stoll,PHI,NFC,NFC East,football_values,receiving_yards,5
+TE,21,Post,"TE, PHI: J.Stoll (NFC East, ID: 00-0036741)",00-0036741,J.Stoll,PHI,NFC,NFC East,football_values,receiving_yards,5
+TE,19,Post,"TE, BAL: M.Andrews (AFC North, ID: 00-0034753)",00-0034753,M.Andrews,BAL,AFC,AFC North,football_values,receiving_yards,73
+TE,19,Post,"TE, BAL: M.Andrews (AFC North, ID: 00-0034753)",00-0034753,M.Andrews,BAL,AFC,AFC North,fantasy_points,receiving_yards,7
+TE,19,Post,"TE, BAL: M.Andrews (AFC North, ID: 00-0034753)",00-0034753,M.Andrews,BAL,AFC,AFC North,football_values,receiving_yards,73
+TE,19,Post,"TE, BAL: M.Andrews (AFC North, ID: 00-0034753)",00-0034753,M.Andrews,BAL,AFC,AFC North,fantasy_points,receiving_yards,7
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,football_values,receiving_yards,15
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,football_values,receiving_tds,1
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,fantasy_points,receiving_yards,1
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,fantasy_points,receiving_tds,6
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,football_values,receiving_yards,15
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,football_values,receiving_tds,1
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,fantasy_points,receiving_yards,1
+TE,19,Post,"TE, MIA: M.Gesicki (AFC East, ID: 00-0034829)",00-0034829,M.Gesicki,MIA,AFC,AFC East,fantasy_points,receiving_tds,6
+TE,20,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,football_values,receiving_yards,27
+TE,20,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,fantasy_points,receiving_yards,2
+TE,20,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,football_values,receiving_yards,27
+TE,20,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,fantasy_points,receiving_yards,2
+TE,21,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,football_values,receiving_yards,4
+TE,21,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,football_values,receiving_yards,4
+TE,22,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,football_values,receiving_yards,6
+TE,22,Post,"TE, KC: N.Gray (AFC West, ID: 00-0036637)",00-0036637,N.Gray,KC,AFC,AFC West,football_values,receiving_yards,6
+TE,19,Post,"TE, BUF: Q.Morris (AFC East, ID: 00-0036590)",00-0036590,Q.Morris,BUF,AFC,AFC East,football_values,receiving_yards,12
+TE,19,Post,"TE, BUF: Q.Morris (AFC East, ID: 00-0036590)",00-0036590,Q.Morris,BUF,AFC,AFC East,fantasy_points,receiving_yards,1
+TE,19,Post,"TE, BUF: Q.Morris (AFC East, ID: 00-0036590)",00-0036590,Q.Morris,BUF,AFC,AFC East,football_values,receiving_yards,12
+TE,19,Post,"TE, BUF: Q.Morris (AFC East, ID: 00-0036590)",00-0036590,Q.Morris,BUF,AFC,AFC East,fantasy_points,receiving_yards,1
+TE,20,Post,"TE, BUF: Q.Morris (AFC East, ID: 00-0036590)",00-0036590,Q.Morris,BUF,AFC,AFC East,football_values,receiving_yards,6
+TE,20,Post,"TE, BUF: Q.Morris (AFC East, ID: 00-0036590)",00-0036590,Q.Morris,BUF,AFC,AFC East,football_values,receiving_yards,6
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_yards,98
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_tds,2
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_yards,9
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_tds,12
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_yards,98
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_tds,2
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_yards,9
+TE,20,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_tds,12
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_yards,78
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_tds,1
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_yards,7
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_yards,78
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_tds,1
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_yards,7
+TE,21,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_yards,81
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_tds,1
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_yards,8
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_yards,81
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,football_values,receiving_tds,1
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_yards,8
+TE,22,Post,"TE, KC: T.Kelce (AFC West, ID: 00-0030506)",00-0030506,T.Kelce,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_yards,22
+WR,20,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,20,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_yards,22
+WR,20,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,21,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_yards,28
+WR,21,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,21,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_yards,28
+WR,21,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_yards,96
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_tds,1
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,40yd_pass_td_receiver_bonus,1
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,40yd_pass_td_receiver_bonus,1
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_yards,9
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_yards,96
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,receiving_tds,1
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,40yd_pass_td_receiver_bonus,1
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,football_values,40yd_pass_td_receiver_bonus,1
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_yards,9
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,22,Post,"WR, PHI: A.Brown (NFC East, ID: 00-0035676)",00-0035676,A.Brown,PHI,NFC,NFC East,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,football_values,receiving_yards,73
+WR,19,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,fantasy_points,receiving_yards,7
+WR,19,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,football_values,receiving_yards,73
+WR,19,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,fantasy_points,receiving_yards,7
+WR,20,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,football_values,receiving_yards,26
+WR,20,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+WR,20,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,football_values,receiving_yards,26
+WR,20,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+WR,21,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,football_values,receiving_yards,10
+WR,21,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,fantasy_points,receiving_yards,1
+WR,21,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,football_values,receiving_yards,10
+WR,21,Post,"WR, SF: B.Aiyuk (NFC West, ID: 00-0036261)",00-0036261,B.Aiyuk,SF,NFC,NFC West,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,football_values,receiving_yards,35
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,football_values,receiving_yards,35
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,19,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,football_values,receiving_yards,33
+WR,20,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,20,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,football_values,receiving_yards,33
+WR,20,Post,"WR, BUF: C.Beasley (AFC East, ID: 00-0029000)",00-0029000,C.Beasley,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,19,Post,"WR, TB: C.Godwin (NFC South, ID: 00-0033921)",00-0033921,C.Godwin,TB,NFC,NFC South,football_values,receiving_yards,85
+WR,19,Post,"WR, TB: C.Godwin (NFC South, ID: 00-0033921)",00-0033921,C.Godwin,TB,NFC,NFC South,fantasy_points,receiving_yards,8
+WR,19,Post,"WR, TB: C.Godwin (NFC South, ID: 00-0033921)",00-0033921,C.Godwin,TB,NFC,NFC South,football_values,receiving_yards,85
+WR,19,Post,"WR, TB: C.Godwin (NFC South, ID: 00-0033921)",00-0033921,C.Godwin,TB,NFC,NFC South,fantasy_points,receiving_yards,8
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,receiving_yards,68
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,fantasy_points,receiving_yards,6
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,receiving_yards,68
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,fantasy_points,receiving_yards,6
+WR,19,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,rushing_yards,6
+WR,20,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,receiving_yards,117
+WR,20,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,fantasy_points,receiving_yards,11
+WR,20,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,rushing_yards,6
+WR,20,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,football_values,receiving_yards,117
+WR,20,Post,"WR, DAL: C.Lamb (NFC East, ID: 00-0036358)",00-0036358,C.Lamb,DAL,NFC,NFC East,fantasy_points,receiving_yards,11
+WR,19,Post,"WR, MIA: C.Wilson (AFC East, ID: 00-0034418)",00-0034418,C.Wilson,MIA,AFC,AFC East,football_values,receiving_yards,14
+WR,19,Post,"WR, MIA: C.Wilson (AFC East, ID: 00-0034418)",00-0034418,C.Wilson,MIA,AFC,AFC East,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, MIA: C.Wilson (AFC East, ID: 00-0034418)",00-0034418,C.Wilson,MIA,AFC,AFC East,football_values,receiving_yards,14
+WR,19,Post,"WR, MIA: C.Wilson (AFC East, ID: 00-0034418)",00-0034418,C.Wilson,MIA,AFC,AFC East,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,receiving_yards,49
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,receiving_tds,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,receiving_yards,4
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,receiving_yards,49
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,receiving_tds,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,receiving_yards,4
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, BAL: D.Robinson (AFC North, ID: 00-0032775)",00-0032775,D.Robinson,BAL,AFC,AFC North,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_yards,32
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_yards,133
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_tds,1
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,rushing_yards,3
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_yards,13
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_yards,32
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_yards,133
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_tds,1
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,rushing_yards,3
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_yards,13
+WR,19,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_yards,11
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_yards,45
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,rushing_yards,1
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_yards,4
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_yards,11
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_yards,45
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,rushing_yards,1
+WR,20,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_yards,4
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_yards,-9
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_yards,33
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_fumbles_lost,1
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_yards,3
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,rushing_fumbles_lost,-2
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_yards,-9
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,receiving_yards,33
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,football_values,rushing_fumbles_lost,1
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,receiving_yards,3
+WR,21,Post,"WR, SF: D.Samuel (NFC West, ID: 00-0035719)",00-0035719,D.Samuel,SF,NFC,NFC West,fantasy_points,rushing_fumbles_lost,-2
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_yards,61
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_tds,1
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_yards,6
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_yards,61
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_tds,1
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_yards,6
+WR,20,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,21,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_yards,36
+WR,21,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_yards,3
+WR,21,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_yards,36
+WR,21,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_yards,3
+WR,22,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_yards,100
+WR,22,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_yards,10
+WR,22,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,football_values,receiving_yards,100
+WR,22,Post,"WR, PHI: D.Smith (NFC East, ID: 00-0036912)",00-0036912,D.Smith,PHI,NFC,NFC East,fantasy_points,receiving_yards,10
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,football_values,receiving_yards,113
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,fantasy_points,receiving_yards,11
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,football_values,receiving_yards,113
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,fantasy_points,receiving_yards,11
+WR,19,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,football_values,receiving_yards,34
+WR,20,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,20,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,football_values,receiving_yards,34
+WR,20,Post,"WR, BUF: G.Davis (AFC East, ID: 00-0036196)",00-0036196,G.Davis,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,20,Post,"WR, BUF: I.McKenzie (AFC East, ID: 00-0033466)",00-0033466,I.McKenzie,BUF,AFC,AFC East,football_values,receiving_yards,10
+WR,20,Post,"WR, BUF: I.McKenzie (AFC East, ID: 00-0033466)",00-0033466,I.McKenzie,BUF,AFC,AFC East,fantasy_points,receiving_yards,1
+WR,20,Post,"WR, BUF: I.McKenzie (AFC East, ID: 00-0033466)",00-0033466,I.McKenzie,BUF,AFC,AFC East,football_values,receiving_yards,10
+WR,20,Post,"WR, BUF: I.McKenzie (AFC East, ID: 00-0033466)",00-0033466,I.McKenzie,BUF,AFC,AFC East,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,football_values,receiving_yards,41
+WR,19,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,fantasy_points,receiving_yards,4
+WR,19,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,football_values,receiving_yards,41
+WR,19,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,fantasy_points,receiving_yards,4
+WR,20,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,football_values,receiving_yards,26
+WR,20,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+WR,20,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,football_values,receiving_yards,26
+WR,20,Post,"WR, SF: J.Jennings (NFC West, ID: 00-0036259)",00-0036259,J.Jennings,SF,NFC,NFC West,fantasy_points,receiving_yards,2
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,football_values,receiving_yards,74
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,football_values,receiving_tds,1
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,fantasy_points,receiving_yards,7
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,football_values,receiving_yards,74
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,football_values,receiving_tds,1
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,fantasy_points,receiving_yards,7
+WR,19,Post,"WR, TB: J.Jones (NFC South, ID: 00-0027944)",00-0027944,J.Jones,TB,NFC,NFC South,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,football_values,receiving_yards,29
+WR,20,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,fantasy_points,receiving_yards,2
+WR,20,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,football_values,receiving_yards,29
+WR,20,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,fantasy_points,receiving_yards,2
+WR,21,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,football_values,receiving_yards,7
+WR,21,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,football_values,receiving_yards,7
+WR,22,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,football_values,receiving_yards,53
+WR,22,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,fantasy_points,receiving_yards,5
+WR,22,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,football_values,receiving_yards,53
+WR,22,Post,"WR, KC: J.Smith-Schuster (AFC West, ID: 00-0033857)",00-0033857,J.Smith-Schuster,KC,AFC,AFC West,fantasy_points,receiving_yards,5
+WR,19,Post,"WR, MIA: J.Waddle (AFC East, ID: 00-0036613)",00-0036613,J.Waddle,MIA,AFC,AFC East,football_values,rushing_yards,8
+WR,19,Post,"WR, MIA: J.Waddle (AFC East, ID: 00-0036613)",00-0036613,J.Waddle,MIA,AFC,AFC East,football_values,receiving_yards,44
+WR,19,Post,"WR, MIA: J.Waddle (AFC East, ID: 00-0036613)",00-0036613,J.Waddle,MIA,AFC,AFC East,fantasy_points,receiving_yards,4
+WR,19,Post,"WR, MIA: J.Waddle (AFC East, ID: 00-0036613)",00-0036613,J.Waddle,MIA,AFC,AFC East,football_values,rushing_yards,8
+WR,19,Post,"WR, MIA: J.Waddle (AFC East, ID: 00-0036613)",00-0036613,J.Waddle,MIA,AFC,AFC East,football_values,receiving_yards,44
+WR,19,Post,"WR, MIA: J.Waddle (AFC East, ID: 00-0036613)",00-0036613,J.Waddle,MIA,AFC,AFC East,fantasy_points,receiving_yards,4
+WR,20,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,football_values,receiving_yards,12
+WR,20,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,20,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,football_values,receiving_yards,12
+WR,20,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,22,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,football_values,receiving_yards,18
+WR,22,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,22,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,football_values,receiving_yards,18
+WR,22,Post,"WR, KC: J.Watson (AFC West, ID: 00-0034386)",00-0034386,J.Watson,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,football_values,receiving_yards,51
+WR,19,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,fantasy_points,receiving_yards,5
+WR,19,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,football_values,receiving_yards,51
+WR,19,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,fantasy_points,receiving_yards,5
+WR,20,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,football_values,receiving_yards,40
+WR,20,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,fantasy_points,receiving_yards,4
+WR,20,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,football_values,receiving_yards,40
+WR,20,Post,"WR, BUF: K.Shakir (AFC East, ID: 00-0037261)",00-0037261,K.Shakir,BUF,AFC,AFC East,fantasy_points,receiving_yards,4
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,rushing_yards,14
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_yards,36
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,fantasy_points,rushing_yards,1
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,fantasy_points,receiving_yards,3
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,rushing_yards,14
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_yards,36
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,fantasy_points,rushing_yards,1
+WR,20,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,fantasy_points,receiving_yards,3
+WR,21,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_yards,9
+WR,21,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_yards,9
+WR,22,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_yards,5
+WR,22,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_tds,1
+WR,22,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,22,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_yards,5
+WR,22,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,football_values,receiving_tds,1
+WR,22,Post,"WR, KC: K.Toney (AFC West, ID: 00-0036913)",00-0036913,K.Toney,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, DAL: K.Turpin (NFC East, ID: 00-0037801)",00-0037801,K.Turpin,DAL,NFC,NFC East,football_values,receiving_yards,8
+WR,20,Post,"WR, DAL: K.Turpin (NFC East, ID: 00-0037801)",00-0037801,K.Turpin,DAL,NFC,NFC East,football_values,receiving_yards,8
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,football_values,receiving_yards,74
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,football_values,receiving_2pt_conversions,1
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,fantasy_points,receiving_yards,7
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,fantasy_points,receiving_2pt_conversions,2
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,football_values,receiving_yards,74
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,football_values,receiving_2pt_conversions,1
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,fantasy_points,receiving_yards,7
+WR,19,Post,"WR, TB: M.Evans (NFC South, ID: 00-0031408)",00-0031408,M.Evans,TB,NFC,NFC South,fantasy_points,receiving_2pt_conversions,2
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,football_values,receiving_yards,46
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,fantasy_points,receiving_yards,4
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,football_values,receiving_yards,46
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,football_values,receiving_tds,1
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,fantasy_points,receiving_yards,4
+WR,19,Post,"WR, DAL: M.Gallup (NFC East, ID: 00-0034764)",00-0034764,M.Gallup,DAL,NFC,NFC East,fantasy_points,receiving_tds,6
+WR,21,Post,"WR, KC: M.Hardman (AFC West, ID: 00-0035140)",00-0035140,M.Hardman,KC,AFC,AFC West,football_values,rushing_yards,7
+WR,21,Post,"WR, KC: M.Hardman (AFC West, ID: 00-0035140)",00-0035140,M.Hardman,KC,AFC,AFC West,football_values,receiving_yards,10
+WR,21,Post,"WR, KC: M.Hardman (AFC West, ID: 00-0035140)",00-0035140,M.Hardman,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,21,Post,"WR, KC: M.Hardman (AFC West, ID: 00-0035140)",00-0035140,M.Hardman,KC,AFC,AFC West,football_values,rushing_yards,7
+WR,21,Post,"WR, KC: M.Hardman (AFC West, ID: 00-0035140)",00-0035140,M.Hardman,KC,AFC,AFC West,football_values,receiving_yards,10
+WR,21,Post,"WR, KC: M.Hardman (AFC West, ID: 00-0035140)",00-0035140,M.Hardman,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,21,Post,"WR, KC: M.Kemp (AFC West, ID: 00-0033481)",00-0033481,M.Kemp,KC,AFC,AFC West,football_values,receiving_yards,13
+WR,21,Post,"WR, KC: M.Kemp (AFC West, ID: 00-0033481)",00-0033481,M.Kemp,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,21,Post,"WR, KC: M.Kemp (AFC West, ID: 00-0033481)",00-0033481,M.Kemp,KC,AFC,AFC West,football_values,receiving_yards,13
+WR,21,Post,"WR, KC: M.Kemp (AFC West, ID: 00-0033481)",00-0033481,M.Kemp,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,20,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_yards,6
+WR,20,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_tds,1
+WR,20,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,20,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_yards,6
+WR,20,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_tds,1
+WR,20,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_yards,116
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_tds,1
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,fantasy_points,receiving_yards,11
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_yards,116
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,football_values,receiving_tds,1
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,fantasy_points,receiving_yards,11
+WR,21,Post,"WR, KC: M.Valdes-Scantling (AFC West, ID: 00-0034272)",00-0034272,M.Valdes-Scantling,KC,AFC,AFC West,fantasy_points,receiving_tds,6
+WR,19,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,football_values,receiving_yards,18
+WR,19,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,football_values,receiving_yards,18
+WR,19,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+WR,20,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,football_values,receiving_yards,21
+WR,20,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,20,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,football_values,receiving_yards,21
+WR,20,Post,"WR, DAL: N.Brown (NFC East, ID: 00-0033591)",00-0033591,N.Brown,DAL,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,22,Post,"WR, PHI: Q.Watkins (NFC East, ID: 00-0036271)",00-0036271,Q.Watkins,PHI,NFC,NFC East,football_values,receiving_yards,8
+WR,22,Post,"WR, PHI: Q.Watkins (NFC East, ID: 00-0036271)",00-0036271,Q.Watkins,PHI,NFC,NFC East,football_values,receiving_yards,8
+WR,19,Post,"WR, TB: R.Gage (NFC South, ID: 00-0034411)",00-0034411,R.Gage,TB,NFC,NFC South,football_values,receiving_yards,10
+WR,19,Post,"WR, TB: R.Gage (NFC South, ID: 00-0034411)",00-0034411,R.Gage,TB,NFC,NFC South,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, TB: R.Gage (NFC South, ID: 00-0034411)",00-0034411,R.Gage,TB,NFC,NFC South,football_values,receiving_yards,10
+WR,19,Post,"WR, TB: R.Gage (NFC South, ID: 00-0034411)",00-0034411,R.Gage,TB,NFC,NFC South,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,football_values,receiving_yards,114
+WR,19,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,fantasy_points,receiving_yards,11
+WR,19,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,football_values,receiving_yards,114
+WR,19,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,fantasy_points,receiving_yards,11
+WR,20,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,football_values,receiving_yards,35
+WR,20,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,20,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,football_values,receiving_yards,35
+WR,20,Post,"WR, BUF: S.Diggs (AFC East, ID: 00-0031588)",00-0031588,S.Diggs,BUF,AFC,AFC East,fantasy_points,receiving_yards,3
+WR,20,Post,"WR, KC: S.Moore (AFC West, ID: 00-0038090)",00-0038090,S.Moore,KC,AFC,AFC West,football_values,rushing_yards,3
+WR,20,Post,"WR, KC: S.Moore (AFC West, ID: 00-0038090)",00-0038090,S.Moore,KC,AFC,AFC West,football_values,rushing_yards,3
+WR,21,Post,"WR, KC: S.Moore (AFC West, ID: 00-0038090)",00-0038090,S.Moore,KC,AFC,AFC West,football_values,receiving_yards,13
+WR,21,Post,"WR, KC: S.Moore (AFC West, ID: 00-0038090)",00-0038090,S.Moore,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,21,Post,"WR, KC: S.Moore (AFC West, ID: 00-0038090)",00-0038090,S.Moore,KC,AFC,AFC West,football_values,receiving_yards,13
+WR,21,Post,"WR, KC: S.Moore (AFC West, ID: 00-0038090)",00-0038090,S.Moore,KC,AFC,AFC West,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, BAL: S.Watkins (AFC North, ID: 00-0031325)",00-0031325,S.Watkins,BAL,AFC,AFC North,football_values,receiving_yards,12
+WR,19,Post,"WR, BAL: S.Watkins (AFC North, ID: 00-0031325)",00-0031325,S.Watkins,BAL,AFC,AFC North,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, BAL: S.Watkins (AFC North, ID: 00-0031325)",00-0031325,S.Watkins,BAL,AFC,AFC North,football_values,receiving_yards,12
+WR,19,Post,"WR, BAL: S.Watkins (AFC North, ID: 00-0031325)",00-0031325,S.Watkins,BAL,AFC,AFC North,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,football_values,rushing_yards,5
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,football_values,receiving_yards,69
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,football_values,receiving_2pt_conversions,1
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,fantasy_points,receiving_yards,6
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,fantasy_points,receiving_2pt_conversions,2
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,football_values,rushing_yards,5
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,football_values,receiving_yards,69
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,football_values,receiving_2pt_conversions,1
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,fantasy_points,receiving_yards,6
+WR,19,Post,"WR, MIA: T.Hill (AFC East, ID: 00-0033040)",00-0033040,T.Hill,MIA,AFC,AFC East,fantasy_points,receiving_2pt_conversions,2
+WR,19,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,football_values,receiving_yards,23
+WR,19,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,19,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,football_values,receiving_yards,23
+WR,19,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,fantasy_points,receiving_yards,2
+WR,20,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,football_values,receiving_yards,15
+WR,20,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+WR,20,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,football_values,receiving_yards,15
+WR,20,Post,"WR, DAL: T.Hilton (NFC East, ID: 00-0029608)",00-0029608,T.Hilton,DAL,NFC,NFC East,fantasy_points,receiving_yards,1
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,football_values,40yd_pass_td_receiver_bonus,1
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,19,Post,"WR, SF: T.Samuel (NFC West, ID: 00-0035719)",00-0035719,T.Samuel,SF,NFC,NFC West,fantasy_points,40yd_pass_td_receiver_bonus,2
+WR,20,Post,"WR, PHI: Z.Pascal (NFC East, ID: 00-0033251)",00-0033251,Z.Pascal,PHI,NFC,NFC East,football_values,receiving_yards,4
+WR,20,Post,"WR, PHI: Z.Pascal (NFC East, ID: 00-0033251)",00-0033251,Z.Pascal,PHI,NFC,NFC East,football_values,receiving_yards,4
+WR,22,Post,"WR, PHI: Z.Pascal (NFC East, ID: 00-0033251)",00-0033251,Z.Pascal,PHI,NFC,NFC East,football_values,receiving_yards,11
+WR,22,Post,"WR, PHI: Z.Pascal (NFC East, ID: 00-0033251)",00-0033251,Z.Pascal,PHI,NFC,NFC East,fantasy_points,receiving_yards,1
+WR,22,Post,"WR, PHI: Z.Pascal (NFC East, ID: 00-0033251)",00-0033251,Z.Pascal,PHI,NFC,NFC East,football_values,receiving_yards,11
+WR,22,Post,"WR, PHI: Z.Pascal (NFC East, ID: 00-0033251)",00-0033251,Z.Pascal,PHI,NFC,NFC East,fantasy_points,receiving_yards,1
