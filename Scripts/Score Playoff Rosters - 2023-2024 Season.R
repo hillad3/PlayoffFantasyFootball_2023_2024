@@ -42,7 +42,7 @@ setnames(
   )
 )
 
-roster_full[,position_code:=if_else(position_code=="D","Defense",position_code)]
+roster_full[,position_code:=ifelse(position_code=="D","Defense",position_code)]
 
 roster_full <- roster_full[, fantasy_owner_initials:=lapply(
     fantasy_owner,
@@ -59,10 +59,11 @@ roster_full[,fantasy_owner_initials:=unlist(fantasy_owner_initials)]
 roster_full[,fantasy_owner:=NULL]
 
 stats_dir <- "Output/NFL Stats/"
-stats_file_players <- "player_stats_1704937276.csv"
-stats_file_teams <- "nfl_teams_1704937276.csv"
+stats_file_players <- "player_stats_2023_REG_POST_gen2024-01-11 011954.csv"
 stats_players <- fread(file = paste0(stats_dir,stats_file_players))
-stats_players[,player_id:=if_else(position=="Defense",team_abbr,player_id)]
+stats_players[,player_id:=ifelse(position=="Defense",team_abbr,player_id)]
+
+stats_players <- stats_players[season_type == "REG" & week == 1L]
 
 scored_roster <- merge.data.table(stats_players, roster_full, by = "player_id", all.y = TRUE, allow.cartesian=TRUE)
 
@@ -79,7 +80,9 @@ scored_roster <- merge.data.table(stats_players, roster_full, by = "player_id", 
 
 output_file <- paste0(
   "Output/Scored Rosters/Test NFL Fantasy Scores for 2023-2024 as of ",
-  str_remove_all(Sys.time(),":"),".csv")
+  str_remove_all(Sys.time(), ":"),
+  ".csv"
+)
 
 
 fwrite(stats_players, output_file)
