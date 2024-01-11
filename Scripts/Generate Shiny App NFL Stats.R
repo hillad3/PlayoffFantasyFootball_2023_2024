@@ -10,7 +10,7 @@ library(shinyjs)
 library(shinythemes)
 
 playoff_year <- 2023L
-season_type <- c("POST")
+season_type <- c("REG","POST")
 season_teams <- c(
   "ARI","ATL","BAL","BUF","CAR",
   "CHI","CIN","CLE","DAL","DEN",
@@ -957,10 +957,60 @@ team_lookupstring_position <- rbindlist(list(
   dt_nfl_teams[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)]
 ))
 
-fwrite(dt_nfl_player_stats, file = paste0("./Output/NFL Stats/player_stats_",as.integer(Sys.time()),".csv"))
-fwrite(dt_nfl_teams, file = paste0("./Output/NFL Stats/nfl_teams_",as.integer(Sys.time()),".csv"))
-fwrite(dt_roster, file = paste0("./Output/NFL Stats/nfl_rosters_",as.integer(Sys.time()),".csv"))
-fwrite(team_lookupstring_position, file = paste0("./Output/NFL Stats/lookups_",as.integer(Sys.time()),".csv"))
+dir <- "./Output/NFL Stats/"
+fwrite(
+  dt_nfl_player_stats,
+  file = paste0(
+    dir,
+    "player_stats_",
+    playoff_year,"_",
+    paste0(season_type, collapse = "_"),"_gen",
+    str_remove_all(Sys.time(), ":"),".csv"
+  )
+)
+
+
+fwrite(
+  dt_nfl_teams,
+  file = paste0(
+    dir,
+    "nfl_teams_",
+    playoff_year,
+    "_",
+    paste0(season_type, collapse = "_"),
+    "_gen",
+    str_remove_all(Sys.time(), ":"),
+    ".csv"
+  )
+)
+
+fwrite(
+  dt_roster,
+  file = paste0(
+    dir,
+    "nfl_rosters_",
+    playoff_year,
+    "_",
+    paste0(season_type, collapse = "_"),
+    "_gen",
+    str_remove_all(Sys.time(), ":"),
+    ".csv"
+  )
+)
+
+fwrite(
+  team_lookupstring_position,
+  file = paste0(
+    dir,
+    "lookups_",
+    playoff_year,
+    "_",
+    paste0(season_type, collapse = "_"),
+    "_gen",
+    str_remove_all(Sys.time(), ":"),
+    ".csv"
+  )
+)
 
 
 
