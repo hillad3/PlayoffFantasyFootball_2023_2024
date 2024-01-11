@@ -5,7 +5,7 @@ gc()
 ## clear cache as needed
 # nflreadr::clear_cache()
 
-#library(tidyverse)
+library(tidyverse)
 library(data.table)
 library(nflreadr)
 library(openxlsx)
@@ -63,7 +63,7 @@ stats_file_players <- "player_stats_2023_REG_POST_gen2024-01-11 011954.csv"
 stats_players <- fread(file = paste0(stats_dir,stats_file_players))
 stats_players[,player_id:=ifelse(position=="Defense",team_abbr,player_id)]
 
-stats_players <- stats_players[season_type == "REG" & week == 1L]
+stats_players <- stats_players[season_type == "REG"]
 
 scored_roster <- merge.data.table(stats_players, roster_full, by = "player_id", all.y = TRUE, allow.cartesian=TRUE)
 
