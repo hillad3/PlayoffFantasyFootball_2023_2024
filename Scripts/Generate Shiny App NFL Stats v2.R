@@ -3,11 +3,7 @@ remove(list = ls())
 gc()
 
 library(tidyverse)
-library(shiny)
 library(data.table)
-library(DT)
-library(shinyjs)
-library(shinythemes)
 
 season_int <- 2023L
 season_type <- c("REG","POST")
@@ -33,24 +29,27 @@ get_team_info <- function(.season_int = season_int){
 }
 dt_team_info <- get_team_info()
 
-get_roster <- function(.season_int = season_int){
-  dt_roster <- data.table::as.data.table(nflreadr::load_rosters(.season_int))
-  dt_roster[,player_name:=full_name]
-  dt_roster <- unique(dt_roster[,.(position, player_id = gsis_id, player_name, team_abbr = team)])
-  dt_roster <- dt_roster[,position:=if_else(position=="FB","RB",position)]
-  dt_roster <- dt_roster[position %in% c('QB', 'RB', 'WR', 'TE','K')]
-  dt_roster <- dt_roster[!is.na(position)]
-  dt_roster <- merge.data.table(dt_roster, dt_team_info[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
-  dt_roster[,lookup_string:=paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')]
+get_rosters <- function(.season_int = season_int){
+  dt <- data.table::as.data.table(nflreadr::load_rosters(.season_int))
+  dt[,player_name:=full_name]
+  dt <- unique(dt[,.(position, player_id = gsis_id, player_name, team_abbr = team)])
+  dt[,position:=ifelse(position=="FB","RB",position)]
+  # this provides a space to add in specific edge players (such as punters that sometimes kick fieldgoals)
+  dt <- dt[position %in% c('QB', 'RB', 'WR', 'TE','K') | player_name %in% c("Jamie Gillan")]
+  dt[,position:= ifelse(position=="P","K",position)]
+  dt <- dt[!is.na(position)]
+  dt <- merge.data.table(dt, dt_team_info[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
+  dt[,lookup_string := paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')]
+  dt
   return(dt)
 }
-dt_roster <- get_roster()
+dt_rosters <- get_rosters()
 
 get_pbp <- function(.season_int = season_int,
                     .season_type = season_type){
   dt <- data.table::as.data.table(nflfastR::load_pbp(seasons = .season_int))
   dt <- dt[season_type %in% .season_type]
-  dt[,season_type := if_else(season_type=="REG","Regular", if_else(season_type=="POST","Post","Error"))]
+  dt[,season_type := ifelse(season_type=="REG","Regular", ifelse(season_type=="POST","Post","Error"))]
   cols <- c(
     'game_id',
     'game_date',
@@ -122,27 +121,27 @@ get_pbp <- function(.season_int = season_int,
   dt[, .SD, .SDcol=cols]
 }
 
-get_bonus_stats <- function(dt, # use get_pbp()
-                            .roster = dt_roster,
-                            .team_info = dt_team_info){
+get_bonus_stats <- function(dt = get_pbp(), # use get_pbp()
+                            dt_rosters_ = dt_rosters,
+                            dt_team_info_ = dt_team_info){
   # create a list to hold each unique fantasy football points dataset
-  player <- list()
+  bonus <- list()
   
   # offensive bonus for touchdown with pass over 40 yards for qb
-  player[["40yd_pass_td_qb_bonus"]] <- dt[
+  bonus[["40yd_pass_td_qb_bonus"]] <- dt[
     pass_touchdown == 1L & passing_yards >= 40, 
     by = .(week, season_type, team_abbr = posteam, player = passer_player_name, player_id = passer_player_id),
     list(stat_label = "40yd_pass_td_qb_bonus", football_values = .N, fantasy_points=.N*2L)
   ]
   
-  player[["40yd_pass_td_receiver_bonus"]] <- dt[
+  bonus[["40yd_pass_td_receiver_bonus"]] <- dt[
     pass_touchdown == 1L & passing_yards >= 40, 
     by = .(week, season_type, team_abbr = posteam, player = receiver_player_name, player_id = receiver_player_id),
     list(stat_label = "40yd_pass_td_receiver_bonus", football_values = .N, fantasy_points=.N*2L)
   ]
   
   # offensive bonus for touchdown with rush over 40 yards for qb
-  player[["40yd_rush_td_bonus"]] <- dt[
+  bonus[["40yd_rush_td_bonus"]] <- dt[
     rush_touchdown == 1L & rushing_yards >= 40, 
     by = .(week, season_type, team_abbr = posteam, player = rusher_player_name, player_id = rusher_player_id),
     list(stat_label = "40yd_rush_td_bonus", football_values = .N, fantasy_points=.N*2L)
@@ -172,31 +171,31 @@ get_bonus_stats <- function(dt, # use get_pbp()
       list(stat_label = "40yd_return_td_bonus", football_values = .N, fantasy_points=.N*2L)
     ]
   )) 
-  player[["40yd_return_td_bonus"]] <- tmp[,by = .(week,season_type,team_abbr,player,player_id,stat_label),
+  bonus[["40yd_return_td_bonus"]] <- tmp[,by = .(week,season_type,team_abbr,player,player_id,stat_label),
       list(football_values = sum(football_values), fantasy_points = sum(fantasy_points))]
   
-  player <- rbindlist(player)
+  bonus <- rbindlist(bonus)
   
-  player <- merge.data.table(player, .roster[,.(player_id, player_name, team_abbr, position)], all.x = TRUE, by = c("player_id", "team_abbr"))
+  bonus <- merge.data.table(bonus, dt_rosters_[,.(player_id, player_name, team_abbr, position)], all.x = TRUE, by = c("player_id", "team_abbr"))
   
-  if(any(is.na(player$position))){
-    print(paste0("There were ", length(player$position[is.na(player$position)]), " rows removed because of NAs in position"))
-    player <- player[!is.na(position)]
+  if(any(is.na(bonus$position))){
+    print(paste0("There were ", length(bonus$position[is.na(bonus$position)]), " rows removed because of NAs in position"))
+    bonus <- bonus[!is.na(position)]
   }
 
   # rename Fullback to Running Back
-  player <- rbindlist(list(player[position=="FB",position:="RB"],player[position!="FB"]))
+  bonus <- rbindlist(list(bonus[position=="FB",position:="RB"],bonus[position!="FB"]))
   
-  if(any(!(player$position %in% c('QB', 'RB', 'WR', 'TE')))){
-    print(paste0("There were ", dim(player[!(position %in% c('QB', 'RB', 'FB', 'WR', 'TE'))])[1], 
+  if(any(!(bonus$position %in% c('QB', 'RB', 'WR', 'TE')))){
+    print(paste0("There were ", dim(bonus[!(position %in% c('QB', 'RB', 'FB', 'WR', 'TE'))])[1], 
                  " rows removed because of position is out of scope"))
-    player <- player[position %in% c('QB', 'RB', 'WR', 'TE')]
+    bonus <- bonus[position %in% c('QB', 'RB', 'WR', 'TE')]
   }
   
-  player <- merge.data.table(player, .team_info[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
+  bonus <- merge.data.table(bonus, dt_team_info_[,.(team_abbr, team_conf, team_division)], all.x = TRUE, by = c("team_abbr"))
   
-  player <-
-    player[, .(
+  bonus <-
+    bonus[, .(
       team_abbr,
       team_conf,
       team_division,
@@ -210,14 +209,14 @@ get_bonus_stats <- function(dt, # use get_pbp()
       fantasy_points
     )]
   
-  setorder(player, cols = week, position)
+  setorder(bonus, cols = week, position)
   
-  return(player)
+  return(bonus)
 
 }
 
 get_defense_stats <- function(dt, # use get_pbp() 
-                              .team_info = dt_team_info){
+                              dt_team_info_ = dt_team_info){
   # create a list to hold each unique fantasy football points dataset
   def <- list()
   
@@ -319,7 +318,7 @@ get_defense_stats <- function(dt, # use get_pbp()
   
   def[,.('position','week','player_id','team_abbr')]
   
-  def <- merge.data.table(def, .team_info[,.(team_abbr, player_name = team_name, team_conf, team_division)], all.x = TRUE)
+  def <- merge.data.table(def, dt_team_info_[,.(team_abbr, player_name = team_name, team_conf, team_division)], all.x = TRUE)
   
   def <-
     def[, .(
@@ -346,17 +345,17 @@ get_defense_stats <- function(dt, # use get_pbp()
 get_player_stats <- function(player_type_char, # either 'offense' or 'kicking'
                              .season_int = season_int, 
                              .season_type = season_type, 
-                             .team_info = dt_team_info){
+                             dt_team_info_ = dt_team_info){
   # create data.table for players, which is a combination of the offensive scorers plus kickers
   dt <- data.table::as.data.table(nflreadr::load_player_stats(seasons = .season_int, stat_type = player_type_char))
   dt <- dt[season_type %in% .season_type]
-  dt[,season_type := if_else(season_type=="REG","Regular", if_else(season_type=="POST","Post", "Error"))]
+  dt[,season_type := ifelse(season_type=="REG","Regular", ifelse(season_type=="POST","Post", "Error"))]
   if(player_type_char == 'offense'){setnames(dt, old=c('recent_team'), new=c('team_abbr'))} 
   if(player_type_char == 'kicking'){setnames(dt, old=c('team'), new=c('team_abbr'))}
   
   if(player_type_char=='offense'){
     dt <- dt[position %in% c('QB', 'RB', 'FB', 'WR', 'TE')]
-    dt[,position := if_else(position == 'FB', 'RB', position)]
+    dt[,position := ifelse(position == 'FB', 'RB', position)]
   }
   if(player_type_char=='kicking'){dt[,position := 'K']}# position is not in the original dataset
   
@@ -434,7 +433,7 @@ get_player_stats <- function(player_type_char, # either 'offense' or 'kicking'
     .default = 0L
   )]
   
-  dt <- merge.data.table(dt, .team_info[,.(team_abbr, team_conf, team_division)], all.x = TRUE)
+  dt <- merge.data.table(dt, dt_team_info_[,.(team_abbr, team_conf, team_division)], all.x = TRUE)
   
   dt <-
     dt[, .(
@@ -455,8 +454,7 @@ get_player_stats <- function(player_type_char, # either 'offense' or 'kicking'
   
 }
 
-
-combine_stats <- function(){
+combine_stats <- function(dt_rosters_ = dt_rosters){
   
   # bind rows
   dt <- rbindlist(list(
@@ -499,11 +497,41 @@ combine_stats <- function(){
   
   dt <- rbindlist(list(tmp1, tmp2))
   
+  # drop the player name from stats, since there are potential discrepancies 
+  # depending on what first initial they were born with vs what they use professional
+  # also note that lookup_string joind from dt_rosters will bring in the current team, not necessarily
+  # the team that the player is on when the stat occurred in the past
+  dt <- merge.data.table(
+    dt, 
+    dt_rosters_[,.(player_id, player_name, lookup_string)], 
+    all.x=TRUE, 
+    by = c("player_id")
+  )
+  
+  if(any(is.na(unique(dt[position!="Defense"][,.(player_name.y)])))){
+    tmp <- unique((dt[position!="Defense"][,.(player_name.x,player_name.y,player_id)]))
+    stop("There are N/As in the player name")
+  } else {
+    dt[,player_name:=ifelse(position=="Defense",player_name.x,player_name.y)]
+    dt[,player_name.x:=NULL]
+    dt[,player_name.y:=NULL]
+  }
+  
+  # check for valid player_ids
+  tmp1 <- unlist(unique(dt[position!="Defense"][,.(player_id)]))
+  tmp2 <- unique(dt_rosters_$player_id)
+  if(!all(tmp1 %in% tmp2)){
+    print("There are lookup_strings unique to dt_stats, which shouldn't happen")
+    tmp3 <- anti_join(tmp1, tmp2)
+    print(tmp3)
+  }
+  
   # create the lookup_string that will be used in the dashboard filters
-  dt <- rbindlist(list(
-    dt[position!="Defense",lookup_string := paste0(position,', ',team_abbr,': ',player_name,' (',team_division,', ID: ',player_id,')')],
-    dt[position=="Defense",lookup_string:=paste0(position,", ",team_abbr," (",team_division,")")]
-  ))
+  dt[,lookup_string:=ifelse(position=="Defense",paste0(position,", ",team_abbr," (",team_division,")"),lookup_string)]
+  
+  if(any(is.na(dt$lookup_string))){
+    stop("NAs in lookup_string")
+  }
   
   # sort columns
   setorder(dt, cols = position, player_name, week)
@@ -527,29 +555,28 @@ combine_stats <- function(){
   )
 }
 
-
-
 ## create master data tables
 # create data.table for players, which is a combination of the offensive scorers plus kickers
 dt_stats <- combine_stats()
 
 # remove zero value statistics
-# TODO this may or may not be a good idea for the stats but increases load time
+# TODO this may or may not be a good idea for the stats but makes data set smaller for web loading
 dt_stats <- dt_stats[abs(stat_values) >= 1e-7]
 dt_stats <- dt_stats[team_abbr %in% playoff_teams]
 
 # get a list of unique players and teams for the lookup
 team_lookupstring_position <- rbindlist(list(
-  setorder(dt_roster[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)], lookup_string),
+  setorder(dt_rosters[team_abbr %in% playoff_teams][,.(position, lookup_string, team_abbr)], lookup_string),
   dt_team_info[team_abbr %in% playoff_teams,.(position, lookup_string, team_abbr)]
 ))
+
 
 dir <- "./Output/NFL Stats/"
 fwrite(
   dt_stats,
   file = paste0(
     dir,
-    "player_stats_",
+    "stats_",
     season_int,"_",
     paste0(season_type, collapse = "_"),"_gen",
     str_remove_all(Sys.time(), ":"),".csv"
@@ -572,10 +599,10 @@ fwrite(
 )
 
 fwrite(
-  dt_roster,
+  dt_rosters,
   file = paste0(
     dir,
-    "nfl_rosters_",
+    "rosters_",
     season_int,
     "_",
     paste0(season_type, collapse = "_"),
