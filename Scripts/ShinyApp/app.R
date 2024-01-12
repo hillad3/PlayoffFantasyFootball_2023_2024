@@ -9,6 +9,8 @@ library(DT)
 library(shinyjs)
 library(shinythemes)
 
+source("helper_funcs.R")
+
 playoff_year <- 2023L
 season_type <- c("REG","POST")
 season_teams <- c(
@@ -23,25 +25,14 @@ season_teams <- c(
 
 playoff_teams <- c("BAL","BUF","CLE","DAL","DET","GB","HOU","KC","LA","MIA","PHI","PIT","SF","TB")
 
+dt_team_info <- fread(get_last_csv("team_info"))
 
-get_last_csv <- function(key){
-  f <- list.files(path = "data")
-  f <- f[str_detect(f, key)]
-  f <- str_remove(f, paste0(key,"_"))
-  f <- str_remove(f, ".csv")
-  max <- max(as.integer(f))
-  return(paste0("data/",key,"_",max,".csv"))
-}
+dt_roster <- fread(get_last_csv("rosters"))
 
-dt_nfl_teams <- fread(get_last_csv("nfl_teams"))
-
-dt_roster <- fread(get_last_csv("nfl_rosters"))
-
-dt_nfl_player_stats <- fread(get_last_csv("player_stats"))
+dt_stats <- fread(get_last_csv("stats"))
 
 team_lookupstring_position <- fread(get_last_csv("lookups"))
 
-source("helper_funcs.R")
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
@@ -235,7 +226,9 @@ ui <- fluidPage(
               label = "Download Roster",
               style = "color: white; background-color: #F62817;"
             ),
-            tags$p("Don't forget to email your roster to the Commish!"),
+            tags$p(""),
+            tags$span("The Download button will activate once you have 14 players on your roster and the participant information is complete."),
+            tags$span("Don't forget to email your roster to the Commish!", style="color:red"),
             width = 3
           )
         ),
@@ -296,9 +289,9 @@ ui <- fluidPage(
             checkboxGroupInput(
               "selected_teams",
               label = "",
-              choiceNames = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_name_w_abbr]),
-              choiceValues = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr]),
-              selected = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr])
+              choiceNames = as.list(dt_team_info[team_abbr %in% playoff_teams, team_name_w_abbr]),
+              choiceValues = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr]),
+              selected = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr])
             )
           )
         ),
@@ -633,7 +626,7 @@ server <- function(input, output, session) {
       )
     } else {
       update_app_stats(
-        dt_nfl_player_stats, 
+        dt_stats, 
         stat_params()$pos, 
         stat_params()$season_type,
         stat_params()$stat_type,
@@ -652,7 +645,7 @@ server <- function(input, output, session) {
       )
     } else {
       update_app_stats(
-        dt_nfl_player_stats, 
+        dt_stats, 
         stat_params()$pos, 
         stat_params()$season_type,
         stat_params()$stat_type,
@@ -669,9 +662,9 @@ server <- function(input, output, session) {
         session,
         "selected_teams",
         label = "",
-        choiceNames = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_name_w_abbr]),
-        choiceValues = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr]),
-        selected = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr])
+        choiceNames = as.list(dt_team_info[team_abbr %in% playoff_teams, team_name_w_abbr]),
+        choiceValues = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr]),
+        selected = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr])
       )
     })
   
@@ -681,8 +674,8 @@ server <- function(input, output, session) {
         session,
         "selected_teams",
         label = "",
-        choiceNames = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_name_w_abbr]),
-        choiceValues = as.list(dt_nfl_teams[team_abbr %in% playoff_teams, team_abbr]),
+        choiceNames = as.list(dt_team_info[team_abbr %in% playoff_teams, team_name_w_abbr]),
+        choiceValues = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr]),
         selected = NULL
       )
     })

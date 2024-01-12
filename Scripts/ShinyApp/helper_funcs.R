@@ -408,3 +408,14 @@ count_positions <- function(x){
   }
   return(position_counts)
 }
+
+
+get_last_csv <- function(key){
+  # this funciton should get the latest csv file in the data folder
+  # provided it matches with the key provided
+  f <- list.files(path = "data")
+  f <- f[str_detect(f, paste0("^",key))]
+  d <- str_extract(f,"[:digit:]{4}-[:digit:]{2}-[:digit:]{2} [:digit:]{6}")
+  f <- f[d == str_remove_all(as.character(max(as_datetime(d))),":")]
+  return(paste0("data/",f))
+}
