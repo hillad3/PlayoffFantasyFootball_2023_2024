@@ -28,7 +28,15 @@ if(any(str_detect(roster_files, "xlsx$"))){
   stop("Stopping")
 }
 
+# ## option for debugging reading in files
+# for(r in roster_files){
+#   print(roster_files[[1]])
+#   fread(paste0(paste0("Data/Individual Rosters/",roster_files[[r]])))
+# }
+
 rosters <- lapply(paste0("Data/Individual Rosters/",roster_files), fread)
+
+
 
 check_validity <- function(dt){
   if(any(duplicated(dt$`Team Abbr`))){
