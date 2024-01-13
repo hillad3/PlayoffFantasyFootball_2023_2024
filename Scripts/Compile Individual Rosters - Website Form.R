@@ -71,7 +71,7 @@ if (any(is.na(rosters |> unlist()))) {
 # drop unnecessary data. these details will be brought in from tte stats
 rosters[,`Position Group`:=NULL]
 rosters[,`Selection`:=NULL]
-rosters[,`Fantasy Owner Email`:=NULL]
+# rosters[,`Fantasy Owner Email`:=NULL]
 rosters[,`Check 1 - Selection is Unique`:=NULL]
 rosters[,`Check 2 - Team is Unique`:=NULL]
 
