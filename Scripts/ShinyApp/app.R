@@ -13,7 +13,7 @@ library(plotly)
 source("helper_funcs.R")
 
 playoff_year <- 2023L
-season_type <- c("REG","POST")
+# season_type <- c("REG","POST")
 season_teams <- c(
   "ARI","ATL","BAL","BUF","CAR",
   "CHI","CIN","CLE","DAL","DEN",
@@ -83,6 +83,58 @@ get_summary3 <- function(dt, summary1_){
     arrange(-overall_total,factor(position,levels=c("QB","WR","RB","TE","K","Defense")), player_name) 
 }
 summary3 <- get_summary3(dt_scores, summary1)
+
+player_frequency <- 
+  dt_fantasy_rosters |> 
+    filter(position_type == "Player") |> 
+    group_by(position_type, player_name) |> 
+    reframe(counts = n()) |> 
+    arrange(-counts) |> 
+    mutate(player_name = fct_inorder(player_name))
+
+defense_frequency <- 
+  dt_fantasy_rosters |> 
+  filter(position_type != "Player") |> 
+  group_by(position_type, player_name) |> 
+  reframe(counts = n()) |> 
+  arrange(-counts) |> 
+  mutate(player_name = fct_inorder(player_name))
+
+tm_players <- plot_ly(
+  type="treemap",
+  labels = player_frequency$player_name |> unlist(),
+  parents = player_frequency$position_type |> unlist(),
+  values = player_frequency$counts |> unlist()
+)
+
+tm_def <- plot_ly(
+  type="treemap",
+  labels = defense_frequency$player_name |> unlist(),
+  parents = defense_frequency$position_type |> unlist(),
+  values = defense_frequency$counts |> unlist()
+)
+
+fantasy_scorers <- 
+  dt_stats |> 
+  filter(stat_type == "fantasy_points" & season_type == "Post") |> 
+  group_by(position, player_name) |> 
+  reframe(fantasy_points = sum(stat_values)) |> 
+  arrange(-fantasy_points) |> 
+  mutate(player_name = fct_inorder(player_name))
+
+tm_fantasy_scorers <- plot_ly(
+  fantasy_scorers,
+  labels = ~player_name,
+  values = ~fantasy_points,
+  type = "pie"
+)
+
+tm_fantasy_scorers <- plot_ly(
+  fantasy_scorers,
+  labels = ~position,
+  values = ~fantasy_points,
+  type = "pie"
+)
   
   
 
@@ -96,17 +148,39 @@ ui <- fluidPage(
   tabsetPanel(
     tabPanel(
       "Fantasy Results",
-      tags$h3("We're still pulling together rosters and reconciling everything. If you see a discrepancy against your roster, please reach out -- but appreciate if you give us a day to sort out the initial upload."),
       br(),
       tabsetPanel(
         type = "pills",
         tabPanel(
-          "Just Rosters",
+          "League Results",
           br(),
           sidebarLayout(
             sidebarPanel(
+              selectizeInput(
+                "top_teams",
+                label = "# of Top Teams",
+                choices = c("1","3","5","10","25","50","100","All"),
+                selected = "5",
+                options = list(maxItems = 1)
+              ),
+              width=2
+            ),
+            mainPanel(
+              h2("Team Scores Overall (Ranked highest to lowest)"),
+              DTOutput("summary2_ui"),
+              br(),
+              h2("Team Scores with Players by Week"),
+              DTOutput("summary3_ui"),
+            )
+          ) 
+        ),
+        tabPanel(
+          "Just Rosters",
+          br(),
+          tags$p("Please reach out if you see any discrepancies in your roster."),
+          sidebarLayout(
+            sidebarPanel(
               tags$p("Fantasy Teams & Owner Initials", style = "font-weight:bold; margin-top:3px"),
-              tags$p(paste0("Total Fantasy Teams: ", unique_rosters)),
               actionButton("select_all_rosters", label="All", inline=TRUE),
               actionButton("deselect_all_rosters", label="None", inline=TRUE),
               checkboxGroupInput(
@@ -119,35 +193,82 @@ ui <- fluidPage(
               width=3
             ),
             mainPanel(
-              DTOutput("roster_table")
+              tags$p(paste0("Fantasy Teams Competing: ", unique_rosters)),
+              tags$h2("Roster Breakdown"),
+              br(),
+              DTOutput("roster_table"),
+              br(),
+              tags$h2("Overall Player Distribution"),
+              plotlyOutput("player_treemap"),
+              br(),
+              tags$h2("Overall Defense Distribution"),
+              plotlyOutput("defense_treemap")
             )
           ) 
         ),
         tabPanel(
-          "League Results",
+          "Additional Analysis",
           br(),
-          sidebarLayout(
+          tags$h2("Coming soon..."),
+          tags$p("* maybe")
+        ) 
+      )
+    ),
+    tabPanel(
+      "NFL Player Stats",
+      br(),
+      actionButton(
+        inputId = "toggleFilterMenu", 
+        label = "Filter Menu",
+        icon = icon("bars"),
+        style = "margin-right:25px;",
+        inline = TRUE
+      ),
+      shinyWidgets::materialSwitch(
+        inputId = "pivot_data",
+        label = "Pivot Data",
+        inline = TRUE
+      ),
+      sidebarLayout(
+        div(id = "filterMenu",
             sidebarPanel(
-              selectizeInput(
-                "top_teams",
-                label = "# of Teams",
-                choices = c("1","3","5","10","25","50","100","All"),
-                selected = "5",
-                options = list(maxItems = 1)
+              width = 2,
+              selectInput(
+                inputId = "selected_position",
+                label = "Position:",
+                choices = list("QB", "RB", "WR", "TE", "K", "Defense"),
+                selected = "QB"
               ),
-              width=2
-            ),
-            mainPanel(
-              h2("Team Scores Overall"),
-              DTOutput("summary1_ui"),
-              br(),
-              h2("Team Scores by Week"),
-              DTOutput("summary2_ui"),
-              br(),
-              h2("Team Scores with Players by Week"),
-              DTOutput("summary3_ui"),
+              selectInput(
+                inputId = "reg_or_post",
+                label = "Regular or Post Season:",
+                choices = list("Regular","Post"),
+                selected = "Post"
+              ),
+              selectInput(
+                inputId = "stat_type",
+                label = "Statistic Type:",
+                choices = list("Fantasy Points", "Football Values", "Both"),
+                selected = "Fantasy Points"
+              ),
+              tags$p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
+              actionButton("select_all_teams", label="All", inline=TRUE),
+              actionButton("deselect_all_teams", label="None", inline=TRUE),
+              checkboxGroupInput(
+                "selected_teams",
+                label = "",
+                choiceNames = as.list(dt_team_info[team_abbr %in% playoff_teams, team_name_w_abbr]),
+                choiceValues = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr]),
+                selected = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr])
+              )
             )
-          ) 
+        ),
+        mainPanel(
+          tabsetPanel(
+            type = "pills",
+            tabPanel(paste0(playoff_year," Season Totals"), br(), DTOutput("statistics_season")),
+            tabPanel(paste0(playoff_year," by Week"), br(), DTOutput("statistics_weekly"))
+          )
         )
       )
     ),
@@ -267,152 +388,95 @@ ui <- fluidPage(
           tags$li("46+ Points Allowed = -10 points"),
         )
       )
-    ),
-    tabPanel(
-      "Build Roster",
-      br(),
-      actionButton(
-        inputId = "toggleRosterSelector", 
-        label = "Roster Selector Menu",
-        icon = icon("bars"),
-        style = "margin-bottom:10px"
-      ),
-      sidebarLayout(
-        div(id = "rosterSelector",
-          sidebarPanel(
-            selectizeInput(
-              inputId = "roster_selections_made",
-              label = "Select Player or Defensive Team",
-              choices = c("",as.list(unique(team_lookupstring_position[,lookup_string]))),
-              selected = "",
-              options = list(maxItems = 1)
-            ),
-            actionButton(
-              inputId = "add_player",
-              label = "Add to Roster",
-              icon = icon("add"),
-              style="color: white; background-color: #0086b3; border-color: #2e6da4"
-            ),
-            tags$p("", style="margin-top:10px"),
-            textOutput(outputId = "roster_slots_remaining_text"),
-            tags$p("", style="margin-top:10px"),
-            textOutput(outputId = "positions_available_text"),
-            tags$p("", style="margin-top:10px"),
-            textOutput(outputId = "teams_available_text"),
-            tags$h1("", style = 'margin:100px'),
-            selectizeInput(
-              inputId = "roster_selections_removed",
-              label = "Remove Player or Defensive Team",
-              choices = NULL,
-              options = list(maxItems = 1),
-            ),
-            actionButton(
-              inputId = "remove_player",
-              label = "Remove",
-              icon = icon("trash", lib = "glyphicon"),
-              style="color: white; background-color: gray; border-color: black"
-            ),
-            tags$p("", style="margin-top:10px"),
-            textOutput(outputId = "positions_on_roster_text"),
-            tags$p("", style="margin-top:10px"),
-            textOutput(outputId = "teams_on_roster_text"),
-            tags$p("", style='margin-bottom:25px'),
-            fluidPage(
-              tags$p("", style="margin:8px"),
-              tags$span("Participant Information", style='font-weight:bold; font-size:16px; margin-right: 3px'),
-              tags$span("* required", style = "color:red;"),
-              tags$p("", style="margin:8px"),
-              textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
-              textInput("fantasy_owner_email", label = "Email *", placeholder = "myemail@gmail.com"),
-              textInput("fantasy_team_name", label = "Fantasy Team Name *", placeholder = "Unique Team Name"),
-              checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent *"),
-              tags$p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
-              style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
-            ),
-            tags$p("", style='margin-bottom:20px'),
-            downloadButton(
-              outputId = "download_roster", 
-              label = "Download Roster",
-              style = "color: white; background-color: #F62817;"
-            ),
-            tags$p(""),
-            tags$span("The Download button will activate once you have 14 players on your roster and the participant information is complete."),
-            tags$span("Don't forget to email your roster to the Commish!", style="color:red"),
-            width = 3
-          )
-        ),
-        mainPanel(
-          fluidRow(
-            tags$h3("Current Roster"),
-            DTOutput(outputId = "players_on_roster_DT"),
-            style="margin-left:2px"
-          ),
-          fluidRow(
-            tags$h3("Valid Player Selections Remaining", style="margin-top:100px"),
-            DTOutput(outputId = "players_remaining_DT"),
-            style="margin-left:2px"
-          )
-        )
-      )
-    ),
-    tabPanel(
-      "NFL Player Stats",
-      br(),
-      actionButton(
-        inputId = "toggleFilterMenu", 
-        label = "Filter Menu",
-        icon = icon("bars"),
-        style = "margin-right:25px;",
-        inline = TRUE
-      ),
-      shinyWidgets::materialSwitch(
-        inputId = "pivot_data",
-        label = "Pivot Data",
-        inline = TRUE
-      ),
-      sidebarLayout(
-        div(id = "filterMenu",
-          sidebarPanel(
-            width = 2,
-            selectInput(
-              inputId = "selected_position",
-              label = "Position:",
-              choices = list("QB", "RB", "WR", "TE", "K", "Defense"),
-              selected = "QB"
-            ),
-            selectInput(
-              inputId = "reg_or_post",
-              label = "Regular or Post Season:",
-              choices = list("Regular","Post"),
-              selected = "Post"
-            ),
-            selectInput(
-              inputId = "stat_type",
-              label = "Statistic Type:",
-              choices = list("Fantasy Points", "Football Values", "Both"),
-              selected = "Fantasy Points"
-            ),
-            tags$p("Inspect Team(s)", style = "font-weight:bold; margin-top:40px"),
-            actionButton("select_all_teams", label="All", inline=TRUE),
-            actionButton("deselect_all_teams", label="None", inline=TRUE),
-            checkboxGroupInput(
-              "selected_teams",
-              label = "",
-              choiceNames = as.list(dt_team_info[team_abbr %in% playoff_teams, team_name_w_abbr]),
-              choiceValues = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr]),
-              selected = as.list(dt_team_info[team_abbr %in% playoff_teams, team_abbr])
-            )
-          )
-        ),
-        mainPanel(
-          tabsetPanel(
-            type = "pills",
-            tabPanel(paste0(playoff_year," Season Totals"), br(), DTOutput("statistics_season")),
-            tabPanel(paste0(playoff_year," by Week"), br(), DTOutput("statistics_weekly"))
-          )
-        )
-      )
     )
+    ## uncomment this code when needed for creating rosters
+    # tabPanel(
+    #   "Build Roster",
+    #   br(),
+    #   actionButton(
+    #     inputId = "toggleRosterSelector", 
+    #     label = "Roster Selector Menu",
+    #     icon = icon("bars"),
+    #     style = "margin-bottom:10px"
+    #   ),
+    #   sidebarLayout(
+    #     div(id = "rosterSelector",
+    #       sidebarPanel(
+    #         selectizeInput(
+    #           inputId = "roster_selections_made",
+    #           label = "Select Player or Defensive Team",
+    #           choices = c("",as.list(unique(team_lookupstring_position[,lookup_string]))),
+    #           selected = "",
+    #           options = list(maxItems = 1)
+    #         ),
+    #         actionButton(
+    #           inputId = "add_player",
+    #           label = "Add to Roster",
+    #           icon = icon("add"),
+    #           style="color: white; background-color: #0086b3; border-color: #2e6da4"
+    #         ),
+    #         tags$p("", style="margin-top:10px"),
+    #         textOutput(outputId = "roster_slots_remaining_text"),
+    #         tags$p("", style="margin-top:10px"),
+    #         textOutput(outputId = "positions_available_text"),
+    #         tags$p("", style="margin-top:10px"),
+    #         textOutput(outputId = "teams_available_text"),
+    #         tags$h1("", style = 'margin:100px'),
+    #         selectizeInput(
+    #           inputId = "roster_selections_removed",
+    #           label = "Remove Player or Defensive Team",
+    #           choices = NULL,
+    #           options = list(maxItems = 1),
+    #         ),
+    #         actionButton(
+    #           inputId = "remove_player",
+    #           label = "Remove",
+    #           icon = icon("trash", lib = "glyphicon"),
+    #           style="color: white; background-color: gray; border-color: black"
+    #         ),
+    #         tags$p("", style="margin-top:10px"),
+    #         textOutput(outputId = "positions_on_roster_text"),
+    #         tags$p("", style="margin-top:10px"),
+    #         textOutput(outputId = "teams_on_roster_text"),
+    #         tags$p("", style='margin-bottom:25px'),
+    #         fluidPage(
+    #           tags$p("", style="margin:8px"),
+    #           tags$span("Participant Information", style='font-weight:bold; font-size:16px; margin-right: 3px'),
+    #           tags$span("* required", style = "color:red;"),
+    #           tags$p("", style="margin:8px"),
+    #           textInput("fantasy_owner_name", label = "Name *", placeholder = "Dick Butkus"),
+    #           textInput("fantasy_owner_email", label = "Email *", placeholder = "myemail@gmail.com"),
+    #           textInput("fantasy_team_name", label = "Fantasy Team Name *", placeholder = "Unique Team Name"),
+    #           checkboxInput("paid_checkbox", label = "I have paid the Commish because I am not a delinquent *"),
+    #           tags$p("Note: Fantasy Team Name will be displayed in rankings", style='margin-top:20px'),
+    #           style = 'background-color:#ffffc2; border-style:solid; border-color:black;'
+    #         ),
+    #         tags$p("", style='margin-bottom:20px'),
+    #         downloadButton(
+    #           outputId = "download_roster", 
+    #           label = "Download Roster",
+    #           style = "color: white; background-color: #F62817;"
+    #         ),
+    #         tags$p(""),
+    #         tags$span("The Download button will activate once you have 14 players on your roster and the participant information is complete."),
+    #         tags$span("Don't forget to email your roster to the Commish!", style="color:red"),
+    #         width = 3
+    #       )
+    #     ),
+    #     mainPanel(
+    #       fluidRow(
+    #         tags$h3("Current Roster"),
+    #         DTOutput(outputId = "players_on_roster_DT"),
+    #         style="margin-left:2px"
+    #       ),
+    #       fluidRow(
+    #         tags$h3("Valid Player Selections Remaining", style="margin-top:100px"),
+    #         DTOutput(outputId = "players_remaining_DT"),
+    #         style="margin-left:2px"
+    #       )
+    #     )
+    #   )
+    # ),
   )
 )
 
@@ -821,11 +885,22 @@ server <- function(input, output, session) {
     }
   })
   
+  output$player_treemap <- renderPlotly(
+    tm_players |> 
+      filter()
+  )
+  
+  output$defense_treemap <- renderPlotly(
+    tm_def
+  )
+  
   # league results
   
   top_teams <- reactive({
     if(input$top_teams=="All"){
-      NULL
+      summary1 |> 
+        select(fantasy_team_and_initials) |> 
+        unlist() 
     } else {
       summary1 |> 
         head(as.integer(input$top_teams)) |> 
@@ -834,20 +909,12 @@ server <- function(input, output, session) {
     }
   })
   
-  output$summary1_ui <- renderDT({
-    DT::datatable(
-      summary1 |> 
-        filter(fantasy_team_and_initials %in% top_teams()),
-      options = list(pageLength = 25)
-    )
-  })
-  
   output$summary2_ui <- renderDT({
 
     DT::datatable(
       summary2 |> 
         filter(fantasy_team_and_initials %in% top_teams()),
-      options = list(pageLength = 25)
+      options = list(pageLength = 100)
     )
   })
   
