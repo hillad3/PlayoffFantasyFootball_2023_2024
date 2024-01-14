@@ -20,7 +20,7 @@ roster_files <- directory_files[str_detect(directory_files, "xlsx$|csv$")]
 
 # exclude specific types of files
 roster_files <- roster_files[!str_detect(roster_files, "^Compiled Roster, Gen")]
-excluded_files <- c("Team Name 1.xlsx", "Team Name 2.xlsx", "Team Name 3.xlsx")
+excluded_files <- c("Team Name 1.xlsx", "Team Name 2.xlsx", "Team Name 3.xlsx", "Playoff Fantasy Roster Check.xlsx")
 roster_files <- roster_files[!(roster_files %in% excluded_files)]
 
 if(any(str_detect(roster_files, "xlsx$"))){
@@ -36,45 +36,54 @@ if(any(str_detect(roster_files, "xlsx$"))){
 
 rosters <- lapply(paste0("Data/Individual Rosters/",roster_files), fread)
 
-
-
-check_validity <- function(dt){
-  if(any(duplicated(dt$`Team Abbr`))){
-    log_error("There are duplicated NFL team names within a single roster")
-    stop()
+team_names <- vector(mode="list",length = length(rosters))
+errors <- 0
+for(r in seq_along(rosters)){
+  print(roster_files[[r]])
+  if(any(duplicated(rosters[[r]]$`Team Abbr`))){
+    log_error("1: There are duplicated NFL team names within a single roster")
+    errors <- errors + 1
   }
-  if(any(duplicated(dt$`Automation Mapping`))){
-    log_error("There are duplicated automation mapping codes within a single roster")
-    stop()
+  if(any(duplicated(rosters[[r]]$`Automation Mapping`))){
+    log_error("2: There are duplicated automation mapping codes within a single roster")
+    errors <- errors + 1
   }
-  if(!all(c("K","QB1","QB2","QB3","RB1","RB2","RB3","TE1","TE2","WR1","WR2","WR3","D") %in% dt$`Position Code`)){
-    log_error("There are missing position types within single roster")
-    stop()
+  if(!all(c("K","QB1","QB2","QB3","RB1","RB2","RB3","TE1","TE2","WR1","WR2","WR3","D") %in% rosters[[r]]$`Position Code`)){
+    log_error("3: There are missing position types within single roster")
+    errors <- errors + 1
   }
-  if(length(dt$`Position Code`[dt$`Position Code` %in% c("RB4","WR4","TE3")])!=1L){
-    log_error("There are missing position types within single roster")
-    stop()
+  if(length(rosters[[r]]$`Position Code`[rosters[[r]]$`Position Code` %in% c("RB4","WR4","TE3")])!=1L){
+    log_error("4: There are missing position types within a single roster")
+    errors <- errors + 1
   }
-  if(dim(dt)[1]!=14L){
-    log_error("There are differing number of rows in the data.table")
-    stop()
+  if(dim(rosters[[r]])[1]!=14L){
+    log_error("5: There are differing number of rows in the data.table")
+    errors <- errors + 1
   }
-  if(dim(dt)[2]!=12L){
-    log_error("There are differing number of columns in the data.table")
-    stop()
+  if(dim(rosters[[r]])[2]!=12L){
+    log_error("6: There are differing number of columns in the data.table")
+    errors <- errors + 1
+  }
+  if (any(is.na(rosters[[r]] |> unlist()))) {
+    log_error("7: There are NAs in the table")
+    errors <- errors + 1
+  }
+  if(unique(rosters[[r]]$`Fantasy Team Name`) %in% team_names){
+    log_error("8: This team name has already been used.")
+    errors <- errors + 1
+  } else {
+    team_names[[r]] <- unique(rosters[[r]]$`Fantasy Team Name`)
   }
 }
-
-lapply(rosters, check_validity)
+if(errors>0){
+  stop("There are errors that need to be fixed to continue")
+}
 
 rosters <- rbindlist(rosters)
 
 rosters[,source_file := rep(roster_files, each=14)] # this should fail if not perfectly rectangular
 
-if (any(is.na(rosters |> unlist()))) {
-  log_warn("There are NAs in the table")
-  print(dt)
-}
+
 
 # drop unnecessary data. these details will be brought in from tte stats
 rosters[,`Position Group`:=NULL]
@@ -120,6 +129,7 @@ rosters[,fantasy_owner_initials:=unlist(fantasy_owner_initials)]
 rosters[,fantasy_team_and_initials:=paste0(fantasy_team_name," (",fantasy_owner_initials,")")]
 rosters[,fantasy_owner:=NULL]
 rosters[,fantasy_owner_initials:=NULL]
+rosters[,`Fantasy Owner Email`:=NULL] # optional
 
 # TODO count to ensure that team names are unique and total to 14 (to avoid duplicate names from multiple people)
 tmp <- rosters[,.(fantasy_team_and_initials)][,.(n=.N), by=.(fantasy_team_and_initials)]
