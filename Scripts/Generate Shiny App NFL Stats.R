@@ -564,7 +564,7 @@ dt_stats <- combine_stats()
 
 # remove zero value statistics
 # TODO this may or may not be a good idea for the stats but makes data set smaller for web loading
-dt_stats <- dt_stats[abs(stat_values) >= 1e-7]
+# dt_stats <- dt_stats[abs(stat_values) >= 1e-7]
 dt_stats <- dt_stats[team_abbr %in% playoff_teams]
 
 # get a list of unique players and teams for the lookup
