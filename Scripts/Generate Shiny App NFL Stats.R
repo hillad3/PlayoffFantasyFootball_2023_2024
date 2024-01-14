@@ -4,6 +4,8 @@ gc()
 
 library(tidyverse)
 library(data.table)
+library(nflreadr)
+library(nflfastR)
 
 season_int <- 2023L
 season_type <- c("REG","POST")
@@ -120,8 +122,9 @@ get_pbp <- function(.season_int = season_int,
   )
   dt[, .SD, .SDcol=cols]
 }
+pbp <- get_pbp()
 
-get_bonus_stats <- function(dt = get_pbp(), # use get_pbp()
+get_bonus_stats <- function(dt = pbp, # use get_pbp()
                             dt_rosters_ = dt_rosters,
                             dt_team_info_ = dt_team_info){
   # create a list to hold each unique fantasy football points dataset
@@ -215,7 +218,7 @@ get_bonus_stats <- function(dt = get_pbp(), # use get_pbp()
 
 }
 
-get_defense_stats <- function(dt, # use get_pbp() 
+get_defense_stats <- function(dt = pbp(), 
                               dt_team_info_ = dt_team_info){
   # create a list to hold each unique fantasy football points dataset
   def <- list()
@@ -460,8 +463,8 @@ combine_stats <- function(dt_rosters_ = dt_rosters){
   dt <- rbindlist(list(
     get_player_stats(player_type_char='offense'), 
     get_player_stats(player_type_char='kicking'),
-    get_bonus_stats(get_pbp()),
-    get_defense_stats(get_pbp())
+    get_bonus_stats(pbp),
+    get_defense_stats(pbp)
   ))
   
   # stack stat_types into long format
