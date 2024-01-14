@@ -23,7 +23,7 @@ if("Fantasy Owner Email" %in% names(rosters)){
 }
 
 stats_dir <- "Output/NFL Stats/"
-stats_file_players <- "stats_2023_REG_POST_gen2024-01-14 041830.csv"
+stats_file_players <- "stats_2023_REG_POST_gen2024-01-14 140540.csv"
 stats_players <- fread(file = paste0(stats_dir,stats_file_players))
 stats_players[,player_id:=ifelse(position=="Defense",team_abbr,player_id)]
 
