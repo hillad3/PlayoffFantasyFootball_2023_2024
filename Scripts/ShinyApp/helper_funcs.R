@@ -419,3 +419,120 @@ get_last_csv <- function(key){
   f <- f[d == str_remove_all(as.character(max(as_datetime(d))),":")]
   return(paste0("data/",f))
 }
+
+
+
+## dead code that i played with for stats generation
+# get_summary <- function(dt, vars, type=NULL){
+#   
+#   if(is.null(type)){
+#     # do nothing
+#   } else if(!(type %in% c("football_values","fantasy_points"))){
+#     print("type must be football_values or fantasy_points")
+#   } else {
+#     dt <- dt[stat_type == type]
+#   }
+#   
+#   tib <- dt |> 
+#     group_by(across({{vars}}), stat_type) |> 
+#     reframe(stat_values = sum(stat_values))
+#   
+#   return(as.data.table(tib))
+#   
+# }
+#  
+# tmp1 <- get_summary(
+#   dt=dt_scores, 
+#   vars=c(fantasy_team_name, player_name, stat_label, week),
+#   type="fantasy_points"
+# )
+# if(!is.null(rows) && dim(tib)[1] > rows){
+#   tib <- tib[1:rows,]
+# }
+# get_summary <- function(dt, type, rows, vars){
+#   
+#   dt <- dt[stat_type == type]
+#   
+#   tib <- dt |> 
+#     group_by(across({{vars}})) |> 
+#     reframe(stat_values = sum(stat_values)) |> 
+#     arrange(-stat_values) |> 
+#     mutate(fantasy_team_name = fct_reorder(fantasy_team_name, -stat_values, sum))
+#   
+#   if(!is.na(rows) && dim(tib)[1] > rows){
+#     tib <- tib[1:rows,]
+#   }
+#   
+#   return(as.data.table(tib))
+#   
+# }
+# get_bar_plot1 <- function(dt, r){
+#   
+#   dt <- dt[stat_type == "fantasy_points"]
+#   dt <- dt[,.(stat_values=sum(stat_values)), by=.(fantasy_team_name)]
+#   dt <- setattr(dt, "levels", dt[,.(stat_values=sum(stat_values)), by=.(fantasy_team_name)])
+#   
+#   #dt <- dt |> mutate(var = factor(fantasy_team_name, order_by(sum(stat_values))))
+# 
+#   p <- plot_ly(
+#       dt,
+#       x = ~ fantasy_team_name,
+#       y = ~ stat_values,
+#       #color =  ~ player_name,
+#       type = 'bar'
+#     )
+#   
+#   p <- p |>
+#     layout(
+#       xaxis = list(
+#         title = "Fantasy Team"#,
+#         #categoryorder = "total descending"
+#       ),
+#       yaxis = list(title = "Total"),
+#       barmode = 'relative'
+#     )
+#   
+#   return(p)
+#   
+# }
+# get_bar_plot1(dt_scores, 3)
+# fig <- fig %>% add_trace(y = ~LA_Zoo, name = 'LA Zoo')
+# fig <- fig %>% layout(yaxis = list(title = 'Count'), barmode = 'stack')
+
+####
+# team_names <- summary3 |> distinct(fantasy_team_and_initials) |> unlist() |>  sort()
+# player_names <- summar3 |> distinct(player_name) |> unlist() |> sort()
+# 
+# if(exists("plt")){rm(plt)}
+# for(team in seq_along(team_names)){
+#   print(paste("team ",team_names[[team]]))
+#   for(player in seq_along(player_names)){
+#     print(paste("player ",player_names[[player]]))
+#     dt <- as.data.table(summary3)[fantasy_team_and_initials == team_names[[team]] &
+#                                     player_name == player_names[[player]]]
+#     
+#     if(dim(dt)[1]==0){
+#       next #handles case if nothing to add
+#     }
+#     
+#     if(!exists("plt")){
+#       plt <- plot_ly(
+#         dt,
+#         x = ~ fantasy_team_name,
+#         y = ~ stat_values,
+#         name =  player_names[[player]],
+#         type = 'bar'
+#       )
+#     } else {
+#       plt <- plt |> add_trace(
+#         y = ~ stat_values,
+#         name =  player_names[[player]],
+#       )
+#     }   
+#   }
+# }
+# plt <- layout(xaxis = list(
+#   title = "Fantasy Team",
+#   #categoryorder = "total descending"),
+#   yaxis = list(title = "Total"),
+#   barmode = 'relative'))
