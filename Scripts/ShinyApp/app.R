@@ -8,6 +8,7 @@ library(data.table)
 library(DT)
 library(shinyjs)
 library(shinythemes)
+library(plotly)
 
 source("helper_funcs.R")
 
@@ -27,12 +28,63 @@ playoff_teams <- c("BAL","BUF","CLE","DAL","DET","GB","HOU","KC","LA","MIA","PHI
 
 dt_team_info <- fread(get_last_csv("team_info"))
 
-dt_roster <- fread(get_last_csv("rosters"))
+dt_nfl_rosters <- fread(get_last_csv("rosters"))
 
 dt_stats <- fread(get_last_csv("stats"))
 
 team_lookupstring_position <- fread(get_last_csv("lookups"))
 
+dt_scores <- fread(get_last_csv("NFL Fantasy Scores"))
+# dt_scores <- dt_scores[stat_type == "fantasy_points"] # this filtering was previously performed in the pipeline
+
+dt_fantasy_rosters <- fread(get_last_csv("Playoff Fantasy"))
+if("Fantasy Owner Email" %in% names(dt_fantasy_rosters)){
+  dt_fantasy_rosters[,`Fantasy Owner Email`:=NULL]
+}
+unique_rosters <- length(unique(dt_fantasy_rosters[,fantasy_team_and_initials]))
+# add in player_name to data
+dt_fantasy_rosters <- merge(
+  dt_fantasy_rosters, 
+  unique(dt_stats[,player_id:=ifelse(position=="Defense",team_abbr,player_id)][,.(player_id,player_name)]),
+  by = "player_id",
+  all.x = TRUE
+)
+dt_fantasy_rosters[,position_code:=ifelse(position_code=="D","Defense",position_code)]
+dt_fantasy_rosters[,position_code:=factor(position_code, c("QB1","QB2","QB3","RB1","RB2","RB3","RB4","WR1","WR2","WR3","WR4","TE1","TE2","TE3","K","Defense"))]
+setorder(dt_fantasy_rosters, fantasy_team_and_initials,position_code,player_name)
+
+summary1 <- dt_scores |> 
+  group_by(fantasy_team_and_initials) |> 
+  reframe(stat_values = sum(stat_values)) |> 
+  arrange(-stat_values)
+
+get_summary2 <- function(dt, summary1_){
+  summary1 <- dt |> 
+    group_by(fantasy_team_and_initials, week) |> 
+    reframe(stat_values = sum(stat_values)) |> 
+    pivot_wider(names_from = week, names_sep = "_", names_prefix = "week", values_from = stat_values) |> 
+    full_join(summary1_, by = c("fantasy_team_and_initials")) |> 
+    rename(total = stat_values) |> 
+    arrange(-total)
+}
+
+summary2 <- get_summary2(dt_scores, summary1)
+
+get_summary3 <- function(dt, summary1_){
+  summary1 <- dt |> 
+    group_by(fantasy_team_and_initials, position, player_name, week) |> 
+    reframe(stat_values = sum(stat_values)) |> 
+    pivot_wider(names_from = week, names_sep = "_", names_prefix = "week", values_from = stat_values) |> 
+    rowwise(fantasy_team_and_initials, position, player_name) |> 
+    mutate(player_total = rowSums(across(where(is.numeric)), na.rm=TRUE)) |> 
+    ungroup() |> 
+    full_join(summary1_, by = c("fantasy_team_and_initials")) |> 
+    rename(overall_total = stat_values) |> 
+    arrange(-overall_total,factor(position,levels=c("QB","WR","RB","TE","K","Defense")), player_name) 
+}
+summary3 <- get_summary3(dt_scores, summary1)
+  
+  
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
@@ -42,6 +94,63 @@ ui <- fluidPage(
   ),
   tags$h1("Playoff Fantasy Football League", style = "text-align:center"),
   tabsetPanel(
+    tabPanel(
+      "Fantasy Results",
+      tags$h3("We're still pulling together rosters and reconciling everything. If you see a discrepancy against your roster, please reach out -- but appreciate if you give us a day to sort out the initial upload."),
+      br(),
+      tabsetPanel(
+        type = "pills",
+        tabPanel(
+          "Just Rosters",
+          br(),
+          sidebarLayout(
+            sidebarPanel(
+              tags$p("Fantasy Teams & Owner Initials", style = "font-weight:bold; margin-top:3px"),
+              tags$p(paste0("Total Fantasy Teams: ", unique_rosters)),
+              actionButton("select_all_rosters", label="All", inline=TRUE),
+              actionButton("deselect_all_rosters", label="None", inline=TRUE),
+              checkboxGroupInput(
+                "selected_rosters",
+                label = "",
+                choiceNames = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
+                choiceValues = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
+                selected = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort()
+              ),
+              width=3
+            ),
+            mainPanel(
+              DTOutput("roster_table")
+            )
+          ) 
+        ),
+        tabPanel(
+          "League Results",
+          br(),
+          sidebarLayout(
+            sidebarPanel(
+              selectizeInput(
+                "top_teams",
+                label = "# of Teams",
+                choices = c("1","3","5","10","25","50","100","All"),
+                selected = "5",
+                options = list(maxItems = 1)
+              ),
+              width=2
+            ),
+            mainPanel(
+              h2("Team Scores Overall"),
+              DTOutput("summary1_ui"),
+              br(),
+              h2("Team Scores by Week"),
+              DTOutput("summary2_ui"),
+              br(),
+              h2("Team Scores with Players by Week"),
+              DTOutput("summary3_ui"),
+            )
+          ) 
+        )
+      )
+    ),
     tabPanel(
       "How to Play",
       fluidPage(
@@ -85,7 +194,7 @@ ui <- fluidPage(
         tags$h2("How To Use this Dashboard"),
         tags$p("You can use this dashboard to explore player statistics and create your roster:"),
         tags$ul(
-          tags$li("Regular season statistics are available on the 'Explore Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
+          tags$li("Regular season statistics are available on the 'Player Stats' tab, which may help provide insights on each player you should prioritize. Statistics are available in 'football values' and in 'fantasy points'."),
           tags$li("Use the 'Build Roster' tab on this dashboard to start creating your roster."),
           tags$li("Add players to your roster based on the combination you think will score the most points by the end of the Superbowl."),
           tags$li("When a player is added to your roster, the team associated with that player (and any of its remaining players) will be removed from your next possible selections. For example: if you pick Jalen Hurts as one of your quarterbacks, you no longer be able to select an Eagles player on your roster."),
@@ -247,7 +356,7 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
-      "Explore Stats",
+      "NFL Player Stats",
       br(),
       actionButton(
         inputId = "toggleFilterMenu", 
@@ -275,7 +384,7 @@ ui <- fluidPage(
               inputId = "reg_or_post",
               label = "Regular or Post Season:",
               choices = list("Regular","Post"),
-              selected = "Regular"
+              selected = "Post"
             ),
             selectInput(
               inputId = "stat_type",
@@ -297,28 +406,13 @@ ui <- fluidPage(
         ),
         mainPanel(
           tabsetPanel(
+            type = "pills",
             tabPanel(paste0(playoff_year," Season Totals"), br(), DTOutput("statistics_season")),
             tabPanel(paste0(playoff_year," by Week"), br(), DTOutput("statistics_weekly"))
           )
         )
       )
-    )#,tabPanel(
-    #   "Fantasy Results",
-    #   id = "fantasyResultsPage",
-    #   sidebarLayout(
-    #     sidebarPanel(
-    #       selectInput(
-    #         inputId = "fantasy_team",
-    #         label = "Fantasy Team:",
-    #         choices = list("TBD"),
-    #         selected = "TBD"
-    #       ),
-    #     ),
-    #     mainPanel(
-    #       h1("Coming soon... maybe", style="font-family:Arial")
-    #     )
-    #   )
-    # )
+    )
   )
 )
 
@@ -444,7 +538,7 @@ server <- function(input, output, session) {
   output$players_on_roster_DT <- renderDT({
     if(is_empty(roster$players)){
       DT::datatable(
-        data.table(lookup_string = "Roster is empty"), 
+        data.table(" " = "Roster is empty"), 
         options = list(pageLength = 25)
       )
     } else {
@@ -620,9 +714,10 @@ server <- function(input, output, session) {
   
   output$statistics_weekly <- renderDT({
     
-    if(is_empty(dt)){
+    if(is_empty(input$selected_teams)){
       DT::datatable(
-        data.table(lookup_string = "No data available")
+        data.table(" " = "No data available"),
+        options = list(pageLength = 14)
       )
     } else {
       update_app_stats(
@@ -639,9 +734,10 @@ server <- function(input, output, session) {
   
   output$statistics_season <- renderDT({
     
-    if(is_empty(dt)){
+    if(is_empty(input$selected_teams)){
       DT::datatable(
-        data.table(lookup_string = "No data available")
+        data.table(" " = "No data available"),
+        options = list(pageLength = 14)
       )
     } else {
       update_app_stats(
@@ -681,6 +777,88 @@ server <- function(input, output, session) {
     })
   
   # this section is for the fantasy results section
+  
+  # just rosters
+  
+  observeEvent(
+    input$select_all_rosters, {
+      updateCheckboxGroupInput(
+        session,
+        "selected_rosters",
+        label = "",
+        choiceNames = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
+        choiceValues = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
+        selected = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort()
+      )
+    })
+  
+  observeEvent(
+    input$deselect_all_rosters, {
+      updateCheckboxGroupInput(
+        session,
+        "selected_rosters",
+        label = "",
+        choiceNames = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
+        choiceValues = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
+        selected = NULL
+      )
+    })
+  
+  output$roster_table <- renderDT({
+    
+    if(is_empty(input$selected_rosters)){
+      DT::datatable(
+        data.table(" " = "No data available"),
+        options = list(pageLength = 14)
+      )
+    } else {
+      dt <- dt_fantasy_rosters[fantasy_team_and_initials %in% input$selected_rosters]
+      dt <- unique(dt[,.(fantasy_team_and_initials,team_abbr,position_code,player_name,player_id)])
+      DT::datatable(
+        dt,
+        options = list(pageLength = 14)
+      )
+    }
+  })
+  
+  # league results
+  
+  top_teams <- reactive({
+    if(input$top_teams=="All"){
+      NULL
+    } else {
+      summary1 |> 
+        head(as.integer(input$top_teams)) |> 
+        select(fantasy_team_and_initials) |> 
+        unlist()      
+    }
+  })
+  
+  output$summary1_ui <- renderDT({
+    DT::datatable(
+      summary1 |> 
+        filter(fantasy_team_and_initials %in% top_teams()),
+      options = list(pageLength = 25)
+    )
+  })
+  
+  output$summary2_ui <- renderDT({
+
+    DT::datatable(
+      summary2 |> 
+        filter(fantasy_team_and_initials %in% top_teams()),
+      options = list(pageLength = 25)
+    )
+  })
+  
+  output$summary3_ui <- renderDT({
+    
+    DT::datatable(
+      summary3 |> 
+        filter(fantasy_team_and_initials %in% top_teams()),
+      options = list(pageLength = 100)
+    )
+  })
   
 }
 
