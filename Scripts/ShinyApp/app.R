@@ -41,7 +41,7 @@ dt_fantasy_rosters <- fread(get_last_csv("Playoff Fantasy"))
 if("Fantasy Owner Email" %in% names(dt_fantasy_rosters)){
   dt_fantasy_rosters[,`Fantasy Owner Email`:=NULL]
 }
-unique_rosters <- length(unique(dt_fantasy_rosters[,fantasy_team_and_initials]))
+
 # add in player_name to data
 dt_fantasy_rosters <- merge(
   dt_fantasy_rosters, 
@@ -53,73 +53,35 @@ dt_fantasy_rosters[,position_code:=ifelse(position_code=="D","Defense",position_
 dt_fantasy_rosters[,position_code:=factor(position_code, c("QB1","QB2","QB3","RB1","RB2","RB3","RB4","WR1","WR2","WR3","WR4","TE1","TE2","TE3","K","Defense"))]
 setorder(dt_fantasy_rosters, fantasy_team_and_initials,position_code,player_name)
 
-summary1 <- dt_scores |> 
-  group_by(fantasy_team_and_initials) |> 
-  reframe(stat_values = sum(stat_values)) |> 
-  arrange(-stat_values)
+summary_by_team <- dt_fantasy_rosters |> 
+  distinct(fantasy_team_and_initials) |> 
+  left_join(
+    dt_scores |> 
+      group_by(fantasy_team_and_initials) |> 
+      reframe(fantasy_points = sum(stat_values)),
+    by = c("fantasy_team_and_initials")
+  ) |> 
+  arrange(-fantasy_points) |> 
+  mutate(rank = 1:n()) |> 
+  as.data.table()
 
-get_summary2 <- function(dt, summary1_){
-  tib <- dt |> 
-    group_by(fantasy_team_and_initials, week) |> 
-    reframe(stat_values = sum(stat_values)) |> 
-    pivot_wider(names_from = week, names_sep = "_", names_prefix = "week", values_from = stat_values) |> 
-    full_join(summary1_, by = c("fantasy_team_and_initials")) |> 
-    rename(playoff_total = stat_values) |> 
-    arrange(-playoff_total) |> 
-    as.data.table()
-}
-summary2 <- get_summary2(dt_scores, summary1)
-
-get_summary3 <- function(dt, summary1_){
-  tib <- dt |> 
-    group_by(fantasy_team_and_initials, position, player_name, week) |> 
-    reframe(stat_values = sum(stat_values)) |> 
-    pivot_wider(names_from = week, names_sep = "_", names_prefix = "week", values_from = stat_values) |> 
-    rowwise(fantasy_team_and_initials, position, player_name) |> 
-    mutate(player_total = rowSums(across(where(is.numeric)), na.rm=TRUE)) |> 
-    ungroup() |> 
-    full_join(summary1_, by = c("fantasy_team_and_initials")) |> 
-    rename(playoff_total = stat_values) |> 
-    arrange(-playoff_total,factor(position,levels=c("QB","WR","RB","TE","K","Defense")), player_name)  |> 
-    as.data.table()
-}
-summary3 <- get_summary3(dt_scores, summary1)
-
-
-get_summary4 <- function(dt, summary3_){
-  tib <- dt |> 
-    distinct(fantasy_team_and_initials) |> 
-    left_join(summary3 |> distinct(fantasy_team_and_initials, playoff_total)) |> 
-    arrange(-playoff_total) |> 
-    as.data.table()
-}
-summary4 <- get_summary4(dt_fantasy_rosters, summary3)
-
-get_summary5 <- function(dt, dt_stats_){
-  tib <- dt |> 
-    select(fantasy_team_and_initials, team_abbr, position_code, player_name, player_id) |> 
-    left_join(
-      dt_stats_ |> 
-        filter(season_type=="Post" & stat_type=="fantasy_points") |> 
-        group_by(player_id) |> 
-        reframe(playoff_total = sum(stat_values)),
-      by = c("player_id"),
-      relationship = "many-to-one"
-    ) |> 
-    mutate(playoff_total = ifelse(is.na(playoff_total),0,playoff_total)) |> 
-    as.data.table()
-}
-summary5 <- get_summary5(dt_fantasy_rosters, dt_stats)
-
-
-player_frequency <- 
-  dt_fantasy_rosters |> 
-    filter(position_type == "Player") |> 
-    group_by(position_type, player_name) |> 
-    reframe(counts = n()) |> 
-    arrange(-counts) |> 
-    mutate(player_name = fct_inorder(player_name)) |> 
-    as.data.table()
+summary_by_team_and_player <- dt_fantasy_rosters |> 
+  select(fantasy_team_and_initials, team_abbr, position_code, player_name, player_id) |> 
+  left_join(
+    dt_stats |> 
+      filter(season_type=="Post" & stat_type=="fantasy_points") |> 
+      group_by(player_id) |> 
+      reframe(fantasy_points = sum(stat_values)),
+    by = c("player_id"),
+    relationship = "many-to-one"
+  ) |> 
+  mutate(
+    fantasy_points = ifelse(is.na(fantasy_points),0,fantasy_points),
+    fantasy_team_and_initials = factor(fantasy_team_and_initials, 
+                                       levels=fct_inorder(summary_by_team$fantasy_team_and_initials)),
+  ) |> 
+  arrange(fantasy_team_and_initials) |> 
+  as.data.table()
 
 defense_frequency <- 
   dt_fantasy_rosters |> 
@@ -130,12 +92,7 @@ defense_frequency <-
   mutate(player_name = fct_inorder(player_name)) |> 
   as.data.table()
 
-tm_players <- plot_ly(
-  type="treemap",
-  labels = player_frequency$player_name |> unlist(),
-  parents = player_frequency$position_type |> unlist(),
-  values = player_frequency$counts |> unlist()
-)
+
 
 tm_def <- plot_ly(
   type="treemap",
@@ -144,28 +101,27 @@ tm_def <- plot_ly(
   values = defense_frequency$counts |> unlist()
 )
 
-fantasy_scorers <- 
-  dt_stats |> 
-  filter(stat_type == "fantasy_points" & season_type == "Post") |> 
-  group_by(position, player_name) |> 
-  reframe(fantasy_points = sum(stat_values)) |> 
-  arrange(-fantasy_points) |> 
-  mutate(player_name = fct_inorder(player_name)) |> 
-  as.data.table()
-
-tm_fantasy_scorers <- plot_ly(
-  fantasy_scorers,
-  labels = ~player_name,
-  values = ~fantasy_points,
-  type = "pie"
-)
-
-tm_fantasy_scorers <- plot_ly(
-  fantasy_scorers,
-  labels = ~position,
-  values = ~fantasy_points,
-  type = "pie"
-)
+# fantasy_scorers <- 
+#   dt_stats |> 
+#   filter(stat_type == "fantasy_points" & season_type == "Post") |> 
+#   group_by(position, player_name) |> 
+#   reframe(fantasy_points = sum(stat_values)) |> 
+#   arrange(-fantasy_points) |> 
+#   mutate(player_name = fct_inorder(player_name)) |> 
+#   as.data.table()
+# tm_fantasy_scorers <- plot_ly(
+#   fantasy_scorers,
+#   labels = ~player_name,
+#   values = ~fantasy_points,
+#   type = "pie"
+# )
+# 
+# tm_fantasy_scorers <- plot_ly(
+#   fantasy_scorers,
+#   labels = ~position,
+#   values = ~fantasy_points,
+#   type = "pie"
+# )
   
   
 
@@ -183,74 +139,86 @@ ui <- fluidPage(
       tabsetPanel(
         type = "pills",
         tabPanel(
-          "League Results",
-          br(),
-          sidebarLayout(
-            sidebarPanel(
-              selectizeInput(
-                "top_teams",
-                label = "# of Top Teams",
-                choices = c("1","3","5","10","25","50","100","All"),
-                selected = "5",
-                options = list(maxItems = 1)
-              ),
-              width=2
-            ),
-            mainPanel(
-              h2("Team Scores Overall (Ranked highest to lowest)"),
-              DTOutput("summary2_ui"),
-              br(),
-              h2("Team Scores with Players by Week"),
-              DTOutput("summary3_ui"),
-            )
-          ) 
-        ),
-        tabPanel(
-          "Roster View",
+          "By Roster",
           br(),
           tags$p("Please reach out if you see any discrepancies in your roster."),
+          actionButton(
+            inputId = "toggleLeagueResultsMenu", 
+            label = "Show / Hide Menu",
+            icon = icon("bars"),
+            style = "margin-right:25px; margin-bottom:10px",
+            inline = TRUE
+          ),
+          br(),
           sidebarLayout(
-            sidebarPanel(
-              tags$p("Fantasy Teams & Owner Initials", style = "font-weight:bold; margin-top:3px"),
-              actionButton("select_all_rosters", label="All", inline=TRUE),
-              actionButton("deselect_all_rosters", label="None", inline=TRUE),
-              selectizeInput(
-                "selected_rosters",
-                label = "",
-                choices = c("",unique(dt_fantasy_rosters$fantasy_team_and_initials)),
-                options = list(maxItems = 132)
-              ),
-              # checkboxGroupInput(
-              #   "selected_rosters",
-              #   label = "",
-              #   choiceNames = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
-              #   choiceValues = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
-              #   selected = "Ambridge Bridgers (A.p.)"
-              # ),
-              width=3
+            div(id = "leagueResultsMenu",
+              sidebarPanel(
+                tags$p("Top Teams", style = "font-weight:bold; margin-top:3px"),
+                actionButton("select_all_rosters", label="All", inline=TRUE),
+                actionButton("select_top5_rosters", label="5", inline=TRUE),
+                actionButton("select_top10_rosters", label="10", inline=TRUE),
+                actionButton("select_top25_rosters", label="25", inline=TRUE),
+                actionButton("select_none_rosters", label="None", inline=TRUE),
+                selectInput(
+                  "selected_rosters",
+                  label = "",
+                  choices = c("",summary_by_team$fantasy_team_and_initials |> sort()),
+                  multiple = TRUE,
+                  selected = summary_by_team$fantasy_team_and_initials[1:5]
+                ),
+                width=3
+              )
             ),
             mainPanel(
-              tags$p(paste0("Fantasy Teams Competing: ", unique_rosters)),
+              tags$p(paste0("Fantasy Teams Competing: ", length(summary_by_team$fantasy_team_and_initials))),
               tags$h2("Team Summary"),
               DTOutput("roster_summary_table"),
               br(),
               tags$h2("Roster and Player Breakdown"),
               br(),
               DTOutput("roster_breakout_table"),
-              br(),
-              tags$h2("Overall Player Distribution"),
-              plotlyOutput("player_treemap"),
-              br(),
-              tags$h2("Overall Defense Distribution"),
-              plotlyOutput("defense_treemap")
+              br()
             )
           ) 
         ),
         tabPanel(
           "Additional Analysis",
           br(),
-          tags$h2("Coming soon..."),
-          tags$p("* maybe")
+          tagList(div(
+            h2("Overall Player Distribution"),
+            div(
+              p("Top Teams: "),
+              style = "font-size:110%; display:inline-block; "
+            ),
+            div(
+              selectizeInput(
+                inputId="select_player_distro",
+                label="",
+                choices = c("All","1","3","5","10","25","50","100"),
+                selected = "All"
+              ),
+              style = "display: inline-block; "
+            )
+          )),
+          plotlyOutput("player_treemap"),
+          br(),
+          tags$h2("Overall Defense Distribution"),
+          tagList(div(
+            div(
+              p("Top Teams: "),
+              style = "font-size:110%; display:inline-block; "
+            ),
+            div(
+              selectizeInput(
+                inputId="select_defense_distro",
+                label="",
+                choices = c("All","1","3","5","10","25","50","100"),
+                selected = "All"
+              ),
+              style = "display: inline-block; "
+            )
+          )),
+          plotlyOutput("defense_treemap")
         ) 
       )
     ),
@@ -259,7 +227,7 @@ ui <- fluidPage(
       br(),
       actionButton(
         inputId = "toggleFilterMenu", 
-        label = "Filter Menu",
+        label = "Show / Hide Menu",
         icon = icon("bars"),
         style = "margin-right:25px;",
         inline = TRUE
@@ -435,7 +403,7 @@ ui <- fluidPage(
     #   br(),
     #   actionButton(
     #     inputId = "toggleRosterSelector", 
-    #     label = "Roster Selector Menu",
+    #     label = "Show / Hide Menu",
     #     icon = icon("bars"),
     #     style = "margin-bottom:10px"
     #   ),
@@ -882,66 +850,73 @@ server <- function(input, output, session) {
   
   # this section is for the fantasy results section
   
-  # just rosters
+  # league results
+  observeEvent(input$toggleLeagueResultsMenu, {
+    shinyjs::toggle(id = "leagueResultsMenu")
+  })
   
-  # these event handlers are needed only if using the checkboxgroup but currently it is a selectizeInput()
-  observeEvent(
-    input$select_all_rosters, {
-      updateSelectizeInput(
-        session,
-        "selected_rosters",
-        choices = c("",unique(dt_fantasy_rosters$fantasy_team_and_initials)),
-        selected = unique(dt_fantasy_rosters$fantasy_team_and_initials)
-      )
-      # updateCheckboxGroupInput(
-      #   session,
-      #   "selected_rosters",
-      #   label = "",
-      #   choiceNames = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
-      #   choiceValues = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
-      #   selected = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort()
-      # )
-    })
-
-  observeEvent(
-    input$deselect_all_rosters, {
-      updateSelectizeInput(
-        session,
-        "selected_rosters",
-        choices = c("",unique(dt_fantasy_rosters$fantasy_team_and_initials)),
-        selected = ""
-      )
-      # updateCheckboxGroupInput(
-      #   session,
-      #   "selected_rosters",
-      #   label = "",
-      #   choiceNames = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
-      #   choiceValues = unique(dt_fantasy_rosters$fantasy_team_and_initials) |> sort(),
-      #   selected = NULL
-      # )
-    })
+  # block to filter roster ranking list based on 5 different buttons
+  observeEvent(input$select_all_rosters, {
+    updateSelectizeInput(
+      session,
+      "selected_rosters",
+      choices = c("", summary_by_team$fantasy_team_and_initials |> sort()),
+      selected = summary_by_team$fantasy_team_and_initials |> sort()
+    )
+  })
+  observeEvent(input$select_top5_rosters, {
+    updateSelectizeInput(
+      session,
+      "selected_rosters",
+      choices = c("", summary_by_team$fantasy_team_and_initials |> sort()),
+      selected = summary_by_team$fantasy_team_and_initials[1:5]
+    )
+  })
+  observeEvent(input$select_top10_rosters, {
+    updateSelectizeInput(
+      session,
+      "selected_rosters",
+      choices = c("", summary_by_team$fantasy_team_and_initials |> sort()),
+      selected = summary_by_team$fantasy_team_and_initials[1:10]
+    )
+  })
+  observeEvent(input$select_top25_rosters, {
+    updateSelectizeInput(
+      session,
+      "selected_rosters",
+      choices = c("", summary_by_team$fantasy_team_and_initials |> sort()),
+      selected = summary_by_team$fantasy_team_and_initials[1:25]
+    )
+  })
+  observeEvent(input$select_none_rosters, {
+    updateSelectizeInput(
+      session,
+      "selected_rosters",
+      choices = c("", summary_by_team$fantasy_team_and_initials |> sort()),
+      selected = "",
+      options = list(placeholder = "Search for fantasy teams")
+    )
+  })
   
   output$roster_summary_table <- renderDT({
-    
     if(is_empty(input$selected_rosters)){
       DT::datatable(
         data.table(" " = "No data available")
       )
     } else {
-      dt <- summary4[fantasy_team_and_initials %in% input$selected_rosters]
+      dt <- summary_by_team[fantasy_team_and_initials %in% input$selected_rosters]
       DT::datatable(dt)
     }
   })
   
   output$roster_breakout_table <- renderDT({
-    
     if(is_empty(input$selected_rosters)){
       DT::datatable(
         data.table(" " = "No data available"),
         options = list(pageLength = 14)
       )
     } else {
-      dt <- summary5[fantasy_team_and_initials %in% input$selected_rosters]
+      dt <- summary_by_team_and_player[fantasy_team_and_initials %in% input$selected_rosters]
       DT::datatable(
         dt,
         options = list(pageLength = 14)
@@ -949,45 +924,76 @@ server <- function(input, output, session) {
     }
   })
   
-  output$player_treemap <- renderPlotly(
-    tm_players |> 
-      filter()
-  )
-  
-  output$defense_treemap <- renderPlotly(
-    tm_def
-  )
-  
-  # league results
-  
-  top_teams <- reactive({
-    if(input$top_teams=="All"){
-      summary1 |> 
-        select(fantasy_team_and_initials) |> 
-        unlist() 
-    } else {
-      summary1 |> 
-        head(as.integer(input$top_teams)) |> 
-        select(fantasy_team_and_initials) |> 
-        unlist()      
-    }
-  })
-  
-  output$summary2_ui <- renderDT({
-
-    DT::datatable(
-      summary2 |> 
-        filter(fantasy_team_and_initials %in% top_teams()),
-      options = list(pageLength = 100)
-    )
-  })
-  
-  output$summary3_ui <- renderDT({
+  # additional analysis section
+  output$player_treemap <- renderPlotly({
     
-    DT::datatable(
-      summary3 |> 
-        filter(fantasy_team_and_initials %in% top_teams()),
-      options = list(pageLength = 100)
+    if(input$select_player_distro == "All"){
+      
+      player_frequency <- dt_fantasy_rosters |> 
+        filter(position_type == "Player") |> 
+        group_by(position_type, player_name) |> 
+        reframe(counts = n()) |> 
+        arrange(-counts) |> 
+        mutate(player_name = fct_inorder(player_name)) |> 
+        as.data.table()
+      
+    } else {
+      
+      player_frequency <- dt_fantasy_rosters |> 
+        filter(
+          position_type == "Player" & 
+          fantasy_team_and_initials %in% 
+            summary_by_team$fantasy_team_and_initials[1:as.numeric(input$select_player_distro)]
+        ) |> 
+        group_by(position_type, player_name) |> 
+        reframe(counts = n()) |> 
+        arrange(-counts) |> 
+        mutate(player_name = fct_inorder(player_name)) |> 
+        as.data.table()
+      
+    }
+      
+    plot_ly(
+      type="treemap",
+      labels = player_frequency$player_name |> unlist(),
+      parents = player_frequency$position_type |> unlist(),
+      values = player_frequency$counts |> unlist()
+    ) 
+    
+  })
+  
+  output$defense_treemap <- renderPlotly({
+    if(input$select_defense_distro == "All"){
+
+      player_frequency <- dt_fantasy_rosters |>
+        filter(position_type != "Player") |>
+        group_by(position_type, player_name) |>
+        reframe(counts = n()) |>
+        arrange(-counts) |>
+        mutate(player_name = fct_inorder(player_name)) |>
+        as.data.table()
+
+    } else {
+
+      player_frequency <- dt_fantasy_rosters |>
+        filter(
+          position_type != "Player" &
+            fantasy_team_and_initials %in%
+            summary_by_team$fantasy_team_and_initials[1:as.numeric(input$select_defense_distro)]
+        ) |>
+        group_by(position_type, player_name) |>
+        reframe(counts = n()) |>
+        arrange(-counts) |>
+        mutate(player_name = fct_inorder(player_name)) |>
+        as.data.table()
+
+    }
+
+     plot_ly(
+      type="treemap",
+      labels = player_frequency$player_name |> unlist(),
+      parents = player_frequency$position_type |> unlist(),
+      values = player_frequency$counts |> unlist()
     )
   })
   
