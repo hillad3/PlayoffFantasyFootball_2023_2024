@@ -9,6 +9,7 @@ library(DT)
 library(shinyjs)
 library(shinythemes)
 library(plotly)
+library(lpSolve)
 
 source("helper_funcs.R")
 
@@ -70,60 +71,180 @@ summary_by_team_and_player <- dt_fantasy_rosters |>
   left_join(
     dt_stats |> 
       filter(season_type=="Post" & stat_type=="fantasy_points") |> 
-      group_by(player_id) |> 
-      reframe(fantasy_points = sum(stat_values)),
+      group_by(player_id, week) |> 
+      reframe(fantasy_points = sum(stat_values)) |> 
+      pivot_wider(names_from = week, names_prefix = "week_", values_from = fantasy_points),
     by = c("player_id"),
     relationship = "many-to-one"
   ) |> 
   mutate(
-    fantasy_points = ifelse(is.na(fantasy_points),0,fantasy_points),
-    fantasy_team_and_initials = factor(fantasy_team_and_initials, 
-                                       levels=fct_inorder(summary_by_team$fantasy_team_and_initials)),
+    across(starts_with("week"), ~ifelse(is.na(.x),0,.x)),
+    fantasy_team_and_initials = 
+      factor(fantasy_team_and_initials, 
+      levels=fct_inorder(summary_by_team$fantasy_team_and_initials)
+    )
   ) |> 
-  arrange(fantasy_team_and_initials) |> 
+  mutate(fantasy_points = rowSums(across(starts_with("week")))) |> 
+  arrange(fantasy_team_and_initials, position_code) |> 
   as.data.table()
 
-defense_frequency <- 
-  dt_fantasy_rosters |> 
-  filter(position_type != "Player") |> 
-  group_by(position_type, player_name) |> 
-  reframe(counts = n()) |> 
-  arrange(-counts) |> 
-  mutate(player_name = fct_inorder(player_name)) |> 
-  as.data.table()
+# add in rank to fantasy rosters
+dt_fantasy_rosters <- dt_fantasy_rosters |> 
+  left_join(summary_by_team |> 
+              select(fantasy_team_and_initials, rank), 
+            by = c("fantasy_team_and_initials"))
 
 
+# # constraint optimization problem to optimize line up
+# line_up <- c()
+# dt_start <- dt_stats |>
+#   filter(season_type == "Post" & stat_type == "fantasy_points") |>
+#   group_by(team_abbr, player_name) |>
+#   reframe(stat_values = sum(stat_values)) |>
+#   left_join(
+#     dt_stats |>
+#       filter(season_type == "Post" &
+#                stat_type == "fantasy_points") |>
+#       distinct(player_name, position),
+#     by = c("player_name")
+#   )
+# optim()
+# while(length(line_up)<14){
+#   
+# }
+# perfect_lineup <- dt_stats |>
+#   group_by(team_abbr) |> 
+#   mutate(team_max = (max(stat_values)==stat_values)*stat_values) |> 
+#   group_by(position) |> 
+#   mutate(position_max = (max(stat_values)==stat_values)*stat_values)
 
-tm_def <- plot_ly(
-  type="treemap",
-  labels = defense_frequency$player_name |> unlist(),
-  parents = defense_frequency$position_type |> unlist(),
-  values = defense_frequency$counts |> unlist()
-)
 
-# fantasy_scorers <- 
-#   dt_stats |> 
-#   filter(stat_type == "fantasy_points" & season_type == "Post") |> 
-#   group_by(position, player_name) |> 
-#   reframe(fantasy_points = sum(stat_values)) |> 
-#   arrange(-fantasy_points) |> 
-#   mutate(player_name = fct_inorder(player_name)) |> 
-#   as.data.table()
-# tm_fantasy_scorers <- plot_ly(
-#   fantasy_scorers,
-#   labels = ~player_name,
-#   values = ~fantasy_points,
-#   type = "pie"
+# dt_treemap <- bind_rows(
+#   dt_scores |>
+#     filter(abs(stat_values) >= 0) |> 
+#     mutate(
+#       position = case_when(
+#         str_detect(position_code,"QB") ~ "QB",
+#         str_detect(position_code,"RB") ~ "RB",
+#         str_detect(position_code,"WR") ~ "WR",
+#         str_detect(position_code,"TE") ~ "TE",
+#         str_detect(position_code,"K") ~ "K",
+#         str_detect(position_code,"Defense") ~ "D"
+#       )
+#     ) |> 
+#     distinct(position) |> 
+#     mutate(ids = position,
+#            parents = "") |> 
+#     rename(labels = position) |> 
+#     mutate(values = 1),
+#   dt_scores |>
+#     filter(abs(stat_values) >= 0) |> 
+#     mutate(
+#       position = case_when(
+#         str_detect(position_code,"QB") ~ "QB",
+#         str_detect(position_code,"RB") ~ "RB",
+#         str_detect(position_code,"WR") ~ "WR",
+#         str_detect(position_code,"TE") ~ "TE",
+#         str_detect(position_code,"K") ~ "K",
+#         str_detect(position_code,"Defense") ~ "D"
+#       )
+#     ) |>
+#     distinct(position, team_abbr) |>
+#     unite("ids", c(position, team_abbr), remove = FALSE, sep = "-") |>
+#     mutate(parents = position) |> 
+#     rename(labels = team_abbr) |> 
+#     mutate(values = 1),
+#   dt_scores |>
+#     filter(abs(stat_values) >= 0) |> 
+#     mutate(
+#       position = case_when(
+#         str_detect(position_code,"QB") ~ "QB",
+#         str_detect(position_code,"RB") ~ "RB",
+#         str_detect(position_code,"WR") ~ "WR",
+#         str_detect(position_code,"TE") ~ "TE",
+#         str_detect(position_code,"K") ~ "K",
+#         str_detect(position_code,"Defense") ~ "D"
+#       )
+#     ) |>
+#     distinct(position, team_abbr, player_name) |>
+#     unite("ids", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
+#     unite("parents", c(position, team_abbr), remove = FALSE, sep = "-") |>
+#     rename(labels = player_name) |> 
+#     mutate(values = 1),
+#   dt_scores |>
+#     filter(abs(stat_values) >= 0) |> 
+#     mutate(
+#       position = case_when(
+#         str_detect(position_code,"QB") ~ "QB",
+#         str_detect(position_code,"RB") ~ "RB",
+#         str_detect(position_code,"WR") ~ "WR",
+#         str_detect(position_code,"TE") ~ "TE",
+#         str_detect(position_code,"K") ~ "K",
+#         str_detect(position_code,"Defense") ~ "D"
+#       )
+#     ) |>
+#     group_by(team_abbr, player_name, fantasy_team_and_initials) |>
+#     reframe(values = sum(stat_values)) |>
+#     unite("ids", c(player_name, fantasy_team_and_initials), remove = FALSE, sep = "-") |>
+#     unite("parents", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
+#     rename(labels = fantasy_team_and_initials)
 # )
 # 
-# tm_fantasy_scorers <- plot_ly(
-#   fantasy_scorers,
-#   labels = ~position,
-#   values = ~fantasy_points,
-#   type = "pie"
+# tm_overall <- plot_ly(
+#   dt_treemap,
+#   type="treemap",
+#   labels = ~labels,
+#   parents = ~parents,
+#   ids = ~ids,
+#   values = ~values
 # )
-  
-  
+# tm_overall
+
+dt_perfect_lineup <- dt_stats |> 
+  filter(season_type=="Post" & stat_type == "fantasy_points") |> 
+  group_by(position, team_abbr, player_name) |> 
+  reframe(points = sum(stat_values)) |> 
+  arrange(position, -points) |> 
+  mutate(
+    constr_def = if_else(position == "Defense",1,0),
+    constr_qb = if_else(position == "QB",1,0),
+    constr_wr = if_else(position == "WR",1,0),
+    constr_te = if_else(position == "TE",1,0),
+    constr_rb = if_else(position == "RB",1,0),
+    
+    constr_k = if_else(position == "K",1,0),
+    constr_flex = if_else(position %in% c("WR","TE","RB"),1,0),
+    constr_bal = if_else(team_abbr == "BAL",1,0),
+    constr_buf = if_else(team_abbr == "BUF",1,0),
+    constr_cle = if_else(team_abbr == "CLE",1,0),
+    
+    constr_dal = if_else(team_abbr == "DAL",1,0),
+    constr_det = if_else(team_abbr == "DET",1,0),
+    constr_gb = if_else(team_abbr == "GB",1,0),
+    constr_hou = if_else(team_abbr == "HOU",1,0),
+    constr_kc = if_else(team_abbr == "KC",1,0),
+    
+    constr_la = if_else(team_abbr == "LA",1,0),
+    constr_mia = if_else(team_abbr == "MIA",1,0),
+    constr_phi = if_else(team_abbr == "PHI",1,0),
+    constr_pit = if_else(team_abbr == "PIT",1,0),
+    constr_sf = if_else(team_abbr == "SF",1,0),
+    
+    constr_tb = if_else(team_abbr == "TB",1,0)
+  ) |> 
+  select(-position, -team_abbr, -player_name) |> 
+  t()
+
+constr_dir <- c(rep("=",26))
+constr_rhs <- c(1,3,3,2,3,1,1,rep(1,16))
+lp_sol <- lp("max", 
+             dt_perfect_lineup[1,], 
+             dt_perfect_lineup[2:22,], 
+             constr_dir, 
+             constr_rhs,
+             binary.vec = c(2:22))
+
+lp_sol$solution
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
@@ -183,9 +304,27 @@ ui <- fluidPage(
         ),
         tabPanel(
           "Additional Analysis",
-          br(),
+          br(),          
+          h2("Position / NFL Team / Player Name / Fantasy Team Hierarchy"),
           tagList(div(
-            h2("Overall Player Distribution"),
+            div(
+              p("Top Teams: "),
+              style = "font-size:110%; display:inline-block; "
+            ),
+            div(
+              selectizeInput(
+                inputId="select_overall_distro",
+                label="",
+                choices = c("All","1","3","5","10","25","50","100"),
+                selected = "All"
+              ),
+              style = "display: inline-block; "
+            )
+          )),
+          plotlyOutput("overall_treemap"),
+          br(),
+          h2("Overall Player Distribution"),
+          tagList(div(
             div(
               p("Top Teams: "),
               style = "font-size:110%; display:inline-block; "
@@ -894,7 +1033,7 @@ server <- function(input, output, session) {
       "selected_rosters",
       choices = c("", summary_by_team$fantasy_team_and_initials |> sort()),
       selected = "",
-      options = list(placeholder = "Search for fantasy teams")
+      options = list(placeholder = "Type to search by name")
     )
   })
   
@@ -925,6 +1064,162 @@ server <- function(input, output, session) {
   })
   
   # additional analysis section
+  output$overall_treemap <- renderPlotly({
+
+    if(input$select_overall_distro == "All"){
+      
+      dt_treemap <- bind_rows(
+        dt_fantasy_rosters |>
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |> 
+          distinct(position) |> 
+          mutate(ids = position,
+                 parents = "") |> 
+          rename(labels = position) |> 
+          mutate(values = 1),
+        dt_fantasy_rosters |>
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |>
+          distinct(position, team_abbr) |>
+          unite("ids", c(position, team_abbr), remove = FALSE, sep = "-") |>
+          mutate(parents = position) |> 
+          rename(labels = team_abbr) |> 
+          mutate(values = 1),
+        dt_fantasy_rosters |>
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |>
+          distinct(position, team_abbr, player_name) |>
+          unite("ids", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
+          unite("parents", c(position, team_abbr), remove = FALSE, sep = "-") |>
+          rename(labels = player_name) |> 
+          mutate(values = 1),
+        dt_fantasy_rosters |>
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |>
+          group_by(team_abbr, player_name, fantasy_team_and_initials) |>
+          reframe(values = n()) |>
+          unite("ids", c(player_name, fantasy_team_and_initials), remove = FALSE, sep = "-") |>
+          unite("parents", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
+          rename(labels = fantasy_team_and_initials)
+      )
+      
+    } else {
+    
+      # this adds in a filter before creating the parents, labels and ids
+      dt_treemap <- bind_rows(
+        dt_fantasy_rosters |>
+          filter(rank <= as.integer(input$select_overall_distro)) |> 
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |> 
+          distinct(position) |> 
+          mutate(ids = position,
+                 parents = "") |> 
+          rename(labels = position) |> 
+          mutate(values = 1),
+        dt_fantasy_rosters |>
+          filter(rank <= as.integer(input$select_overall_distro)) |> 
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |>
+          distinct(position, team_abbr) |>
+          unite("ids", c(position, team_abbr), remove = FALSE, sep = "-") |>
+          mutate(parents = position) |> 
+          rename(labels = team_abbr) |> 
+          mutate(values = 1),
+        dt_fantasy_rosters |>
+          filter(rank <= as.integer(input$select_overall_distro)) |> 
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |>
+          distinct(position, team_abbr, player_name) |>
+          unite("ids", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
+          unite("parents", c(position, team_abbr), remove = FALSE, sep = "-") |>
+          rename(labels = player_name) |> 
+          mutate(values = 1),
+        dt_fantasy_rosters |>
+          filter(rank <= as.integer(input$select_overall_distro)) |>
+          mutate(
+            position = case_when(
+              str_detect(position_code,"QB") ~ "QB",
+              str_detect(position_code,"RB") ~ "RB",
+              str_detect(position_code,"WR") ~ "WR",
+              str_detect(position_code,"TE") ~ "TE",
+              str_detect(position_code,"K") ~ "K",
+              str_detect(position_code,"Defense") ~ "D"
+            )
+          ) |>
+          group_by(team_abbr, player_name, fantasy_team_and_initials) |>
+          reframe(values = n()) |>
+          unite("ids", c(player_name, fantasy_team_and_initials), remove = FALSE, sep = "-") |>
+          unite("parents", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
+          rename(labels = fantasy_team_and_initials)
+      )
+    }
+    
+    tm_overall <- plot_ly(
+      dt_treemap,
+      type="treemap",
+      labels = ~labels,
+      parents = ~parents,
+      ids = ~ids,
+      values = ~values
+    )
+  })
+  
   output$player_treemap <- renderPlotly({
     
     if(input$select_player_distro == "All"){
