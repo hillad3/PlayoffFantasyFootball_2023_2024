@@ -12,6 +12,7 @@ library(plotly)
 library(lpSolve)
 
 source("helper_funcs.R")
+source("perfect_lineup.R")
 
 playoff_year <- 2023L
 # season_type <- c("REG","POST")
@@ -27,6 +28,7 @@ season_teams <- c(
 
 playoff_teams <- c("BAL","BUF","CLE","DAL","DET","GB","HOU","KC","LA","MIA","PHI","PIT","SF","TB")
 
+
 dt_team_info <- fread(get_last_csv("team_info"))
 
 dt_nfl_rosters <- fread(get_last_csv("rosters"))
@@ -36,7 +38,9 @@ dt_stats <- fread(get_last_csv("stats"))
 team_lookupstring_position <- fread(get_last_csv("lookups"))
 
 dt_scores <- fread(get_last_csv("NFL Fantasy Scores"))
-# dt_scores <- dt_scores[stat_type == "fantasy_points"] # this filtering was previously performed in the pipeline
+
+# this filtering was previously performed in the pipeline
+# dt_scores <- dt_scores[stat_type == "fantasy_points"] 
 
 dt_fantasy_rosters <- fread(get_last_csv("Playoff Fantasy"))
 if("Fantasy Owner Email" %in% names(dt_fantasy_rosters)){
@@ -200,51 +204,7 @@ dt_fantasy_rosters <- dt_fantasy_rosters |>
 # )
 # tm_overall
 
-dt_perfect_lineup <- dt_stats |> 
-  filter(season_type=="Post" & stat_type == "fantasy_points") |> 
-  group_by(position, team_abbr, player_name) |> 
-  reframe(points = sum(stat_values)) |> 
-  arrange(position, -points) |> 
-  mutate(
-    constr_def = if_else(position == "Defense",1,0),
-    constr_qb = if_else(position == "QB",1,0),
-    constr_wr = if_else(position == "WR",1,0),
-    constr_te = if_else(position == "TE",1,0),
-    constr_rb = if_else(position == "RB",1,0),
-    
-    constr_k = if_else(position == "K",1,0),
-    constr_flex = if_else(position %in% c("WR","TE","RB"),1,0),
-    constr_bal = if_else(team_abbr == "BAL",1,0),
-    constr_buf = if_else(team_abbr == "BUF",1,0),
-    constr_cle = if_else(team_abbr == "CLE",1,0),
-    
-    constr_dal = if_else(team_abbr == "DAL",1,0),
-    constr_det = if_else(team_abbr == "DET",1,0),
-    constr_gb = if_else(team_abbr == "GB",1,0),
-    constr_hou = if_else(team_abbr == "HOU",1,0),
-    constr_kc = if_else(team_abbr == "KC",1,0),
-    
-    constr_la = if_else(team_abbr == "LA",1,0),
-    constr_mia = if_else(team_abbr == "MIA",1,0),
-    constr_phi = if_else(team_abbr == "PHI",1,0),
-    constr_pit = if_else(team_abbr == "PIT",1,0),
-    constr_sf = if_else(team_abbr == "SF",1,0),
-    
-    constr_tb = if_else(team_abbr == "TB",1,0)
-  ) |> 
-  select(-position, -team_abbr, -player_name) |> 
-  t()
 
-constr_dir <- c(rep("=",26))
-constr_rhs <- c(1,3,3,2,3,1,1,rep(1,16))
-lp_sol <- lp("max", 
-             dt_perfect_lineup[1,], 
-             dt_perfect_lineup[2:22,], 
-             constr_dir, 
-             constr_rhs,
-             binary.vec = c(2:22))
-
-lp_sol$solution
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
@@ -301,6 +261,27 @@ ui <- fluidPage(
               br()
             )
           ) 
+        ),
+        tabPanel(
+          "Perfect Lineup",
+          br(),
+          checkboxGroupInput(
+            inputId = "perfline_weeks",
+            label = "Playoff Week(s)",
+            choiceNames = paste0("Week ",1:length(unique(dt_stats[season_type=="Post"]$week))),
+            choiceValues = c(19:max(unique(dt_stats[season_type=="Post"]$week))),
+            selected = c(19:max(unique(dt_stats[season_type=="Post"]$week))), 
+            inline = TRUE
+          ),
+          tags$span("Theoretical max points with a perfect lineup: "),
+          textOutput("perfect_lineup_points", inline = TRUE),
+          br(),
+          br(),
+          div(
+            DTOutput(outputId = "perfect_lineup"),
+            style = "margin-left:20px; width:80%"
+          ),
+          br()
         ),
         tabPanel(
           "Additional Analysis",
@@ -994,7 +975,7 @@ server <- function(input, output, session) {
     shinyjs::toggle(id = "leagueResultsMenu")
   })
   
-  # block to filter roster ranking list based on 5 different buttons
+  # chunk to filter roster ranking list based on 5 different buttons
   observeEvent(input$select_all_rosters, {
     updateSelectizeInput(
       session,
@@ -1058,6 +1039,30 @@ server <- function(input, output, session) {
       dt <- summary_by_team_and_player[fantasy_team_and_initials %in% input$selected_rosters]
       DT::datatable(
         dt,
+        options = list(pageLength = 14)
+      )
+    }
+  })
+  
+  # perfect lineup section
+  
+  output$perfect_lineup_points <- renderText({
+    if(is_empty(input$perfline_weeks)){
+      "N/A, no playoffs weeks selected"
+    } else {
+      get_perfect_lineup(dt_stats, playoff_teams, input$perfline_weeks)[[2]]
+    }    
+  })
+  
+  output$perfect_lineup <- renderDT({
+    if(is_empty(input$perfline_weeks)){
+      DT::datatable(
+        data.table(" " = "No playoff weeks selected"),
+        options = list(pageLength = 14)
+      )
+    } else {
+      DT::datatable(
+        get_perfect_lineup(dt_stats, playoff_teams, input$perfline_weeks)[[1]],
         options = list(pageLength = 14)
       )
     }
