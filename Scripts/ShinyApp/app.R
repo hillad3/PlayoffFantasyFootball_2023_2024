@@ -68,9 +68,13 @@ summary_by_team <- dt_fantasy_rosters |>
   distinct(fantasy_team_and_initials) |> 
   left_join(
     dt_scores |> 
-      group_by(fantasy_team_and_initials) |> 
+      group_by(fantasy_team_and_initials, week) |> 
       reframe(fantasy_points = sum(stat_values)),
     by = c("fantasy_team_and_initials")
+  ) |> 
+  pivot_wider(names_from = week, names_prefix = "week_", values_from = fantasy_points, values_fill = 0) |> 
+  mutate(
+    fantasy_points = rowSums(across(starts_with("week")))
   ) |> 
   arrange(-fantasy_points) |> 
   mutate(rank = 1:n()) |> 
