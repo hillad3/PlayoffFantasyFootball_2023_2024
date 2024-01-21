@@ -578,59 +578,62 @@ team_lookupstring_position <- rbindlist(list(
 
 
 dir <- "./Output/NFL Stats/"
-fwrite(
-  dt_stats,
-  file = paste0(
-    dir,
-    "stats_",
-    season_int,"_",
-    paste0(season_type, collapse = "_"),"_gen",
-    str_remove_all(Sys.time(), ":"),".csv"
-  )
-)
 
-
-fwrite(
-  dt_team_info,
-  file = paste0(
-    dir,
-    "team_info_",
-    season_int,
-    "_",
-    paste0(season_type, collapse = "_"),
-    "_gen",
-    str_remove_all(Sys.time(), ":"),
-    ".csv"
+if(FALSE){
+  fwrite(
+    dt_stats,
+    file = paste0(
+      dir,
+      "stats_",
+      season_int,"_",
+      paste0(season_type, collapse = "_"),"_gen",
+      str_remove_all(Sys.time(), ":"),".csv"
+    )
   )
-)
-
-fwrite(
-  dt_rosters,
-  file = paste0(
-    dir,
-    "rosters_",
-    season_int,
-    "_",
-    paste0(season_type, collapse = "_"),
-    "_gen",
-    str_remove_all(Sys.time(), ":"),
-    ".csv"
+  
+  
+  fwrite(
+    dt_team_info,
+    file = paste0(
+      dir,
+      "team_info_",
+      season_int,
+      "_",
+      paste0(season_type, collapse = "_"),
+      "_gen",
+      str_remove_all(Sys.time(), ":"),
+      ".csv"
+    )
   )
-)
-
-fwrite(
-  team_lookupstring_position,
-  file = paste0(
-    dir,
-    "lookups_",
-    season_int,
-    "_",
-    paste0(season_type, collapse = "_"),
-    "_gen",
-    str_remove_all(Sys.time(), ":"),
-    ".csv"
+  
+  fwrite(
+    dt_rosters,
+    file = paste0(
+      dir,
+      "rosters_",
+      season_int,
+      "_",
+      paste0(season_type, collapse = "_"),
+      "_gen",
+      str_remove_all(Sys.time(), ":"),
+      ".csv"
+    )
   )
-)
+  
+  fwrite(
+    team_lookupstring_position,
+    file = paste0(
+      dir,
+      "lookups_",
+      season_int,
+      "_",
+      paste0(season_type, collapse = "_"),
+      "_gen",
+      str_remove_all(Sys.time(), ":"),
+      ".csv"
+    )
+  )
+}
 
 
 
