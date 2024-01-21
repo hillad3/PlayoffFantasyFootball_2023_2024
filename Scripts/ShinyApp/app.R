@@ -12,12 +12,12 @@ library(plotly)
 library(lpSolve)
 
 source("helperFuncs.R")
-source("perfectLineup.R")
-source("howToPlay.R")
-source("rosterBuilder.R")
-source("nflPlayerStats.R")
-source("fantasyResultsByRoster.R")
-source("additionalAnalysis.R")
+source("perfectLineupMod.R")
+source("howToPlayFunc.R")
+source("rosterBuilderMod.R")
+source("nflPlayerStatsMod.R")
+source("fantasyResultsByRosterMod.R")
+source("additionalAnalysisMod.R")
 
 
 playoff_year <- 2023L
@@ -243,29 +243,29 @@ ui <- fluidPage(
       fluidPage(howToPlayUIonly())
     ),
     # uncomment this code when needed for creating rosters
-    tabPanel(
-      "Build Roster",
-      buildRosterUI("b_r", team_lookupstring_position)
-    )
+    # tabPanel(
+    #   "Build Roster",
+    #   buildRosterUI("b_r", team_lookupstring_position)
+    # )
   )
 )
 
 server <- function(input, output, session) {
   
-  ## this section is for Roster Selection
-  buildRosterServer("b_r", team_lookupstring_position)
-  
-  ## this section is for stats exploration
+  # explore stats tab
   nflPlayerStatsServer("nfl_ps", dt_stats, dt_team_info, playoff_teams)
   
-  # by roster fantasy results
+  # by roster sub-tab
   fantasyResultsbyRosterServer("by_roster", summary_by_team, summary_by_team_and_player)
   
-  # perfect_lineup module
+  # perfect_lineup sub-tab
   perfectLineupServer("perf", dt_stats, playoff_teams)
   
-  # additional analysis section
+  # additional analysis sub-tab
   additionalAnalysisServer("a_a", dt_fantasy_rosters)
+  
+  # # this section is for Roster Selection; uncomment to make active
+  # buildRosterServer("b_r", team_lookupstring_position)
   
 }
 
