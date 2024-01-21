@@ -11,7 +11,7 @@ library(nflreadr)
 library(openxlsx)
 
 roster_dir <- "Output/Compiled Rosters/"
-roster_file <- "Playoff Fantasy Rosters for 2023-2024, Compiled 2024-01-15 115811.csv"
+roster_file <- "Playoff Fantasy Rosters for 2023-2024, Compiled 2024-01-21 060708.csv"
 
 rosters <- fread(file = paste0(roster_dir,roster_file))
 rosters[,team_abbr:=NULL]
@@ -23,7 +23,7 @@ if("Fantasy Owner Email" %in% names(rosters)){
 }
 
 stats_dir <- "Output/NFL Stats/"
-stats_file_players <- "stats_2023_REG_POST_gen2024-01-16 062357.csv"
+stats_file_players <- "stats_2023_REG_POST_gen2024-01-21 052832.csv"
 stats_players <- fread(file = paste0(stats_dir,stats_file_players))
 stats_players[,player_id:=ifelse(position=="Defense",team_abbr,player_id)]
 
