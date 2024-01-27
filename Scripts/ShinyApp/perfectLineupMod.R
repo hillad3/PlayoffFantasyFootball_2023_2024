@@ -1,5 +1,6 @@
 require(data.table)
 require(lpSolve)
+require(tidyr)
 
 get_perfect_lineup <- function(dt, teams, weeks=NULL){
   
@@ -10,11 +11,11 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
   # double up positions so that FLEX is independent from RB, WR and TE positions
   dt1 <- dt[season_type=="Post" & stat_type == "fantasy_points"]
   dt1[,position1:=position]
-  dt1 <- dt1[,.(points= sum(stat_values)),.(position, position1, team_abbr, player_name, player_id)]
+  dt1 <- dt1[,.(fantasy_points= sum(stat_values)),.(position, position1, team_abbr, player_name, player_id)]
 
   dt2 <- dt[season_type=="Post" & stat_type == "fantasy_points" & position %in% c("RB","WR","TE")]
   dt2[,position1:="FLEX"]
-  dt2 <- dt2[,.(points= sum(stat_values)),.(position, position1, team_abbr, player_name, player_id)]
+  dt2 <- dt2[,.(fantasy_points= sum(stat_values)),.(position, position1, team_abbr, player_name, player_id)]
 
   dt3 <- rbindlist(list(dt1,dt2))
 
@@ -35,7 +36,7 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
           "team_abbr" = team,
           "player_name" = "dummy",
           "player_id" = team,
-          "points" = 0
+          "fantasy_points" = 0
         )
       ))
     }
@@ -48,12 +49,13 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
         "team_abbr" = c(rep(team, 6)),
         "player_name" = paste0("dummy_",team),
         "player_id" = paste0(team,"-",c(1:6),"-dummy","-",c("QB","WR","RB","TE","K","FLEX")),
-        "points" = 0
+        "fantasy_points" = 0
       )
     ))
 
   }
 
+  # create binaries for positions (including defense)
   positions <- c("QB"=3,"WR"=3,"RB"=3,"TE"=2,"FLEX"=1,"K"=1,"Defense"=1)
   for(x in seq_along(positions)){
     tmp1 <- names(positions)[x]
@@ -61,6 +63,7 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
     dt3[,paste0("is_",tmp1)] <- tmp2*1
   }
 
+  # create binaries for teams
   for(x in seq_along(teams)){
     tmp1 <- teams[x]
     tmp2 <- dt3$team_abbr == tmp1
@@ -77,16 +80,17 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
     stop("There are duplicated player names which need to be unique for lpsolver logic to work.")
   }
 
+  # create binaries for players (excluding defense)
   for(x in seq_along(player_names)){
     tmp1 <- player_names[x]
     tmp2 <- dt3$player_name == tmp1
     dt3[,paste0("is_",tmp1)] <- tmp2*1
   }
 
-  obj_in <- dt3$points |> as.numeric()
+  obj_in <- dt3$fantasy_points |> as.numeric()
   dt4 <- copy(dt3)
 
-  constr_mat <- dt4[,c("position","position1","team_abbr","player_name","player_id","points"):=NULL] |> t()
+  constr_mat <- dt4[,c("position","position1","team_abbr","player_name","player_id","fantasy_points"):=NULL] |> t()
 
   constr_rhs <- c(positions, # these are the positions, QB,WR,RB,TE,K,Defense
                   rep(1, length(teams)), # these are the playoff teams
@@ -107,15 +111,65 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
     binary.vec = c(1:length(constr_rhs))
   )
 
-  dt3[,perfect_lineup:=ceiling(lp_sol$solution)]
-  dt5 <- dt3[,.(position, position1, team_abbr, player_name, points, perfect_lineup)]
-  dt5 <- dt5[perfect_lineup != 0L]
+  dt3[,is_perfect_lineup:=ceiling(lp_sol$solution)]
+  dt5 <- dt3[,.(position, position1, team_abbr, player_name, player_id, fantasy_points, is_perfect_lineup)]
+  dt5 <- dt5[is_perfect_lineup != 0L]
   dt5[,position:=ifelse(position1=="FLEX",paste0(position," (FLEX)"),position)]
-  dt5[,perfect_lineup:=NULL]
+  dt5[,is_perfect_lineup:=NULL]
   dt5[,position1:=NULL]
-  setorder(dt5, -points)
+  dt5 <- merge(
+    dt5,
+    {
+      dt6 <- dt[season_type=="Post" & stat_type == "fantasy_points"]
+      dt6 <- dt6[,.(week_points=sum(stat_values)), by = .(position,player_id,week)]
+    },
+    by = c("player_id"),
+    all.x = TRUE,
+    allow.cartesian = TRUE
+  )[,position.y:=NULL]
+  
+  dt5 <- dt5 |> 
+    pivot_wider(
+      id_cols = c(position.x, team_abbr, player_name, fantasy_points), 
+      names_from = week,
+      values_from = week_points, 
+      values_fill = 0
+    ) |> 
+    select(-starts_with("NA")) |> 
+    as.data.table()
+  
+  setorder(dt5, -fantasy_points)
+  
+  possible_cols <-
+    c(
+      "position.x",
+      "team_abbr",
+      "player_name",
+      "19",
+      "20",
+      "21",
+      "22",
+      "fantasy_points"
+    )
+  new_names <-
+    c(
+      "Position",
+      "Team Abbr.",
+      "Player Name",
+      "Wild Car (Week 1)",
+      "Divisional (Week 2)",
+      "Conference (Week 3)",
+      "Superbowl (Week 4)",
+      "Total Points"
+    )
+  
+  new_order <- possible_cols[possible_cols %in% names(dt5)]
+  new_names <- new_names[possible_cols %in% names(dt5)]
+  
+  dt5 <- dt5[,.SD, .SDcols = new_order]
+  setnames(dt5, new = new_names)
 
-  result <- sum(dt5$points)
+  result <- sum(dt5$`Total Points`)
 
   return(list(dt5, result))
 
@@ -167,7 +221,10 @@ perfectLineupServer <- function(id, dt_stats_, playoff_teams_){
           )
         } else {
           DT::datatable(
-            get_perfect_lineup(dt_stats_, playoff_teams_, input$perfline_weeks)[[1]],
+            get_perfect_lineup(
+              dt_stats_, 
+              playoff_teams_, 
+              input$perfline_weeks)[[1]],
             options = list(pageLength = 14)
           )
         }
