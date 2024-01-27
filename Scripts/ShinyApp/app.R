@@ -17,6 +17,7 @@ source("howToPlayFunc.R")
 source("rosterBuilderMod.R")
 source("nflPlayerStatsMod.R")
 source("fantasyResultsByRosterMod.R")
+source("fantasyResultsByPlayerMod.R")
 source("additionalAnalysisMod.R")
 
 
@@ -109,106 +110,7 @@ dt_fantasy_rosters <- dt_fantasy_rosters |>
             by = c("fantasy_team_and_initials"))
 
 
-# dt_treemap <- bind_rows(
-#   dt_scores |>
-#     filter(abs(stat_values) >= 0) |> 
-#     mutate(
-#       position = case_when(
-#         str_detect(position_code,"QB") ~ "QB",
-#         str_detect(position_code,"RB") ~ "RB",
-#         str_detect(position_code,"WR") ~ "WR",
-#         str_detect(position_code,"TE") ~ "TE",
-#         str_detect(position_code,"K") ~ "K",
-#         str_detect(position_code,"Defense") ~ "D"
-#       )
-#     ) |> 
-#     distinct(position) |> 
-#     mutate(ids = position,
-#            parents = "") |> 
-#     rename(labels = position) |> 
-#     mutate(values = 1),
-#   dt_scores |>
-#     filter(abs(stat_values) >= 0) |> 
-#     mutate(
-#       position = case_when(
-#         str_detect(position_code,"QB") ~ "QB",
-#         str_detect(position_code,"RB") ~ "RB",
-#         str_detect(position_code,"WR") ~ "WR",
-#         str_detect(position_code,"TE") ~ "TE",
-#         str_detect(position_code,"K") ~ "K",
-#         str_detect(position_code,"Defense") ~ "D"
-#       )
-#     ) |>
-#     distinct(position, team_abbr) |>
-#     unite("ids", c(position, team_abbr), remove = FALSE, sep = "-") |>
-#     mutate(parents = position) |> 
-#     rename(labels = team_abbr) |> 
-#     mutate(values = 1),
-#   dt_scores |>
-#     filter(abs(stat_values) >= 0) |> 
-#     mutate(
-#       position = case_when(
-#         str_detect(position_code,"QB") ~ "QB",
-#         str_detect(position_code,"RB") ~ "RB",
-#         str_detect(position_code,"WR") ~ "WR",
-#         str_detect(position_code,"TE") ~ "TE",
-#         str_detect(position_code,"K") ~ "K",
-#         str_detect(position_code,"Defense") ~ "D"
-#       )
-#     ) |>
-#     distinct(position, team_abbr, player_name) |>
-#     unite("ids", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
-#     unite("parents", c(position, team_abbr), remove = FALSE, sep = "-") |>
-#     rename(labels = player_name) |> 
-#     mutate(values = 1),
-#   dt_scores |>
-#     filter(abs(stat_values) >= 0) |> 
-#     mutate(
-#       position = case_when(
-#         str_detect(position_code,"QB") ~ "QB",
-#         str_detect(position_code,"RB") ~ "RB",
-#         str_detect(position_code,"WR") ~ "WR",
-#         str_detect(position_code,"TE") ~ "TE",
-#         str_detect(position_code,"K") ~ "K",
-#         str_detect(position_code,"Defense") ~ "D"
-#       )
-#     ) |>
-#     group_by(team_abbr, player_name, fantasy_team_and_initials) |>
-#     reframe(values = sum(stat_values)) |>
-#     unite("ids", c(player_name, fantasy_team_and_initials), remove = FALSE, sep = "-") |>
-#     unite("parents", c(team_abbr, player_name), remove = FALSE, sep = "-") |>
-#     rename(labels = fantasy_team_and_initials)
-# )
-# 
-# tm_overall <- plot_ly(
-#   dt_treemap,
-#   type="treemap",
-#   labels = ~labels,
-#   parents = ~parents,
-#   ids = ~ids,
-#   values = ~values
-# )
-# tm_overall
-
-# dt <- dt_stats[season_type=="Post" & stat_type=="fantasy_points"]
-# dt <- dt[,.(values = sum(stat_values)), by = .(position, stat_label)]
-# dt <- dt[,parent1:=""]
-# dt <- rbindlist(list(
-#   dt[,values:= 1][,.(parent = parent1, ids = position, labels = position, values)],
-#   dt[,labels:= stat_label][,ids:=paste0(position,"-",stat_label)][,parent:= position][,.(parent,ids,labels,values)]
-# ))
-# 
-# tm_overall <- plot_ly(
-#   dt,
-#   type="treemap",
-#   labels = ~labels,
-#   parents = ~parent,
-#   ids = ~labels,
-#   values = ~values
-# )
-# 
-# tm_overall
-
+last_refresh <- "1/22/2024 7:30AM"
 
 
 ui <- fluidPage(
@@ -226,7 +128,14 @@ ui <- fluidPage(
         type = "pills",
         tabPanel(
           "By Roster",
+          br(),
+          tags$p(paste0("Scores last refreshed: ",last_refresh)),
           fantasyResultsbyRosterUI("by_roster", summary_by_team)
+        ),
+        tabPanel(
+          "By Player",
+          br(),
+          fantasyResultsbyPlayerUI("by_player", dt_team_info, playoff_teams, playoff_year)
         ),
         tabPanel(
           "Perfect Lineup",
@@ -256,17 +165,20 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  # explore stats tab
-  nflPlayerStatsServer("nfl_ps", dt_stats, dt_team_info, playoff_teams)
-  
   # by roster sub-tab
   fantasyResultsbyRosterServer("by_roster", summary_by_team, summary_by_team_and_player)
+  
+  # by player sub-tab
+  fantasyResultsbyPlayerServer("by_player", dt_stats, dt_team_info, playoff_teams)
   
   # perfect_lineup sub-tab
   perfectLineupServer("perf", dt_stats, playoff_teams)
   
   # additional analysis sub-tab
   additionalAnalysisServer("a_a", dt_fantasy_rosters)
+  
+  # explore stats tab
+  nflPlayerStatsServer("nfl_ps", dt_stats, dt_team_info, playoff_teams)
   
   # # this section is for Roster Selection; uncomment to make active
   # buildRosterServer("b_r", team_lookupstring_position)
