@@ -110,7 +110,7 @@ dt_fantasy_rosters <- dt_fantasy_rosters |>
             by = c("fantasy_team_and_initials"))
 
 
-last_refresh <- "1/22/2024 7:30AM"
+last_refresh <- "2/11/2024 6:00AM"
 
 
 ui <- fluidPage(
