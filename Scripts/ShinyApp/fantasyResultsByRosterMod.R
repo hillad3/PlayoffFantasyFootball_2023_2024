@@ -104,7 +104,9 @@ fantasyResultsbyRosterServer <- function(id, summary_by_team_, summary_by_team_a
           DT::datatable(dt |> 
                           rename(`Fantasy Team`=fantasy_team_and_initials,
                                  `Wild Card (Week 1)`=week_19,
-                                 `Divional (Week 2)`=week_20,
+                                 `Divisional (Week 2)`=week_20,
+                                 `Conference (Week 3)`=week_21,
+                                 `Superbowl (Week 4)`=week_22,
                                  `Total Points`=fantasy_points,
                                  `Rank`=rank))
         }
@@ -126,7 +128,9 @@ fantasyResultsbyRosterServer <- function(id, summary_by_team_, summary_by_team_a
                      `Player Name`=player_name,
                      `Player ID`=player_id,
                      `Wild Card (Week 1)`=week_19,
-                     `Divional (Week 2)`=week_20,
+                     `Divisional (Week 2)`=week_20,
+                     `Conference (Week 3)`=week_21,
+                     `Superbowl (Week 4)`=week_22,
                      `Total Points`=fantasy_points),
             options = list(pageLength = 14)
           )
