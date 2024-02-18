@@ -156,7 +156,7 @@ get_perfect_lineup <- function(dt, teams, weeks=NULL){
       "Position",
       "Team Abbr.",
       "Player Name",
-      "Wild Car (Week 1)",
+      "Wild Card (Week 1)",
       "Divisional (Week 2)",
       "Conference (Week 3)",
       "Superbowl (Week 4)",
