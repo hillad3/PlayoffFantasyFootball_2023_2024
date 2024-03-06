@@ -577,7 +577,7 @@ team_lookupstring_position <- rbindlist(list(
 ))
 
 
-dir <- "./Output/NFL Stats/"
+dir <- "./Data/Output/NFL Stats/"
 
 if(FALSE){
   fwrite(
