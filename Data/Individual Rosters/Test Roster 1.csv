@@ -1,0 +1,15 @@
+"Fantasy Owner","Fantasy Owner Email","Fantasy Team Name","Automation Mapping","Roster","Position Type","Position Code","Position Group","Team Abbr.","Selection","Check 1 - Selection is Unique","Check 2 - Team is Unique"
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0029597",1,"Player","K","SPEC","BAL","K, BAL: Justin Tucker (AFC North, ID: 00-0029597)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0034857",2,"Player","QB1","QB","BUF","QB, BUF: Josh Allen (AFC East, ID: 00-0034857)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0033537",3,"Player","QB2","QB","CLE","QB, CLE: Deshaun Watson (AFC North, ID: 00-0033537)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0033662",4,"Player","QB3","QB","DAL","QB, DAL: Cooper Rush (NFC East, ID: 00-0033662)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0037157",5,"Player","RB1","RB","DET","RB, DET: Bam Knight (NFC North, ID: 00-0037157)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0036265",6,"Player","RB2","RB","GB","RB, GB: AJ Dillon (NFC North, ID: 00-0036265)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0034959",7,"Player","RB3","RB","HOU","RB, HOU: Andrew Beck (AFC South, ID: 00-0034959)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0036360",8,"Player","RB4","FLEX","KC","RB, KC: Clyde Edwards-Helaire (AFC West, ID: 00-0036360)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0036424",9,"Player","TE1","TE","LA","TE, LA: Brycen Hopkins (NFC West, ID: 00-0036424)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0034798",10,"Player","TE2","TE","MIA","TE, MIA: Durham Smythe (AFC East, ID: 00-0034798)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0035676",11,"Player","WR1","WR","PHI","WR, PHI: A.J. Brown (NFC East, ID: 00-0035676)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0031428",12,"Player","WR2","WR","PIT","WR, PIT: Allen Robinson (AFC North, ID: 00-0031428)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","00-0036261",13,"Player","WR3","WR","SF","WR, SF: Brandon Aiyuk (NFC West, ID: 00-0036261)",TRUE,TRUE
+"Dick Butkus","myemail@gmail.com","Unique Team Name 1","TB",14,"Defense / Special teams","D","D","TB","Defense, TB (NFC South)",TRUE,TRUE
