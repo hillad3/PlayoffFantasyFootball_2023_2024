@@ -1,4 +1,4 @@
-# R_NFL_Playoff_Fantasy_HelpeR
+# PlayoffFantasyFootball_2023_2024
 A collection of R-language scripts for setting up and managing an NFL Playoff Fantasy contest. 
 
 ## About
