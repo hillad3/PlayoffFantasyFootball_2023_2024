@@ -159,6 +159,14 @@ ui <- fluidPage(
     tabPanel(
       "NFL Player Stats",
       nflPlayerStatsUI("nfl_ps", dt_team_info, playoff_teams, playoff_year)
+    ),
+    tabPanel(
+      "About",
+      p(),
+      tags$span("If you are interested in the details behind this R Shiny Dashboard, "),
+      tags$span("scripts are available on my "),
+      tags$a(href="https://github.com/hillad3/PlayoffFantasyFootball_2023_2024/", "github", .noWS="after"),
+      tags$span("."),
     )
   )
 )

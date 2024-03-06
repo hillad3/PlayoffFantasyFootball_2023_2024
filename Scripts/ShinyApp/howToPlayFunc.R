@@ -50,8 +50,6 @@ howToPlayUIonly <- function(){
       tags$li("The roster can only be downloaded after all parameters have been satisfied (that is, a completed roster of 14 players and the Participant Information box is filled in with valid information)."),
       tags$li("You must still email the commissioner your roster downloaded from this website. This website does not save your roster.", style="color:red; font-weight:bold;"),
     ),
-    # tags$h2("Alternate Roster in Excel"),
-    # tags$p("The email sent to you by the Commissioner should contain an Excel file that is equivalent to this dashboard. If you prefer, you can complete that roster template and email the Excel file back to the Commissioner. I don't know why you would do this, but technically it is possible."),
     tags$h2("Scoring"),
     tags$h4("Passing"),
     tags$ul(
