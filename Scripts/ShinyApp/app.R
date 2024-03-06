@@ -122,6 +122,15 @@ ui <- fluidPage(
   tags$h1("Playoff Fantasy Football League", style = "text-align:center"),
   tabsetPanel(
     tabPanel(
+      "How to Play",
+      fluidPage(howToPlayUIonly())
+    ),
+    # uncomment this code when needed for creating rosters
+    tabPanel(
+      "Build Roster",
+      buildRosterUI("b_r", team_lookupstring_position)
+    ),
+    tabPanel(
       "Fantasy Results",
       br(),
       tabsetPanel(
@@ -150,16 +159,7 @@ ui <- fluidPage(
     tabPanel(
       "NFL Player Stats",
       nflPlayerStatsUI("nfl_ps", dt_team_info, playoff_teams, playoff_year)
-    ),
-    tabPanel(
-      "How to Play",
-      fluidPage(howToPlayUIonly())
-    ),
-    # uncomment this code when needed for creating rosters
-    # tabPanel(
-    #   "Build Roster",
-    #   buildRosterUI("b_r", team_lookupstring_position)
-    # )
+    )
   )
 )
 
@@ -181,7 +181,7 @@ server <- function(input, output, session) {
   nflPlayerStatsServer("nfl_ps", dt_stats, dt_team_info, playoff_teams)
   
   # # this section is for Roster Selection; uncomment to make active
-  # buildRosterServer("b_r", team_lookupstring_position)
+  buildRosterServer("b_r", team_lookupstring_position)
   
 }
 
