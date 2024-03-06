@@ -20,7 +20,7 @@ roster_files <- directory_files[str_detect(directory_files, "xlsx$|csv$")]
 
 # exclude specific types of files
 roster_files <- roster_files[!str_detect(roster_files, "^Compiled Roster, Gen")]
-excluded_files <- c("Team Name 1.xlsx", "Team Name 2.xlsx", "Team Name 3.xlsx", "Playoff Fantasy Roster Check.xlsx")
+excluded_files <- c("Test Roster 1.csv", "Team Name 1.xlsx", "Team Name 2.xlsx", "Team Name 3.xlsx", "Playoff Fantasy Roster Check.xlsx")
 roster_files <- roster_files[!(roster_files %in% excluded_files)]
 
 if(any(str_detect(roster_files, "xlsx$"))){
