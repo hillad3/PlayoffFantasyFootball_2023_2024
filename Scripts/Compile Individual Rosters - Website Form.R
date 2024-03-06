@@ -141,7 +141,7 @@ if(any(tmp$n!=14L)){
 fwrite(
   rosters,
   file = paste0(
-    "Output/Compiled Rosters/Playoff Fantasy Rosters for ",
+    "Data/Output/Compiled Rosters/Playoff Fantasy Rosters for ",
     season,
     ", Compiled ",
     str_remove_all(Sys.time(), ":"),
